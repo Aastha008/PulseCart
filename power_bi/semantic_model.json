@@ -1,0 +1,304 @@
+{
+  "name": "PulseCart_Semantic_Model",
+  "compatibilityLevel": 1550,
+  "model": {
+    "culture": "en-US",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "tables": [
+      {
+        "name": "fct_orders",
+        "description": "Order-grain transactional fact table containing completed checkout orders, financial totals, unit counts, and customer/device attribution.",
+        "columns": [
+          { "name": "order_id", "dataType": "string", "isKey": true, "description": "Unique order identifier (PK)" },
+          { "name": "session_id", "dataType": "string", "description": "Browsing session identifier" },
+          { "name": "user_id", "dataType": "string", "description": "Customer foreign key referencing dim_users" },
+          { "name": "order_timestamp", "dataType": "dateTime", "description": "UTC timestamp of order transaction" },
+          { "name": "order_date", "dataType": "dateTime", "description": "Calendar date of order transaction" },
+          { "name": "order_date_key", "dataType": "int64", "description": "Date key (YYYYMMDD) active relationship to dim_date" },
+          { "name": "shipping_date", "dataType": "dateTime", "description": "Calendar date of order shipment" },
+          { "name": "shipping_date_key", "dataType": "int64", "description": "Date key (YYYYMMDD) inactive role-playing relationship to dim_date" },
+          { "name": "status", "dataType": "string", "description": "Order status (completed, refunded, cancelled)" },
+          { "name": "subtotal", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Item subtotal before discounts, taxes, and shipping" },
+          { "name": "subtotal_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Item subtotal amount alias" },
+          { "name": "shipping_fee", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Shipping fee charged" },
+          { "name": "shipping_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Shipping fee amount alias" },
+          { "name": "tax_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Sales tax collected" },
+          { "name": "discount_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Promotional discount deducted" },
+          { "name": "total_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Net order amount billed" },
+          { "name": "payment_method", "dataType": "string", "description": "Payment instrument used" },
+          { "name": "ab_variant", "dataType": "string", "description": "Checkout experiment variant (control, treatment)" },
+          { "name": "item_count", "dataType": "int64", "description": "Quantity of product units in order" },
+          { "name": "total_items_count", "dataType": "int64", "description": "Total units alias" },
+          { "name": "total_cost", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Cost of goods sold (COGS)" },
+          { "name": "total_cogs", "dataType": "decimal", "formatString": "$#,##0.00", "description": "COGS alias" },
+          { "name": "gross_margin_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Gross margin amount (subtotal - cogs)" },
+          { "name": "gross_profit", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Gross profit alias" },
+          { "name": "margin_rate", "dataType": "double", "formatString": "0.0%", "description": "Gross margin percentage" },
+          { "name": "is_first_order", "dataType": "boolean", "description": "Flag indicating if order was user's first order" },
+          { "name": "is_repeat_order", "dataType": "boolean", "description": "Flag indicating repeat purchase" },
+          { "name": "device_type", "dataType": "string", "description": "Device category (Desktop, Mobile, Tablet)" },
+          { "name": "traffic_source", "dataType": "string", "description": "Acquisition traffic channel" },
+          { "name": "country", "dataType": "string", "description": "Customer country" },
+          { "name": "customer_segment", "dataType": "string", "description": "Customer segment (Regular, VIP, Bargain)" }
+        ]
+      },
+      {
+        "name": "fct_funnel",
+        "description": "Session-grain funnel fact table tracking user traversal across 6 conversion stages.",
+        "columns": [
+          { "name": "session_id", "dataType": "string", "isKey": true, "description": "Unique session identifier (PK)" },
+          { "name": "user_id", "dataType": "string", "description": "Customer foreign key referencing dim_users" },
+          { "name": "session_start", "dataType": "dateTime", "description": "Timestamp session began" },
+          { "name": "session_end", "dataType": "dateTime", "description": "Timestamp session ended" },
+          { "name": "session_date", "dataType": "dateTime", "description": "Calendar date of session" },
+          { "name": "session_date_key", "dataType": "int64", "description": "Date key (YYYYMMDD) active relationship to dim_date" },
+          { "name": "session_duration_seconds", "dataType": "int64", "description": "Session duration in seconds" },
+          { "name": "device_type", "dataType": "string", "description": "Device category (Desktop, Mobile, Tablet)" },
+          { "name": "traffic_source", "dataType": "string", "description": "Acquisition marketing source" },
+          { "name": "country", "dataType": "string", "description": "Country of origin" },
+          { "name": "customer_segment", "dataType": "string", "description": "Customer value segment" },
+          { "name": "ab_variant", "dataType": "string", "description": "Experiment variant assigned" },
+          { "name": "is_returning_user", "dataType": "boolean", "description": "Flag indicating returning visitor" },
+          { "name": "reached_landing_page", "dataType": "int64", "description": "Stage 1: Landing page reached flag (1/0)" },
+          { "name": "reached_product_view", "dataType": "int64", "description": "Stage 2: Product view reached flag (1/0)" },
+          { "name": "reached_add_to_cart", "dataType": "int64", "description": "Stage 3: Cart addition reached flag (1/0)" },
+          { "name": "reached_checkout_started", "dataType": "int64", "description": "Stage 4: Checkout started flag (1/0)" },
+          { "name": "reached_payment_started", "dataType": "int64", "description": "Stage 5: Payment started flag (1/0)" },
+          { "name": "reached_purchase", "dataType": "int64", "description": "Stage 6: Purchase completed flag (1/0)" },
+          { "name": "furthest_step_reached", "dataType": "int64", "description": "Deepest step reached (1-6)" },
+          { "name": "total_events_count", "dataType": "int64", "description": "Total discrete clickstream events in session" },
+          { "name": "order_id", "dataType": "string", "description": "Order ID if converted" },
+          { "name": "order_revenue", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Order revenue generated" },
+          { "name": "is_converting_session", "dataType": "int64", "description": "Binary flag indicating purchase conversion" }
+        ]
+      },
+      {
+        "name": "fct_user_retention",
+        "description": "Customer cohort retention fact table tracking monthly repurchase and retention activity across M0-M6+ tenure.",
+        "columns": [
+          { "name": "cohort_retention_id", "dataType": "string", "isKey": true, "description": "Composite surrogate key (user_id + cohort + activity)" },
+          { "name": "user_id", "dataType": "string", "description": "Customer foreign key referencing dim_users" },
+          { "name": "cohort_month", "dataType": "dateTime", "description": "Customer first acquisition cohort month" },
+          { "name": "cohort_month_key", "dataType": "int64", "description": "Date key (YYYYMM01) active relationship to dim_date" },
+          { "name": "activity_month", "dataType": "dateTime", "description": "Observation activity month" },
+          { "name": "activity_month_key", "dataType": "int64", "description": "Date key (YYYYMM01) inactive role-playing relationship to dim_date" },
+          { "name": "month_number", "dataType": "int64", "description": "Cohort tenure month number (0 to 6+)" },
+          { "name": "month_offset", "dataType": "int64", "description": "Tenure month offset alias" },
+          { "name": "customer_segment", "dataType": "string", "description": "Acquisition customer segment" },
+          { "name": "country", "dataType": "string", "description": "Customer country" },
+          { "name": "acquisition_channel", "dataType": "string", "description": "First touch acquisition channel" },
+          { "name": "monthly_orders", "dataType": "int64", "description": "Order count placed in activity month" },
+          { "name": "orders_in_month", "dataType": "int64", "description": "Orders in month alias" },
+          { "name": "monthly_revenue", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Revenue generated in activity month" },
+          { "name": "revenue_in_month", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Revenue in month alias" },
+          { "name": "monthly_gross_profit", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Gross profit generated in activity month" },
+          { "name": "is_retained", "dataType": "int64", "description": "Binary flag (1 if user purchased in activity month, 0 otherwise)" },
+          { "name": "is_active", "dataType": "int64", "description": "Active customer flag alias" },
+          { "name": "cumulative_orders", "dataType": "int64", "description": "Cumulative cohort orders placed to date" },
+          { "name": "cumulative_revenue", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Cumulative cohort revenue generated to date" },
+          { "name": "cumulative_gross_profit", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Cumulative cohort gross profit to date" }
+        ]
+      },
+      {
+        "name": "fct_ab_test",
+        "description": "Experiment exposure fact table recording randomized checkout variant exposures and conversion outcomes.",
+        "columns": [
+          { "name": "experiment_assignment_id", "dataType": "string", "isKey": true, "description": "Unique experiment assignment identifier (PK)" },
+          { "name": "session_id", "dataType": "string", "description": "Browsing session identifier" },
+          { "name": "user_id", "dataType": "string", "description": "Customer foreign key referencing dim_users" },
+          { "name": "session_date", "dataType": "dateTime", "description": "Date of experiment exposure" },
+          { "name": "session_date_key", "dataType": "int64", "description": "Date key (YYYYMMDD) active relationship to dim_date" },
+          { "name": "assignment_date_key", "dataType": "int64", "description": "Assignment date key alias" },
+          { "name": "ab_variant", "dataType": "string", "description": "Experiment variant assigned ('control' or 'treatment')" },
+          { "name": "device_type", "dataType": "string", "description": "Device category used in experiment" },
+          { "name": "country", "dataType": "string", "description": "Country of visitor" },
+          { "name": "customer_segment", "dataType": "string", "description": "Customer segment tier" },
+          { "name": "traffic_source", "dataType": "string", "description": "Acquisition marketing channel" },
+          { "name": "entered_checkout", "dataType": "int64", "description": "Binary flag indicating checkout initiation" },
+          { "name": "started_checkout", "dataType": "int64", "description": "Checkout started flag alias" },
+          { "name": "completed_payment", "dataType": "int64", "description": "Binary flag indicating payment initiation" },
+          { "name": "completed_purchase", "dataType": "int64", "description": "Binary conversion flag (1=purchased, 0=abandoned)" },
+          { "name": "converted_to_purchase", "dataType": "int64", "description": "Purchase conversion alias" },
+          { "name": "order_id", "dataType": "string", "description": "Associated order ID if converted" },
+          { "name": "order_revenue", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Revenue generated in experiment session" }
+        ]
+      },
+      {
+        "name": "dim_users",
+        "description": "Conformed customer dimension containing demographic, acquisition, and lifetime behavioral attributes.",
+        "columns": [
+          { "name": "user_id", "dataType": "string", "isKey": true, "description": "Unique customer identifier (PK)" },
+          { "name": "first_seen_at", "dataType": "dateTime", "description": "Timestamp of customer first touchpoint" },
+          { "name": "signup_date", "dataType": "dateTime", "description": "Calendar date of user registration" },
+          { "name": "first_acquisition_date_key", "dataType": "int64", "description": "First acquisition date key" },
+          { "name": "country", "dataType": "string", "description": "User residence country (US, CA, UK, DE, FR, AU)" },
+          { "name": "device_preference", "dataType": "string", "description": "Primary device category used" },
+          { "name": "first_device", "dataType": "string", "description": "First device alias" },
+          { "name": "customer_segment", "dataType": "string", "description": "Customer segment tier (Regular, VIP, Bargain)" },
+          { "name": "acquisition_channel", "dataType": "string", "description": "First touch marketing acquisition channel" },
+          { "name": "lifetime_sessions", "dataType": "int64", "description": "Total lifetime browsing sessions" },
+          { "name": "lifetime_orders", "dataType": "int64", "description": "Total lifetime completed orders" },
+          { "name": "lifetime_revenue", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Total lifetime revenue spend" },
+          { "name": "lifetime_gross_profit", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Total lifetime gross profit generated" },
+          { "name": "first_order_date", "dataType": "dateTime", "description": "Date of initial purchase" },
+          { "name": "last_order_date", "dataType": "dateTime", "description": "Date of most recent purchase" },
+          { "name": "recency_days", "dataType": "int64", "description": "Elapsed days since last purchase" },
+          { "name": "customer_lifecycle_status", "dataType": "string", "description": "Lifecycle state (Active Repeat, Single Purchaser, Churned Repeat)" }
+        ]
+      },
+      {
+        "name": "dim_products",
+        "description": "Conformed product dimension containing SKU catalog metadata, pricing tiers, and margin rates.",
+        "columns": [
+          { "name": "product_id", "dataType": "string", "isKey": true, "description": "Unique SKU product identifier (PK)" },
+          { "name": "product_name", "dataType": "string", "description": "Catalog merchandise display name" },
+          { "name": "category", "dataType": "string", "description": "Merchandising category (Apparel, Electronics, Home & Kitchen, etc.)" },
+          { "name": "cost", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Unit cost of goods sold" },
+          { "name": "price", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Unit retail list price" },
+          { "name": "margin_amount", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Unit gross margin dollar amount" },
+          { "name": "margin_percentage", "dataType": "double", "formatString": "0.0%", "description": "Unit gross margin percentage" },
+          { "name": "margin", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Margin alias" },
+          { "name": "inventory_count", "dataType": "int64", "description": "Stock keeping inventory balance" },
+          { "name": "total_orders_count", "dataType": "int64", "description": "Total completed orders containing this SKU" },
+          { "name": "total_units_sold", "dataType": "int64", "description": "Cumulative units sold" },
+          { "name": "total_revenue_generated", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Cumulative gross revenue generated" },
+          { "name": "total_profit_generated", "dataType": "decimal", "formatString": "$#,##0.00", "description": "Cumulative gross profit generated" }
+        ]
+      },
+      {
+        "name": "dim_date",
+        "description": "Conformed calendar date dimension supporting standard time intelligence and role-playing date relationships.",
+        "columns": [
+          { "name": "date_day", "dataType": "dateTime", "isKey": true, "description": "Standard calendar date (PK)" },
+          { "name": "date_key", "dataType": "int64", "description": "Surrogate integer date key (YYYYMMDD)" },
+          { "name": "year", "dataType": "int64", "description": "Calendar year (e.g. 2024, 2025, 2026)" },
+          { "name": "quarter", "dataType": "int64", "description": "Calendar quarter integer (1-4)" },
+          { "name": "quarter_name", "dataType": "string", "description": "Quarter label (e.g. Q1 2025)" },
+          { "name": "month", "dataType": "int64", "description": "Month number (1-12)" },
+          { "name": "month_name", "dataType": "string", "description": "Full calendar month name (e.g. January)" },
+          { "name": "month_short", "dataType": "string", "description": "Abbreviated month name (e.g. Jan)" },
+          { "name": "year_month", "dataType": "string", "description": "Sortable year-month string (YYYY-MM)" },
+          { "name": "week_of_year", "dataType": "int64", "description": "ISO week number (1-53)" },
+          { "name": "day_of_month", "dataType": "int64", "description": "Day of month (1-31)" },
+          { "name": "day_of_week", "dataType": "int64", "description": "Day of week integer (1=Monday .. 7=Sunday)" },
+          { "name": "day_name", "dataType": "string", "description": "Full day name (e.g. Monday)" },
+          { "name": "day_short", "dataType": "string", "description": "Abbreviated day name (e.g. Mon)" },
+          { "name": "is_weekend", "dataType": "boolean", "description": "Flag indicating Saturday or Sunday" }
+        ]
+      },
+      {
+        "name": "_Measures",
+        "description": "Disconnected calculation table hosting all 74+ business intelligence DAX measures across 5 display folders.",
+        "columns": [
+          { "name": "Placeholder", "dataType": "int64", "isHidden": true, "description": "Structural placeholder column to maintain table existence" }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "fct_orders_dim_date_order_date",
+        "fromTable": "fct_orders",
+        "fromColumn": "order_date_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: order transaction date to conformed date dimension."
+      },
+      {
+        "name": "fct_orders_dim_date_shipping_date",
+        "fromTable": "fct_orders",
+        "fromColumn": "shipping_date_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": false,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Inactive role-playing relationship: order shipping date to date dimension."
+      },
+      {
+        "name": "fct_orders_dim_users",
+        "fromTable": "fct_orders",
+        "fromColumn": "user_id",
+        "toTable": "dim_users",
+        "toColumn": "user_id",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: order customer ID to conformed user dimension."
+      },
+      {
+        "name": "fct_funnel_dim_date",
+        "fromTable": "fct_funnel",
+        "fromColumn": "session_date_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: session date to conformed date dimension."
+      },
+      {
+        "name": "fct_funnel_dim_users",
+        "fromTable": "fct_funnel",
+        "fromColumn": "user_id",
+        "toTable": "dim_users",
+        "toColumn": "user_id",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: browsing user ID to conformed user dimension."
+      },
+      {
+        "name": "fct_user_retention_dim_date_cohort",
+        "fromTable": "fct_user_retention",
+        "fromColumn": "cohort_month_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: cohort acquisition month to date dimension."
+      },
+      {
+        "name": "fct_user_retention_dim_date_activity",
+        "fromTable": "fct_user_retention",
+        "fromColumn": "activity_month_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": false,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Inactive role-playing relationship: cohort activity/observation month to date dimension."
+      },
+      {
+        "name": "fct_user_retention_dim_users",
+        "fromTable": "fct_user_retention",
+        "fromColumn": "user_id",
+        "toTable": "dim_users",
+        "toColumn": "user_id",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: cohort user ID to conformed user dimension."
+      },
+      {
+        "name": "fct_ab_test_dim_date",
+        "fromTable": "fct_ab_test",
+        "fromColumn": "assignment_date_key",
+        "toTable": "dim_date",
+        "toColumn": "date_key",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: experiment assignment date to date dimension."
+      },
+      {
+        "name": "fct_ab_test_dim_users",
+        "fromTable": "fct_ab_test",
+        "fromColumn": "user_id",
+        "toTable": "dim_users",
+        "toColumn": "user_id",
+        "isActive": true,
+        "crossFilteringBehavior": "oneDirection",
+        "description": "Active relationship: experiment user ID to conformed user dimension."
+      }
+    ]
+  }
+}

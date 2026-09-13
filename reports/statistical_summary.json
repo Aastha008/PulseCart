@@ -1,0 +1,43 @@
+{
+  "status": "SUCCESS",
+  "execution_timestamp": "2026-09-07T10:05:14.599927+00:00",
+  "duration_seconds": 1.49,
+  "data_directory": "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\data\\marts",
+  "output_directory": "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports",
+  "funnel_summary": {
+    "total_sessions": 100000,
+    "overall_conversion_rate": 10.02,
+    "top_dropoff_stage": "product_view"
+  },
+  "retention_summary": {
+    "total_cohorts": 12,
+    "month_0_is_100_percent": true,
+    "decay_monotonic_vs_m0": true,
+    "repeat_purchase_rate": 28.42,
+    "total_purchasing_users": 7042
+  },
+  "ab_test_summary": {
+    "experiment_name": "checkout_optimization",
+    "n_control": 8151,
+    "n_treatment": 8279,
+    "srm_passed": true,
+    "srm_p_value": 0.3179889166721409,
+    "conversion_rate_control": 0.585081585081585,
+    "conversion_rate_treatment": 0.6344969199178645,
+    "relative_lift": 0.08445887906280436,
+    "z_score": 6.49286631894645,
+    "p_value": 8.421841002359542e-11,
+    "statistically_significant": true,
+    "ci_rel_95": [
+      0.05899196069205966,
+      0.10992579743354905
+    ],
+    "recommendation": "DEPLOY TREATMENT: Statistically significant positive lift observed without SRM."
+  },
+  "generated_reports": [
+    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\funnel_analysis.json",
+    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\cohort_retention.json",
+    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\ab_test_results.json",
+    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\statistical_summary.json"
+  ]
+}

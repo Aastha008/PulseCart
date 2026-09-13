@@ -1,0 +1,213 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: "Cleaned and normalized staging view of user profiles with standardized casing and derived signup dates."
+    columns:
+      - name: user_id
+        description: "Primary key. Unique user identifier."
+        tests:
+          - unique
+          - not_null
+      - name: signup_timestamp
+        description: "Account creation timestamp in UTC."
+        tests:
+          - not_null
+      - name: signup_date
+        description: "Account creation calendar date."
+        tests:
+          - not_null
+      - name: country
+        description: "Uppercase two-letter ISO country code."
+        tests:
+          - not_null
+      - name: acquisition_channel
+        description: "Standardized acquisition marketing channel."
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Customer demographic segment."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VIP', 'Regular', 'Bargain']
+
+  - name: stg_sessions
+    description: "Cleaned and typed staging view of browsing sessions with duration in seconds and date derivations."
+    columns:
+      - name: session_id
+        description: "Primary key. Unique session identifier."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Foreign key referencing stg_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: session_start
+        description: "Session start timestamp in UTC."
+        tests:
+          - not_null
+      - name: session_end
+        description: "Session end timestamp in UTC."
+        tests:
+          - not_null
+      - name: session_date
+        description: "Date when session started."
+        tests:
+          - not_null
+      - name: session_duration_seconds
+        description: "Non-negative elapsed duration of session in seconds."
+        tests:
+          - not_null
+      - name: device_type
+        description: "Client device type."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Mobile', 'Desktop', 'Tablet']
+      - name: ab_variant
+        description: "Assigned A/B experiment variant."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['control', 'treatment']
+
+  - name: stg_events
+    description: "Cleaned and normalized staging view of behavioral interaction events."
+    columns:
+      - name: event_id
+        description: "Primary key. Unique event identifier."
+        tests:
+          - unique
+          - not_null
+      - name: session_id
+        description: "Foreign key referencing stg_sessions."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sessions')
+              field: session_id
+      - name: user_id
+        description: "Foreign key referencing stg_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: event_timestamp
+        description: "Event occurrence timestamp in UTC."
+        tests:
+          - not_null
+      - name: event_type
+        description: "Standardized funnel stage name."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['landing_page', 'product_view', 'add_to_cart', 'checkout_started', 'payment_started', 'purchase']
+      - name: step_number
+        description: "Funnel sequence number (1-6)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6]
+
+  - name: stg_orders
+    description: "Cleaned transactional order staging view with normalized monetary fields."
+    columns:
+      - name: order_id
+        description: "Primary key. Unique order identifier."
+        tests:
+          - unique
+          - not_null
+      - name: session_id
+        description: "Foreign key referencing stg_sessions."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sessions')
+              field: session_id
+      - name: user_id
+        description: "Foreign key referencing stg_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: order_date
+        description: "Calendar date of order."
+        tests:
+          - not_null
+      - name: total_amount
+        description: "Total order amount charged."
+        tests:
+          - not_null
+      - name: status
+        description: "Transaction status."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['completed', 'cancelled', 'refunded', 'pending']
+
+  - name: stg_order_items
+    description: "Cleaned order line items staging view with line totals and margins."
+    columns:
+      - name: order_item_id
+        description: "Primary key. Unique line item identifier."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Foreign key referencing stg_orders."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        description: "Foreign key referencing stg_products."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      - name: quantity
+        description: "Purchased quantity (must be >= 1)."
+        tests:
+          - not_null
+      - name: unit_price
+        description: "Selling price per unit."
+        tests:
+          - not_null
+      - name: line_total
+        description: "Total line item amount."
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Cleaned catalog product dimension staging view with pricing, cost, and margins."
+    columns:
+      - name: product_id
+        description: "Primary key. Unique product identifier."
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Product display title."
+        tests:
+          - not_null
+      - name: category
+        description: "Merchandise department category."
+        tests:
+          - not_null
+      - name: cost
+        description: "Unit manufacturing cost."
+        tests:
+          - not_null
+      - name: price
+        description: "Unit retail price."
+        tests:
+          - not_null

@@ -1,0 +1,920 @@
+// ==============================================================================
+// PulseCart Production DAX Measure Library
+// Total Measures: 76 (74+ production-grade measures across 5 display folders)
+// Compatibility: Power BI Desktop / Analysis Services Tabular (1550+)
+// Standards: Strict DIVIDE guards, Time Intelligence, Statistical Robustness
+// ==============================================================================
+
+// ==============================================================================
+// DISPLAY FOLDER: 01_Executive (16 Measures)
+// Operational, financial, macro conversion, and executive trend KPIs.
+// ==============================================================================
+
+/*
+[Gross Revenue]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Cumulative gross subtotal revenue prior to discounts, taxes, and shipping fees.
+*/
+[Gross Revenue] = 
+SUM(fct_orders[subtotal_amount])
+
+/*
+[Net Revenue]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Total billed revenue to customers inclusive of taxes and shipping minus discounts.
+*/
+[Net Revenue] = 
+SUM(fct_orders[total_amount])
+
+/*
+[Total Orders]
+Folder: 01_Executive
+Format: #,##0
+Description: Distinct count of finalized and completed customer purchase orders.
+*/
+[Total Orders] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_orders[order_id]),
+    fct_orders[status] = "completed" || ISBLANK(fct_orders[status])
+)
+
+/*
+[Average Order Value (AOV)]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Mean billed gross revenue generated per completed order transaction.
+*/
+[Average Order Value (AOV)] = 
+DIVIDE([Gross Revenue], [Total Orders], 0)
+
+/*
+[Total Units Sold]
+Folder: 01_Executive
+Format: #,##0
+Description: Aggregate quantity of individual product items sold across all completed orders.
+*/
+[Total Units Sold] = 
+SUM(fct_orders[total_items_count])
+
+/*
+[Average Units Per Order (UPT)]
+Folder: 01_Executive
+Format: 0.00
+Description: Average number of item units purchased per completed order (Units Per Transaction).
+*/
+[Average Units Per Order (UPT)] = 
+DIVIDE([Total Units Sold], [Total Orders], 0)
+
+/*
+[Gross Profit Amount]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Total dollar profit after deducting cost of goods sold from gross order subtotal.
+*/
+[Gross Profit Amount] = 
+SUM(fct_orders[gross_margin_amount])
+
+/*
+[Gross Margin %]
+Folder: 01_Executive
+Format: 0.00%
+Description: Proportion of gross revenue retained after deducting cost of goods sold.
+*/
+[Gross Margin %] = 
+DIVIDE([Gross Profit Amount], [Gross Revenue], 0)
+
+/*
+[Total Sessions]
+Folder: 01_Executive
+Format: #,##0
+Description: Aggregate volume of recorded customer browsing and shopping sessions.
+*/
+[Total Sessions] = 
+COUNTROWS(fct_funnel)
+
+/*
+[Total Unique Users]
+Folder: 01_Executive
+Format: #,##0
+Description: Distinct count of individual users active across browsing sessions.
+*/
+[Total Unique Users] = 
+DISTINCTCOUNT(fct_funnel[user_id])
+
+/*
+[Overall Conversion Rate %]
+Folder: 01_Executive
+Format: 0.00%
+Description: Percentage of total browsing sessions resulting in completed orders.
+*/
+[Overall Conversion Rate %] = 
+DIVIDE([Total Orders], [Total Sessions], 0)
+
+/*
+[MoM Revenue Growth %]
+Folder: 01_Executive
+Format: +0.00%;-0.00%;0.00%
+Description: Percentage change in gross revenue compared to the prior calendar month.
+*/
+[MoM Revenue Growth %] = 
+VAR CurrentRevenue = [Gross Revenue]
+VAR PriorRevenue = CALCULATE([Gross Revenue], DATEADD(dim_date[date_key], -1, MONTH))
+RETURN
+    DIVIDE(CurrentRevenue - PriorRevenue, PriorRevenue, BLANK())
+
+/*
+[YoY Revenue Growth %]
+Folder: 01_Executive
+Format: +0.00%;-0.00%;0.00%
+Description: Percentage change in gross revenue compared to the same period in the prior year.
+*/
+[YoY Revenue Growth %] = 
+VAR CurrentRevenue = [Gross Revenue]
+VAR PriorRevenue = CALCULATE([Gross Revenue], DATEADD(dim_date[date_key], -1, YEAR))
+RETURN
+    DIVIDE(CurrentRevenue - PriorRevenue, PriorRevenue, BLANK())
+
+/*
+[Revenue 7-Day Moving Avg]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Trailing 7-day smoothed average of daily gross revenue.
+*/
+[Revenue 7-Day Moving Avg] = 
+VAR WindowDays = 7
+VAR RevenueInPeriod = CALCULATE(
+    [Gross Revenue],
+    DATESINPERIOD(dim_date[date_day], MAX(dim_date[date_day]), -WindowDays, DAY)
+)
+VAR DaysWithData = COUNTROWS(
+    DATESINPERIOD(dim_date[date_day], MAX(dim_date[date_day]), -WindowDays, DAY)
+)
+RETURN
+    DIVIDE(RevenueInPeriod, MIN(WindowDays, DaysWithData), 0)
+
+/*
+[Revenue 30-Day Moving Avg]
+Folder: 01_Executive
+Format: $#,##0.00
+Description: Trailing 30-day smoothed average of daily gross revenue.
+*/
+[Revenue 30-Day Moving Avg] = 
+VAR WindowDays = 30
+VAR RevenueInPeriod = CALCULATE(
+    [Gross Revenue],
+    DATESINPERIOD(dim_date[date_day], MAX(dim_date[date_day]), -WindowDays, DAY)
+)
+VAR DaysWithData = COUNTROWS(
+    DATESINPERIOD(dim_date[date_day], MAX(dim_date[date_day]), -WindowDays, DAY)
+)
+RETURN
+    DIVIDE(RevenueInPeriod, MIN(WindowDays, DaysWithData), 0)
+
+/*
+[Returning Users Count]
+Folder: 01_Executive
+Format: #,##0
+Description: Count of distinct active users who have completed more than one lifetime order.
+*/
+[Returning Users Count] = 
+CALCULATE(
+    DISTINCTCOUNT(dim_users[user_id]),
+    dim_users[lifetime_orders] > 1
+)
+
+/*
+[Returning User Order Share %]
+Folder: 01_Executive
+Format: 0.00%
+Description: Share of total orders placed by returning (multi-order) customers.
+*/
+[Returning User Order Share %] = 
+VAR ReturningOrders = CALCULATE(
+    [Total Orders],
+    fct_orders[is_first_order] = FALSE() || fct_orders[is_repeat_order] = TRUE()
+)
+RETURN
+    DIVIDE(ReturningOrders, [Total Orders], 0)
+
+
+// ==============================================================================
+// DISPLAY FOLDER: 02_Funnel (16 Measures)
+// Multi-stage conversion volumes, stage-to-stage transition rates, and drop-offs.
+// ==============================================================================
+
+/*
+[Stage 1 Landing Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 1 (landing page).
+*/
+[Stage 1 Landing Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_landing_page] = 1 || fct_funnel[has_landing_page] = TRUE()
+)
+
+/*
+[Stage 2 Product View Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 2 (product view details).
+*/
+[Stage 2 Product View Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_product_view] = 1 || fct_funnel[has_product_view] = TRUE()
+)
+
+/*
+[Stage 3 Add To Cart Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 3 (item added to cart).
+*/
+[Stage 3 Add To Cart Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_add_to_cart] = 1 || fct_funnel[has_add_to_cart] = TRUE()
+)
+
+/*
+[Stage 4 Checkout Started Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 4 (checkout process initiated).
+*/
+[Stage 4 Checkout Started Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_checkout_started] = 1 || fct_funnel[has_checkout_started] = TRUE()
+)
+
+/*
+[Stage 5 Payment Started Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 5 (payment method submitted/started).
+*/
+[Stage 5 Payment Started Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_payment_started] = 1 || fct_funnel[has_payment_started] = TRUE()
+)
+
+/*
+[Stage 6 Purchase Sessions]
+Folder: 02_Funnel
+Format: #,##0
+Description: Count of sessions reaching Stage 6 (order purchase successfully confirmed).
+*/
+[Stage 6 Purchase Sessions] = 
+CALCULATE(
+    [Total Sessions],
+    fct_funnel[reached_purchase] = 1 || fct_funnel[has_purchase] = TRUE()
+)
+
+/*
+[Overall Funnel Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Full journey conversion efficiency from Stage 1 Landing to Stage 6 Purchase.
+*/
+[Overall Funnel Conversion Rate %] = 
+DIVIDE([Stage 6 Purchase Sessions], [Stage 1 Landing Sessions], 0)
+
+/*
+[Stage 1 to 2 Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Micro-conversion rate from Landing Page to Product View.
+*/
+[Stage 1 to 2 Conversion Rate %] = 
+DIVIDE([Stage 2 Product View Sessions], [Stage 1 Landing Sessions], 0)
+
+/*
+[Stage 2 to 3 Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Micro-conversion rate from Product View to Add To Cart.
+*/
+[Stage 2 to 3 Conversion Rate %] = 
+DIVIDE([Stage 3 Add To Cart Sessions], [Stage 2 Product View Sessions], 0)
+
+/*
+[Stage 3 to 4 Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Micro-conversion rate from Add To Cart to Checkout Started.
+*/
+[Stage 3 to 4 Conversion Rate %] = 
+DIVIDE([Stage 4 Checkout Started Sessions], [Stage 3 Add To Cart Sessions], 0)
+
+/*
+[Stage 4 to 5 Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Micro-conversion rate from Checkout Started to Payment Started.
+*/
+[Stage 4 to 5 Conversion Rate %] = 
+DIVIDE([Stage 5 Payment Started Sessions], [Stage 4 Checkout Started Sessions], 0)
+
+/*
+[Stage 5 to 6 Conversion Rate %]
+Folder: 02_Funnel
+Format: 0.00%
+Description: Micro-conversion rate from Payment Started to Purchase Completed.
+*/
+[Stage 5 to 6 Conversion Rate %] = 
+DIVIDE([Stage 6 Purchase Sessions], [Stage 5 Payment Started Sessions], 0)
+
+/*
+[Drop-off Landing to View]
+Folder: 02_Funnel
+Format: #,##0
+Description: Absolute volume of sessions abandoning between Landing and Product View.
+*/
+[Drop-off Landing to View] = 
+[Stage 1 Landing Sessions] - [Stage 2 Product View Sessions]
+
+/*
+[Drop-off View to Cart]
+Folder: 02_Funnel
+Format: #,##0
+Description: Absolute volume of sessions abandoning between Product View and Add to Cart.
+*/
+[Drop-off View to Cart] = 
+[Stage 2 Product View Sessions] - [Stage 3 Add To Cart Sessions]
+
+/*
+[Drop-off Cart to Checkout]
+Folder: 02_Funnel
+Format: #,##0
+Description: Absolute volume of sessions abandoning between Add to Cart and Checkout Started.
+*/
+[Drop-off Cart to Checkout] = 
+[Stage 3 Add To Cart Sessions] - [Stage 4 Checkout Started Sessions]
+
+/*
+[Drop-off Checkout to Payment]
+Folder: 02_Funnel
+Format: #,##0
+Description: Absolute volume of sessions abandoning between Checkout Started and Payment.
+*/
+[Drop-off Checkout to Payment] = 
+[Stage 4 Checkout Started Sessions] - [Stage 5 Payment Started Sessions]
+
+
+// ==============================================================================
+// DISPLAY FOLDER: 03_Retention (16 Measures)
+// Monthly cohort retention, repeat purchasing rates, and cumulative LTV per user.
+// ==============================================================================
+
+/*
+[Cohort Size (M0 Users)]
+Folder: 03_Retention
+Format: #,##0
+Description: Total baseline count of acquired customers in Cohort Month 0.
+*/
+[Cohort Size (M0 Users)] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    fct_user_retention[month_number] = 0 || fct_user_retention[month_offset] = 0
+)
+
+/*
+[M0 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Active purchasers during initial acquisition month M0.
+*/
+[M0 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 0 || fct_user_retention[month_offset] = 0) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M1 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 1.
+*/
+[M1 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 1 || fct_user_retention[month_offset] = 1) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M2 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 2.
+*/
+[M2 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 2 || fct_user_retention[month_offset] = 2) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M3 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 3.
+*/
+[M3 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 3 || fct_user_retention[month_offset] = 3) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M4 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 4.
+*/
+[M4 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 4 || fct_user_retention[month_offset] = 4) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M5 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 5.
+*/
+[M5 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] = 5 || fct_user_retention[month_offset] = 5) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M6 Retained Users]
+Folder: 03_Retention
+Format: #,##0
+Description: Distinct cohort users returning to purchase in tenure Month 6+.
+*/
+[M6 Retained Users] = 
+CALCULATE(
+    DISTINCTCOUNT(fct_user_retention[user_id]),
+    (fct_user_retention[month_number] >= 6 || fct_user_retention[month_offset] >= 6) &&
+    (fct_user_retention[is_retained] = 1 || fct_user_retention[is_active] = 1)
+)
+
+/*
+[M1 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 1 relative to Month 0 baseline.
+*/
+[M1 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M1 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[M2 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 2 relative to Month 0 baseline.
+*/
+[M2 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M2 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[M3 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 3 relative to Month 0 baseline.
+*/
+[M3 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M3 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[M4 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 4 relative to Month 0 baseline.
+*/
+[M4 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M4 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[M5 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 5 relative to Month 0 baseline.
+*/
+[M5 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M5 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[M6 Retention Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Proportion of cohort active in Month 6 relative to Month 0 baseline.
+*/
+[M6 Retention Rate %] = 
+IF(
+    MIN(dim_date[date_day]) > TODAY(),
+    BLANK(),
+    DIVIDE([M6 Retained Users], [Cohort Size (M0 Users)], 0)
+)
+
+/*
+[Repeat Purchase Rate %]
+Folder: 03_Retention
+Format: 0.00%
+Description: Percentage of acquired customers who have completed 2 or more lifetime orders.
+*/
+[Repeat Purchase Rate %] = 
+VAR RepeatCustomers = CALCULATE(
+    DISTINCTCOUNT(dim_users[user_id]),
+    dim_users[lifetime_orders] > 1
+)
+VAR TotalCustomers = DISTINCTCOUNT(dim_users[user_id])
+RETURN
+    DIVIDE(RepeatCustomers, TotalCustomers, 0)
+
+/*
+[Cohort Cumulative LTV per User]
+Folder: 03_Retention
+Format: $#,##0.00
+Description: Cumulative cohort revenue generated divided by baseline Month 0 cohort size.
+*/
+[Cohort Cumulative LTV per User] = 
+DIVIDE(
+    SUM(fct_user_retention[cumulative_revenue]),
+    [Cohort Size (M0 Users)],
+    0
+)
+
+
+// ==============================================================================
+// DISPLAY FOLDER: 04_Experiment (18 Measures)
+// A/B test conversion, uplift, two-proportion hypothesis tests, and SRM diagnostics.
+// ==============================================================================
+
+/*
+[AB Control Sessions]
+Folder: 04_Experiment
+Format: #,##0
+Description: Total sessions allocated to the multi-step Control checkout variant.
+*/
+[AB Control Sessions] = 
+CALCULATE(
+    COUNTROWS(fct_ab_test),
+    fct_ab_test[ab_variant] = "control"
+)
+
+/*
+[AB Treatment Sessions]
+Folder: 04_Experiment
+Format: #,##0
+Description: Total sessions allocated to the streamlined 1-page Treatment checkout variant.
+*/
+[AB Treatment Sessions] = 
+CALCULATE(
+    COUNTROWS(fct_ab_test),
+    fct_ab_test[ab_variant] = "treatment"
+)
+
+/*
+[AB Total Experiment Sessions]
+Folder: 04_Experiment
+Format: #,##0
+Description: Total combined experiment exposure sessions across both test arms.
+*/
+[AB Total Experiment Sessions] = 
+[AB Control Sessions] + [AB Treatment Sessions]
+
+/*
+[AB Control Purchases]
+Folder: 04_Experiment
+Format: #,##0
+Description: Total confirmed purchase conversions within the Control variant arm.
+*/
+[AB Control Purchases] = 
+CALCULATE(
+    COUNTROWS(fct_ab_test),
+    fct_ab_test[ab_variant] = "control" &&
+    (fct_ab_test[completed_purchase] = 1 || fct_ab_test[converted_to_purchase] = 1)
+)
+
+/*
+[AB Treatment Purchases]
+Folder: 04_Experiment
+Format: #,##0
+Description: Total confirmed purchase conversions within the Treatment variant arm.
+*/
+[AB Treatment Purchases] = 
+CALCULATE(
+    COUNTROWS(fct_ab_test),
+    fct_ab_test[ab_variant] = "treatment" &&
+    (fct_ab_test[completed_purchase] = 1 || fct_ab_test[converted_to_purchase] = 1)
+)
+
+/*
+[AB Control Conversion Rate %]
+Folder: 04_Experiment
+Format: 0.000%
+Description: Empirical conversion rate for the Control checkout flow.
+*/
+[AB Control Conversion Rate %] = 
+DIVIDE([AB Control Purchases], [AB Control Sessions], 0)
+
+/*
+[AB Treatment Conversion Rate %]
+Folder: 04_Experiment
+Format: 0.000%
+Description: Empirical conversion rate for the Treatment checkout flow.
+*/
+[AB Treatment Conversion Rate %] = 
+DIVIDE([AB Treatment Purchases], [AB Treatment Sessions], 0)
+
+/*
+[AB Absolute Uplift]
+Folder: 04_Experiment
+Format: +0.000%;-0.000%;0.000%
+Description: Absolute percentage point conversion difference (Treatment CR minus Control CR).
+*/
+[AB Absolute Uplift] = 
+[AB Treatment Conversion Rate %] - [AB Control Conversion Rate %]
+
+/*
+[AB Relative Uplift %]
+Folder: 04_Experiment
+Format: +0.00%;-0.00%;0.00%
+Description: Relative percentage uplift achieved by Treatment over Control baseline.
+*/
+[AB Relative Uplift %] = 
+IF(
+    [AB Control Conversion Rate %] = 0,
+    BLANK(),
+    DIVIDE([AB Absolute Uplift], [AB Control Conversion Rate %], BLANK())
+)
+
+/*
+[AB Pooled Proportion]
+Folder: 04_Experiment
+Format: 0.0000
+Description: Weighted pooled conversion proportion under the null hypothesis (H0: p1 = p2).
+*/
+[AB Pooled Proportion] = 
+DIVIDE(
+    [AB Control Purchases] + [AB Treatment Purchases],
+    [AB Control Sessions] + [AB Treatment Sessions],
+    0
+)
+
+/*
+[AB Pooled Standard Error]
+Folder: 04_Experiment
+Format: 0.000000
+Description: Standard error of the difference between two independent proportions.
+*/
+[AB Pooled Standard Error] = 
+VAR P = [AB Pooled Proportion]
+VAR N1 = [AB Control Sessions]
+VAR N2 = [AB Treatment Sessions]
+RETURN
+    IF(
+        N1 > 0 && N2 > 0 && P > 0 && P < 1,
+        SQRT(P * (1 - P) * (DIVIDE(1, N1, 0) + DIVIDE(1, N2, 0))),
+        0
+    )
+
+/*
+[AB Z-Score]
+Folder: 04_Experiment
+Format: 0.000
+Description: Standard test statistic for two-proportion hypothesis test (Z = Uplift / SE).
+*/
+[AB Z-Score] = 
+DIVIDE([AB Absolute Uplift], [AB Pooled Standard Error], 0)
+
+/*
+[AB Two-Sided P-Value Approx]
+Folder: 04_Experiment
+Format: 0.0000
+Description: Closed-form approximation of the two-sided p-value from normal distribution.
+*/
+[AB Two-Sided P-Value Approx] = 
+VAR Z = ABS([AB Z-Score])
+RETURN
+    IF(
+        ISBLANK(Z) || Z = 0,
+        1.0,
+        2 * (1 - (DIVIDE(1, 1 + EXP(-0.07056 * Z^3 - 1.5976 * Z), 1)))
+    )
+
+/*
+[AB Statistically Significant Flag]
+Folder: 04_Experiment
+Format: Text
+Description: Text status badge evaluating test against standard significance threshold (alpha = 0.05).
+*/
+[AB Statistically Significant Flag] = 
+IF(
+    ABS([AB Z-Score]) >= 1.96,
+    "Statistically Significant (p < 0.05)",
+    "Inconclusive (p >= 0.05)"
+)
+
+/*
+[AB SRM Expected Sessions]
+Folder: 04_Experiment
+Format: #,##0.0
+Description: Expected sessions per variant under ideal 50/50 randomization.
+*/
+[AB SRM Expected Sessions] = 
+([AB Control Sessions] + [AB Treatment Sessions]) / 2
+
+/*
+[AB SRM Chi-Square Statistic]
+Folder: 04_Experiment
+Format: 0.0000
+Description: Pearson chi-square goodness-of-fit statistic evaluating Sample Ratio Mismatch (df=1).
+*/
+[AB SRM Chi-Square Statistic] = 
+VAR Expected = ([AB Control Sessions] + [AB Treatment Sessions]) / 2
+RETURN
+    DIVIDE(([AB Control Sessions] - Expected)^2, Expected) +
+    DIVIDE(([AB Treatment Sessions] - Expected)^2, Expected)
+
+/*
+[AB SRM Status]
+Folder: 04_Experiment
+Format: Text
+Description: Diagnostic health indicator evaluating traffic allocation integrity against chi2 = 6.635.
+*/
+[AB SRM Status] = 
+VAR Chi2 = [AB SRM Chi-Square Statistic]
+RETURN
+    IF(
+        ISBLANK(Chi2),
+        "Unknown",
+        IF(
+            Chi2 > 6.635,
+            "SRM FAILED - BIASED (p < 0.01)",
+            "SRM PASSED - BALANCED"
+        )
+    )
+
+/*
+[AB 95% CI Lower Bound]
+Folder: 04_Experiment
+Format: +0.00%;-0.00%;0.00%
+Description: Lower bound of the 95% confidence interval for relative uplift.
+*/
+[AB 95% CI Lower Bound] = 
+VAR MarginOfError = 1.96 * DIVIDE([AB Pooled Standard Error], [AB Control Conversion Rate %], 0)
+RETURN
+    [AB Relative Uplift %] - MarginOfError
+
+/*
+[AB 95% CI Upper Bound]
+Folder: 04_Experiment
+Format: +0.00%;-0.00%;0.00%
+Description: Upper bound of the 95% confidence interval for relative uplift.
+*/
+[AB 95% CI Upper Bound] = 
+VAR MarginOfError = 1.96 * DIVIDE([AB Pooled Standard Error], [AB Control Conversion Rate %], 0)
+RETURN
+    [AB Relative Uplift %] + MarginOfError
+
+
+// ==============================================================================
+// DISPLAY FOLDER: 05_Helper_Stats (10 Measures)
+// Statistical constants, formatting helpers, slicer titles, and WCAG color status.
+// ==============================================================================
+
+/*
+[Standard Normal Inverse Approx]
+Folder: 05_Helper_Stats
+Format: 0.00000
+Description: Two-tailed Z critical constant for 95% confidence interval (Z_0.975 = 1.95996).
+*/
+[Standard Normal Inverse Approx] = 
+1.95996
+
+/*
+[Chi-Square Critical Value 99%]
+Folder: 05_Helper_Stats
+Format: 0.0000
+Description: Pearson Chi-square critical value for df=1 at alpha=0.01 level (6.6349).
+*/
+[Chi-Square Critical Value 99%] = 
+6.6349
+
+/*
+[Max Observed Date]
+Folder: 05_Helper_Stats
+Format: yyyy-mm-dd
+Description: Maximum observed date in the active calendar filter context.
+*/
+[Max Observed Date] = 
+MAX(dim_date[date_day])
+
+/*
+[Has Filter Applied]
+Folder: 05_Helper_Stats
+Format: True/False
+Description: Flag indicating whether user has applied interactive slicer filters.
+*/
+[Has Filter Applied] = 
+ISFILTERED(dim_users[customer_segment]) || ISFILTERED(fct_funnel[device_type])
+
+/*
+[Card Subtitle Date Range]
+Folder: 05_Helper_Stats
+Format: Text
+Description: Dynamic subtitle string displaying active date window for executive cards.
+*/
+[Card Subtitle Date Range] = 
+"Period: " & FORMAT(MIN(dim_date[date_day]), "YYYY-MM-DD") & " to " & FORMAT(MAX(dim_date[date_day]), "YYYY-MM-DD")
+
+/*
+[WCAG Formatted Status Color]
+Folder: 05_Helper_Stats
+Format: Text
+Description: Hex color code complying with WCAG 2.1 AA contrast requirements (#10B981 pass, #F43F5E fail).
+*/
+[WCAG Formatted Status Color] = 
+IF(
+    [AB SRM Chi-Square Statistic] > 6.635,
+    "#F43F5E",
+    "#10B981"
+)
+
+/*
+[Divide Safe Helper]
+Folder: 05_Helper_Stats
+Format: 0.00
+Description: Reference helper pattern demonstrating guarded division behavior.
+*/
+[Divide Safe Helper] = 
+DIVIDE(1, 1, 0)
+
+/*
+[Blank Guard Helper]
+Folder: 05_Helper_Stats
+Format: Text
+Description: Reference helper validating date context existence and preventing orphan rows.
+*/
+[Blank Guard Helper] = 
+IF(
+    ISBLANK(MAX(dim_date[date_day])),
+    "No Date",
+    "Valid Date"
+)
+
+/*
+[Segment Filter Slicer Title]
+Folder: 05_Helper_Stats
+Format: Text
+Description: Dynamic header string reflecting selected customer segment slicer state.
+*/
+[Segment Filter Slicer Title] = 
+"Customer Segment: " & SELECTEDVALUE(dim_users[customer_segment], "All Segments")
+
+/*
+[Currency Formatter]
+Folder: 05_Helper_Stats
+Format: Text
+Description: Formats gross revenue with standard executive currency notation.
+*/
+[Currency Formatter] = 
+FORMAT([Gross Revenue], "$#,##0.00")

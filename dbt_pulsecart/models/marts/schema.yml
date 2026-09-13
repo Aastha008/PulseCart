@@ -1,0 +1,357 @@
+version: 2
+
+models:
+  - name: fct_funnel
+    description: "Session-level fact table containing milestone flags across the 6-stage e-commerce funnel, duration, device, and conversion metrics."
+    columns:
+      - name: session_id
+        description: "Primary key. Unique identifier for the browsing session."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Foreign key referencing dim_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: session_start
+        description: "Session commencement timestamp in UTC."
+        tests:
+          - not_null
+      - name: session_end
+        description: "Session termination timestamp in UTC."
+        tests:
+          - not_null
+      - name: session_date
+        description: "Calendar date when the session initiated. Used for partition pruning."
+        tests:
+          - not_null
+      - name: session_duration_seconds
+        description: "Total elapsed duration of the browsing session in seconds."
+        tests:
+          - not_null
+      - name: device_type
+        description: "Client device type (Desktop, Mobile, Tablet)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Desktop', 'Mobile', 'Tablet']
+      - name: traffic_source
+        description: "Marketing traffic source."
+        tests:
+          - not_null
+      - name: country
+        description: "Country location of the user session."
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Customer demographic segment (VIP, Regular, Bargain)."
+        tests:
+          - not_null
+      - name: ab_variant
+        description: "Assigned A/B experiment variant."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['control', 'treatment']
+      - name: is_returning_user
+        description: "Boolean flag indicating if user is a returning visitor."
+        tests:
+          - not_null
+      - name: furthest_step_reached
+        description: "Furthest funnel step number reached (1=landing, 2=product, 3=cart, 4=checkout, 5=payment, 6=purchase)."
+        tests:
+          - not_null
+      - name: funnel_stage_order
+        description: "Highest milestone reached (1=landing, 2=product, 3=cart, 4=checkout, 5=payment, 6=purchase)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+      - name: is_converting_session
+        description: "Flag indicating whether session culminated in a completed order (1=yes, 0=no)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: fct_orders
+    description: "Order-level transaction fact table capturing revenue, margins, COGS, item counts, and customer sequence."
+    columns:
+      - name: order_id
+        description: "Primary key. Unique identifier for the completed order."
+        tests:
+          - unique
+          - not_null
+      - name: session_id
+        description: "Foreign key referencing fct_funnel."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fct_funnel')
+              field: session_id
+      - name: user_id
+        description: "Foreign key referencing dim_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: order_timestamp
+        description: "Precise timestamp when transaction was finalized."
+        tests:
+          - not_null
+      - name: order_date
+        description: "Date of transaction. Used for partition pruning."
+        tests:
+          - not_null
+      - name: status
+        description: "Order status (completed, cancelled, refunded, pending)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['completed', 'cancelled', 'refunded', 'pending']
+      - name: total_amount
+        description: "Total gross amount charged including shipping and tax."
+        tests:
+          - not_null
+      - name: gross_profit
+        description: "Gross margin calculated as total item revenue minus cost of goods sold."
+        tests:
+          - not_null
+      - name: ab_variant
+        description: "A/B test variant assigned to order session."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['control', 'treatment']
+      - name: total_items_count
+        description: "Total quantity of items in the order."
+        tests:
+          - not_null
+      - name: item_count
+        description: "Contract column: Total quantity of items in the order."
+        tests:
+          - not_null
+      - name: subtotal
+        description: "Contract column: Net order amount before tax and shipping."
+        tests:
+          - not_null
+      - name: shipping_fee
+        description: "Contract column: Shipping charge for the order."
+        tests:
+          - not_null
+      - name: total_cost
+        description: "Contract column: Total COGS for the order."
+        tests:
+          - not_null
+      - name: gross_margin_amount
+        description: "Contract column: Order gross profit."
+        tests:
+          - not_null
+      - name: user_order_sequence
+        description: "Sequential purchase number for the customer (1 = first purchase)."
+        tests:
+          - not_null
+
+  - name: fct_user_retention
+    description: "Monthly customer cohort activity matrix tracking retention, repeat orders, and cumulative customer lifetime value."
+    columns:
+      - name: user_id
+        description: "Foreign key referencing dim_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: cohort_month
+        description: "Calendar month of customer maiden purchase (first completed order cohort)."
+        tests:
+          - not_null
+      - name: activity_month
+        description: "Month of purchase activity."
+        tests:
+          - not_null
+      - name: month_offset
+        description: "Elapsed months from maiden purchase cohort (0=cohort month, 1=next month, etc.)."
+        tests:
+          - not_null
+      - name: monthly_orders
+        description: "Count of orders completed in the activity month."
+        tests:
+          - not_null
+      - name: orders_in_month
+        description: "Count of orders completed in the activity month (PROJECT.md contract name)."
+        tests:
+          - not_null
+      - name: monthly_revenue
+        description: "Total revenue spend in the activity month."
+        tests:
+          - not_null
+      - name: revenue_in_month
+        description: "Total revenue spend in the activity month (PROJECT.md contract name)."
+        tests:
+          - not_null
+      - name: is_retained
+        description: "Active retention indicator flag (1=active)."
+        tests:
+          - not_null
+
+  - name: fct_ab_test
+    description: "Checkout experiment analysis fact table containing only sessions that initiated checkout, measuring control vs treatment lift."
+    columns:
+      - name: session_id
+        description: "Primary key. Checkout session identifier."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Foreign key referencing dim_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: session_date
+        description: "Date session started."
+        tests:
+          - not_null
+      - name: ab_variant
+        description: "Assigned experiment variant ('control' or 'treatment')."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['control', 'treatment']
+      - name: completed_payment
+        description: "1 if user proceeded to payment stage, 0 otherwise."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: completed_purchase
+        description: "1 if the checkout session completed purchase, 0 otherwise."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: dim_users
+    description: "Customer dimension table with lifetime order counts, revenue, and RFM behavioral segments."
+    columns:
+      - name: user_id
+        description: "Primary key. Unique user identifier."
+        tests:
+          - unique
+          - not_null
+      - name: first_seen_at
+        description: "Contract column: User account registration timestamp."
+        tests:
+          - not_null
+      - name: signup_timestamp
+        description: "Registration timestamp in UTC."
+        tests:
+          - not_null
+      - name: signup_date
+        description: "Calendar date of user registration."
+        tests:
+          - not_null
+      - name: country
+        description: "Country code."
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Business segment ('VIP', 'Regular', 'Bargain')."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VIP', 'Regular', 'Bargain']
+      - name: lifetime_sessions
+        description: "Contract column: Total cumulative browsing sessions."
+        tests:
+          - not_null
+      - name: lifetime_orders
+        description: "Cumulative completed orders placed by user."
+        tests:
+          - not_null
+      - name: last_order_date
+        description: "Contract column: Date of most recent purchase."
+      - name: lifetime_revenue
+        description: "Cumulative gross revenue generated by user."
+        tests:
+          - not_null
+      - name: frequency_band
+        description: "RFM frequency categorization band."
+        tests:
+          - not_null
+      - name: monetary_tier
+        description: "RFM monetary spend tier."
+        tests:
+          - not_null
+      - name: customer_lifecycle_status
+        description: "Lifecycle classification (e.g. Registered Non-Purchaser, Single Purchaser, Active Repeat)."
+        tests:
+          - not_null
+
+  - name: dim_products
+    description: "Product catalog dimension with category hierarchies, base pricing, costs, and aggregate sales totals."
+    columns:
+      - name: product_id
+        description: "Primary key. Unique product identifier."
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Descriptive name of product."
+        tests:
+          - not_null
+      - name: category
+        description: "Product category."
+        tests:
+          - not_null
+      - name: cost
+        description: "Base product cost."
+        tests:
+          - not_null
+      - name: price
+        description: "Base product retail price."
+        tests:
+          - not_null
+      - name: margin_amount
+        description: "Contract column: Unit margin amount in dollars."
+        tests:
+          - not_null
+      - name: margin_percentage
+        description: "Contract column: Unit margin percentage (0-100)."
+        tests:
+          - not_null
+      - name: total_units_sold
+        description: "Total product units sold across all orders."
+        tests:
+          - not_null
+
+  - name: dim_date
+    description: "Calendar date dimension table spanning 2024 to 2026."
+    columns:
+      - name: date_day
+        description: "Primary key. Calendar date."
+        tests:
+          - unique
+          - not_null
+      - name: year
+        description: "Calendar year."
+        tests:
+          - not_null
+      - name: quarter
+        description: "Calendar quarter (1-4)."
+        tests:
+          - not_null
+      - name: month
+        description: "Calendar month (1-12)."
+        tests:
+          - not_null
+      - name: is_weekend
+        description: "Boolean weekend indicator."
+        tests:
+          - not_null

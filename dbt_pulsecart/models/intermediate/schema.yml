@@ -1,0 +1,110 @@
+version: 2
+
+models:
+  - name: int_session_funnel_events
+    description: "Session-level aggregation flattening event logs into binary funnel flags, stage orders, and earliest step timestamps."
+    columns:
+      - name: session_id
+        description: "Primary key. Unique session identifier."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "User identifier associated with session."
+        tests:
+          - not_null
+      - name: furthest_step_reached
+        description: "Furthest step number (1 to 6) reached in the funnel."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+      - name: reached_landing_page
+        description: "Flag indicating user visited landing page."
+        tests:
+          - not_null
+      - name: reached_purchase
+        description: "Flag indicating session reached purchase conversion."
+        tests:
+          - not_null
+
+  - name: int_order_items_aggregated
+    description: "Order-level aggregation computing line item counts, gross merchandise revenue, cost of goods sold, and gross margins."
+    columns:
+      - name: order_id
+        description: "Primary key. Unique order identifier."
+        tests:
+          - unique
+          - not_null
+      - name: total_items_count
+        description: "Total count of individual product items in the order."
+        tests:
+          - not_null
+      - name: total_cogs
+        description: "Total cost of goods sold for all items in order."
+        tests:
+          - not_null
+      - name: gross_profit
+        description: "Gross margin on goods sold (items revenue - total COGS)."
+        tests:
+          - not_null
+
+  - name: int_user_order_summary
+    description: "User-level lifetime order summary tracking sequence, first/last purchase timestamps, and repeat frequencies."
+    columns:
+      - name: user_id
+        description: "Primary key. Unique user identifier."
+        tests:
+          - unique
+          - not_null
+      - name: lifetime_orders
+        description: "Total number of completed orders placed by user."
+        tests:
+          - not_null
+      - name: lifetime_revenue
+        description: "Total cumulative gross revenue spend by user."
+        tests:
+          - not_null
+      - name: first_order_date
+        description: "Date of first completed order."
+        tests:
+          - not_null
+
+  - name: int_user_cohort_monthly
+    description: "Monthly customer cohort activity matrix tracking user activity offsets from account signup cohort."
+    columns:
+      - name: user_id
+        description: "User identifier."
+        tests:
+          - not_null
+      - name: cohort_month
+        description: "Calendar month user registered account."
+        tests:
+          - not_null
+      - name: activity_month
+        description: "Calendar month in which purchase transactions took place."
+        tests:
+          - not_null
+      - name: month_offset
+        description: "Elapsed months from signup cohort (0 = Month 0, 1 = Month 1, etc.)."
+        tests:
+          - not_null
+
+  - name: int_ab_session_conversions
+    description: "Checkout A/B experiment evaluation view for sessions that entered checkout."
+    columns:
+      - name: session_id
+        description: "Primary key. Unique checkout session identifier."
+        tests:
+          - unique
+          - not_null
+      - name: ab_variant
+        description: "Assigned experiment variant."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['control', 'treatment']
+      - name: has_checkout_started
+        description: "Boolean flag confirming checkout was initiated."
+        tests:
+          - not_null

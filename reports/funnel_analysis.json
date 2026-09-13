@@ -1,0 +1,1079 @@
+{
+  "total_sessions": 100000,
+  "overall_conversion_rate": 10.02,
+  "top_dropoff_stage": "product_view",
+  "overall_funnel": [
+    {
+      "step_number": 1,
+      "stage_name": "landing_page",
+      "sessions_count": 100000,
+      "step_conversion_rate": 100.0,
+      "overall_conversion_rate": 100.0,
+      "absolute_drop_off": 0,
+      "drop_off_rate": 0.0
+    },
+    {
+      "step_number": 2,
+      "stage_name": "product_view",
+      "sessions_count": 61993,
+      "step_conversion_rate": 61.99,
+      "overall_conversion_rate": 61.99,
+      "absolute_drop_off": 38007,
+      "drop_off_rate": 38.01
+    },
+    {
+      "step_number": 3,
+      "stage_name": "add_to_cart",
+      "sessions_count": 29574,
+      "step_conversion_rate": 47.71,
+      "overall_conversion_rate": 29.57,
+      "absolute_drop_off": 32419,
+      "drop_off_rate": 52.29
+    },
+    {
+      "step_number": 4,
+      "stage_name": "checkout_started",
+      "sessions_count": 16430,
+      "step_conversion_rate": 55.56,
+      "overall_conversion_rate": 16.43,
+      "absolute_drop_off": 13144,
+      "drop_off_rate": 44.44
+    },
+    {
+      "step_number": 5,
+      "stage_name": "payment_started",
+      "sessions_count": 12180,
+      "step_conversion_rate": 74.13,
+      "overall_conversion_rate": 12.18,
+      "absolute_drop_off": 4250,
+      "drop_off_rate": 25.87
+    },
+    {
+      "step_number": 6,
+      "stage_name": "purchase",
+      "sessions_count": 10022,
+      "step_conversion_rate": 82.28,
+      "overall_conversion_rate": 10.02,
+      "absolute_drop_off": 2158,
+      "drop_off_rate": 17.72
+    }
+  ],
+  "dimensional_analysis": {
+    "device_type": {
+      "Desktop": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 34858,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 24804,
+          "step_conversion_rate": 71.16,
+          "overall_conversion_rate": 71.16,
+          "absolute_drop_off": 10054,
+          "drop_off_rate": 28.84
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 13381,
+          "step_conversion_rate": 53.95,
+          "overall_conversion_rate": 38.39,
+          "absolute_drop_off": 11423,
+          "drop_off_rate": 46.05
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 8331,
+          "step_conversion_rate": 62.26,
+          "overall_conversion_rate": 23.9,
+          "absolute_drop_off": 5050,
+          "drop_off_rate": 37.74
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 6424,
+          "step_conversion_rate": 77.11,
+          "overall_conversion_rate": 18.43,
+          "absolute_drop_off": 1907,
+          "drop_off_rate": 22.89
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 5504,
+          "step_conversion_rate": 85.68,
+          "overall_conversion_rate": 15.79,
+          "absolute_drop_off": 920,
+          "drop_off_rate": 14.32
+        }
+      ],
+      "Mobile": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 55405,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 31236,
+          "step_conversion_rate": 56.38,
+          "overall_conversion_rate": 56.38,
+          "absolute_drop_off": 24169,
+          "drop_off_rate": 43.62
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 13395,
+          "step_conversion_rate": 42.88,
+          "overall_conversion_rate": 24.18,
+          "absolute_drop_off": 17841,
+          "drop_off_rate": 57.12
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 6600,
+          "step_conversion_rate": 49.27,
+          "overall_conversion_rate": 11.91,
+          "absolute_drop_off": 6795,
+          "drop_off_rate": 50.73
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 4664,
+          "step_conversion_rate": 70.67,
+          "overall_conversion_rate": 8.42,
+          "absolute_drop_off": 1936,
+          "drop_off_rate": 29.33
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 3639,
+          "step_conversion_rate": 78.02,
+          "overall_conversion_rate": 6.57,
+          "absolute_drop_off": 1025,
+          "drop_off_rate": 21.98
+        }
+      ],
+      "Tablet": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 9737,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 5953,
+          "step_conversion_rate": 61.14,
+          "overall_conversion_rate": 61.14,
+          "absolute_drop_off": 3784,
+          "drop_off_rate": 38.86
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 2798,
+          "step_conversion_rate": 47.0,
+          "overall_conversion_rate": 28.74,
+          "absolute_drop_off": 3155,
+          "drop_off_rate": 53.0
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 1499,
+          "step_conversion_rate": 53.57,
+          "overall_conversion_rate": 15.39,
+          "absolute_drop_off": 1299,
+          "drop_off_rate": 46.43
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 1092,
+          "step_conversion_rate": 72.85,
+          "overall_conversion_rate": 11.21,
+          "absolute_drop_off": 407,
+          "drop_off_rate": 27.15
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 879,
+          "step_conversion_rate": 80.49,
+          "overall_conversion_rate": 9.03,
+          "absolute_drop_off": 213,
+          "drop_off_rate": 19.51
+        }
+      ]
+    },
+    "traffic_source": {
+      "Direct": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 29368,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 20234,
+          "step_conversion_rate": 68.9,
+          "overall_conversion_rate": 68.9,
+          "absolute_drop_off": 9134,
+          "drop_off_rate": 31.1
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 10339,
+          "step_conversion_rate": 51.1,
+          "overall_conversion_rate": 35.2,
+          "absolute_drop_off": 9895,
+          "drop_off_rate": 48.9
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 6065,
+          "step_conversion_rate": 58.66,
+          "overall_conversion_rate": 20.65,
+          "absolute_drop_off": 4274,
+          "drop_off_rate": 41.34
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 4598,
+          "step_conversion_rate": 75.81,
+          "overall_conversion_rate": 15.66,
+          "absolute_drop_off": 1467,
+          "drop_off_rate": 24.19
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 3863,
+          "step_conversion_rate": 84.01,
+          "overall_conversion_rate": 13.15,
+          "absolute_drop_off": 735,
+          "drop_off_rate": 15.99
+        }
+      ],
+      "Email": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 20529,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 14892,
+          "step_conversion_rate": 72.54,
+          "overall_conversion_rate": 72.54,
+          "absolute_drop_off": 5637,
+          "drop_off_rate": 27.46
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 8066,
+          "step_conversion_rate": 54.16,
+          "overall_conversion_rate": 39.29,
+          "absolute_drop_off": 6826,
+          "drop_off_rate": 45.84
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 4935,
+          "step_conversion_rate": 61.18,
+          "overall_conversion_rate": 24.04,
+          "absolute_drop_off": 3131,
+          "drop_off_rate": 38.82
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 3799,
+          "step_conversion_rate": 76.98,
+          "overall_conversion_rate": 18.51,
+          "absolute_drop_off": 1136,
+          "drop_off_rate": 23.02
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 3212,
+          "step_conversion_rate": 84.55,
+          "overall_conversion_rate": 15.65,
+          "absolute_drop_off": 587,
+          "drop_off_rate": 15.45
+        }
+      ],
+      "Organic Search": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 24653,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 14593,
+          "step_conversion_rate": 59.19,
+          "overall_conversion_rate": 59.19,
+          "absolute_drop_off": 10060,
+          "drop_off_rate": 40.81
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 6582,
+          "step_conversion_rate": 45.1,
+          "overall_conversion_rate": 26.7,
+          "absolute_drop_off": 8011,
+          "drop_off_rate": 54.9
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 3445,
+          "step_conversion_rate": 52.34,
+          "overall_conversion_rate": 13.97,
+          "absolute_drop_off": 3137,
+          "drop_off_rate": 47.66
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 2436,
+          "step_conversion_rate": 70.71,
+          "overall_conversion_rate": 9.88,
+          "absolute_drop_off": 1009,
+          "drop_off_rate": 29.29
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 1905,
+          "step_conversion_rate": 78.2,
+          "overall_conversion_rate": 7.73,
+          "absolute_drop_off": 531,
+          "drop_off_rate": 21.8
+        }
+      ],
+      "Paid Search": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 13913,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 7073,
+          "step_conversion_rate": 50.84,
+          "overall_conversion_rate": 50.84,
+          "absolute_drop_off": 6840,
+          "drop_off_rate": 49.16
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 2781,
+          "step_conversion_rate": 39.32,
+          "overall_conversion_rate": 19.99,
+          "absolute_drop_off": 4292,
+          "drop_off_rate": 60.68
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 1241,
+          "step_conversion_rate": 44.62,
+          "overall_conversion_rate": 8.92,
+          "absolute_drop_off": 1540,
+          "drop_off_rate": 55.38
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 851,
+          "step_conversion_rate": 68.57,
+          "overall_conversion_rate": 6.12,
+          "absolute_drop_off": 390,
+          "drop_off_rate": 31.43
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 655,
+          "step_conversion_rate": 76.97,
+          "overall_conversion_rate": 4.71,
+          "absolute_drop_off": 196,
+          "drop_off_rate": 23.03
+        }
+      ],
+      "Referral": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 2885,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 1571,
+          "step_conversion_rate": 54.45,
+          "overall_conversion_rate": 54.45,
+          "absolute_drop_off": 1314,
+          "drop_off_rate": 45.55
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 668,
+          "step_conversion_rate": 42.52,
+          "overall_conversion_rate": 23.15,
+          "absolute_drop_off": 903,
+          "drop_off_rate": 57.48
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 296,
+          "step_conversion_rate": 44.31,
+          "overall_conversion_rate": 10.26,
+          "absolute_drop_off": 372,
+          "drop_off_rate": 55.69
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 212,
+          "step_conversion_rate": 71.62,
+          "overall_conversion_rate": 7.35,
+          "absolute_drop_off": 84,
+          "drop_off_rate": 28.38
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 173,
+          "step_conversion_rate": 81.6,
+          "overall_conversion_rate": 6.0,
+          "absolute_drop_off": 39,
+          "drop_off_rate": 18.4
+        }
+      ],
+      "Social": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 8652,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 3630,
+          "step_conversion_rate": 41.96,
+          "overall_conversion_rate": 41.96,
+          "absolute_drop_off": 5022,
+          "drop_off_rate": 58.04
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 1138,
+          "step_conversion_rate": 31.35,
+          "overall_conversion_rate": 13.15,
+          "absolute_drop_off": 2492,
+          "drop_off_rate": 68.65
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 448,
+          "step_conversion_rate": 39.37,
+          "overall_conversion_rate": 5.18,
+          "absolute_drop_off": 690,
+          "drop_off_rate": 60.63
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 284,
+          "step_conversion_rate": 63.39,
+          "overall_conversion_rate": 3.28,
+          "absolute_drop_off": 164,
+          "drop_off_rate": 36.61
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 214,
+          "step_conversion_rate": 75.35,
+          "overall_conversion_rate": 2.47,
+          "absolute_drop_off": 70,
+          "drop_off_rate": 24.65
+        }
+      ]
+    },
+    "country": {
+      "AU": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 4977,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 2983,
+          "step_conversion_rate": 59.94,
+          "overall_conversion_rate": 59.94,
+          "absolute_drop_off": 1994,
+          "drop_off_rate": 40.06
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 1389,
+          "step_conversion_rate": 46.56,
+          "overall_conversion_rate": 27.91,
+          "absolute_drop_off": 1594,
+          "drop_off_rate": 53.44
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 742,
+          "step_conversion_rate": 53.42,
+          "overall_conversion_rate": 14.91,
+          "absolute_drop_off": 647,
+          "drop_off_rate": 46.58
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 535,
+          "step_conversion_rate": 72.1,
+          "overall_conversion_rate": 10.75,
+          "absolute_drop_off": 207,
+          "drop_off_rate": 27.9
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 440,
+          "step_conversion_rate": 82.24,
+          "overall_conversion_rate": 8.84,
+          "absolute_drop_off": 95,
+          "drop_off_rate": 17.76
+        }
+      ],
+      "CA": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 12488,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 7644,
+          "step_conversion_rate": 61.21,
+          "overall_conversion_rate": 61.21,
+          "absolute_drop_off": 4844,
+          "drop_off_rate": 38.79
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 3574,
+          "step_conversion_rate": 46.76,
+          "overall_conversion_rate": 28.62,
+          "absolute_drop_off": 4070,
+          "drop_off_rate": 53.24
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 1904,
+          "step_conversion_rate": 53.27,
+          "overall_conversion_rate": 15.25,
+          "absolute_drop_off": 1670,
+          "drop_off_rate": 46.73
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 1417,
+          "step_conversion_rate": 74.42,
+          "overall_conversion_rate": 11.35,
+          "absolute_drop_off": 487,
+          "drop_off_rate": 25.58
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 1162,
+          "step_conversion_rate": 82.0,
+          "overall_conversion_rate": 9.3,
+          "absolute_drop_off": 255,
+          "drop_off_rate": 18.0
+        }
+      ],
+      "DE": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 7917,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 4479,
+          "step_conversion_rate": 56.57,
+          "overall_conversion_rate": 56.57,
+          "absolute_drop_off": 3438,
+          "drop_off_rate": 43.43
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 1952,
+          "step_conversion_rate": 43.58,
+          "overall_conversion_rate": 24.66,
+          "absolute_drop_off": 2527,
+          "drop_off_rate": 56.42
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 1019,
+          "step_conversion_rate": 52.2,
+          "overall_conversion_rate": 12.87,
+          "absolute_drop_off": 933,
+          "drop_off_rate": 47.8
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 718,
+          "step_conversion_rate": 70.46,
+          "overall_conversion_rate": 9.07,
+          "absolute_drop_off": 301,
+          "drop_off_rate": 29.54
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 576,
+          "step_conversion_rate": 80.22,
+          "overall_conversion_rate": 7.28,
+          "absolute_drop_off": 142,
+          "drop_off_rate": 19.78
+        }
+      ],
+      "FR": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 7161,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 4066,
+          "step_conversion_rate": 56.78,
+          "overall_conversion_rate": 56.78,
+          "absolute_drop_off": 3095,
+          "drop_off_rate": 43.22
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 1757,
+          "step_conversion_rate": 43.21,
+          "overall_conversion_rate": 24.54,
+          "absolute_drop_off": 2309,
+          "drop_off_rate": 56.79
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 861,
+          "step_conversion_rate": 49.0,
+          "overall_conversion_rate": 12.02,
+          "absolute_drop_off": 896,
+          "drop_off_rate": 51.0
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 611,
+          "step_conversion_rate": 70.96,
+          "overall_conversion_rate": 8.53,
+          "absolute_drop_off": 250,
+          "drop_off_rate": 29.04
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 494,
+          "step_conversion_rate": 80.85,
+          "overall_conversion_rate": 6.9,
+          "absolute_drop_off": 117,
+          "drop_off_rate": 19.15
+        }
+      ],
+      "UK": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 18197,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 11273,
+          "step_conversion_rate": 61.95,
+          "overall_conversion_rate": 61.95,
+          "absolute_drop_off": 6924,
+          "drop_off_rate": 38.05
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 5381,
+          "step_conversion_rate": 47.73,
+          "overall_conversion_rate": 29.57,
+          "absolute_drop_off": 5892,
+          "drop_off_rate": 52.27
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 2999,
+          "step_conversion_rate": 55.73,
+          "overall_conversion_rate": 16.48,
+          "absolute_drop_off": 2382,
+          "drop_off_rate": 44.27
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 2226,
+          "step_conversion_rate": 74.22,
+          "overall_conversion_rate": 12.23,
+          "absolute_drop_off": 773,
+          "drop_off_rate": 25.78
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 1836,
+          "step_conversion_rate": 82.48,
+          "overall_conversion_rate": 10.09,
+          "absolute_drop_off": 390,
+          "drop_off_rate": 17.52
+        }
+      ],
+      "US": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 49260,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 31548,
+          "step_conversion_rate": 64.04,
+          "overall_conversion_rate": 64.04,
+          "absolute_drop_off": 17712,
+          "drop_off_rate": 35.96
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 15521,
+          "step_conversion_rate": 49.2,
+          "overall_conversion_rate": 31.51,
+          "absolute_drop_off": 16027,
+          "drop_off_rate": 50.8
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 8905,
+          "step_conversion_rate": 57.37,
+          "overall_conversion_rate": 18.08,
+          "absolute_drop_off": 6616,
+          "drop_off_rate": 42.63
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 6673,
+          "step_conversion_rate": 74.94,
+          "overall_conversion_rate": 13.55,
+          "absolute_drop_off": 2232,
+          "drop_off_rate": 25.06
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 5514,
+          "step_conversion_rate": 82.63,
+          "overall_conversion_rate": 11.19,
+          "absolute_drop_off": 1159,
+          "drop_off_rate": 17.37
+        }
+      ]
+    },
+    "customer_segment": {
+      "Bargain": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 13610,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 5945,
+          "step_conversion_rate": 43.68,
+          "overall_conversion_rate": 43.68,
+          "absolute_drop_off": 7665,
+          "drop_off_rate": 56.32
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 1970,
+          "step_conversion_rate": 33.14,
+          "overall_conversion_rate": 14.47,
+          "absolute_drop_off": 3975,
+          "drop_off_rate": 66.86
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 779,
+          "step_conversion_rate": 39.54,
+          "overall_conversion_rate": 5.72,
+          "absolute_drop_off": 1191,
+          "drop_off_rate": 60.46
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 508,
+          "step_conversion_rate": 65.21,
+          "overall_conversion_rate": 3.73,
+          "absolute_drop_off": 271,
+          "drop_off_rate": 34.79
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 365,
+          "step_conversion_rate": 71.85,
+          "overall_conversion_rate": 2.68,
+          "absolute_drop_off": 143,
+          "drop_off_rate": 28.15
+        }
+      ],
+      "Regular": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 56060,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 32912,
+          "step_conversion_rate": 58.71,
+          "overall_conversion_rate": 58.71,
+          "absolute_drop_off": 23148,
+          "drop_off_rate": 41.29
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 14605,
+          "step_conversion_rate": 44.38,
+          "overall_conversion_rate": 26.05,
+          "absolute_drop_off": 18307,
+          "drop_off_rate": 55.62
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 7324,
+          "step_conversion_rate": 50.15,
+          "overall_conversion_rate": 13.06,
+          "absolute_drop_off": 7281,
+          "drop_off_rate": 49.85
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 5250,
+          "step_conversion_rate": 71.68,
+          "overall_conversion_rate": 9.36,
+          "absolute_drop_off": 2074,
+          "drop_off_rate": 28.32
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 4150,
+          "step_conversion_rate": 79.05,
+          "overall_conversion_rate": 7.4,
+          "absolute_drop_off": 1100,
+          "drop_off_rate": 20.95
+        }
+      ],
+      "VIP": [
+        {
+          "step_number": 1,
+          "stage_name": "landing_page",
+          "sessions_count": 30330,
+          "step_conversion_rate": 100.0,
+          "overall_conversion_rate": 100.0,
+          "absolute_drop_off": 0,
+          "drop_off_rate": 0.0
+        },
+        {
+          "step_number": 2,
+          "stage_name": "product_view",
+          "sessions_count": 23136,
+          "step_conversion_rate": 76.28,
+          "overall_conversion_rate": 76.28,
+          "absolute_drop_off": 7194,
+          "drop_off_rate": 23.72
+        },
+        {
+          "step_number": 3,
+          "stage_name": "add_to_cart",
+          "sessions_count": 12999,
+          "step_conversion_rate": 56.19,
+          "overall_conversion_rate": 42.86,
+          "absolute_drop_off": 10137,
+          "drop_off_rate": 43.81
+        },
+        {
+          "step_number": 4,
+          "stage_name": "checkout_started",
+          "sessions_count": 8327,
+          "step_conversion_rate": 64.06,
+          "overall_conversion_rate": 27.45,
+          "absolute_drop_off": 4672,
+          "drop_off_rate": 35.94
+        },
+        {
+          "step_number": 5,
+          "stage_name": "payment_started",
+          "sessions_count": 6422,
+          "step_conversion_rate": 77.12,
+          "overall_conversion_rate": 21.17,
+          "absolute_drop_off": 1905,
+          "drop_off_rate": 22.88
+        },
+        {
+          "step_number": 6,
+          "stage_name": "purchase",
+          "sessions_count": 5507,
+          "step_conversion_rate": 85.75,
+          "overall_conversion_rate": 18.16,
+          "absolute_drop_off": 915,
+          "drop_off_rate": 14.25
+        }
+      ]
+    }
+  }
+}

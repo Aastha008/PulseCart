@@ -1,0 +1,21 @@
+pulsecart:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ':memory:'
+      schema: analytics_pulsecart
+      threads: 4
+    duckdb:
+      type: duckdb
+      path: ':memory:'
+      schema: analytics_pulsecart
+      threads: 4
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: pulsecart-prod
+      dataset: analytics_pulsecart
+      threads: 4
+      timeout_seconds: 300
+      location: US

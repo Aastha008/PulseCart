@@ -1,0 +1,148 @@
+version: 2
+
+sources:
+  - name: raw_pulsecart
+    description: "Raw ingestion layer containing source tables ingested from Parquet/CSV files."
+    schema: raw_pulsecart
+    tables:
+      - name: raw_users
+        description: "Raw user profiles table."
+        columns:
+          - name: user_id
+            description: "Primary key. Unique user identifier."
+          - name: created_at
+            description: "Account creation timestamp."
+          - name: country
+            description: "Country code (e.g. US, UK, DE)."
+          - name: acquisition_channel
+            description: "Initial user acquisition channel."
+          - name: customer_segment
+            description: "User customer segment (VIP, Regular, Bargain)."
+          - name: device_preference
+            description: "Preferred device type."
+
+      - name: raw_sessions
+        description: "Raw browsing sessions table."
+        columns:
+          - name: session_id
+            description: "Primary key. Unique session identifier."
+          - name: user_id
+            description: "Foreign key referencing raw_users."
+          - name: session_start
+            description: "Timestamp when session commenced."
+          - name: session_end
+            description: "Timestamp when session terminated."
+          - name: device_type
+            description: "Device type used during the session."
+          - name: country
+            description: "Country location of the session."
+          - name: traffic_source
+            description: "Marketing traffic source."
+          - name: channel
+            description: "Acquisition channel."
+          - name: is_bounce
+            description: "Whether the session bounced on landing."
+          - name: is_returning_user
+            description: "Whether the visitor is a returning customer."
+          - name: is_new_user
+            description: "Whether the visitor is a first-time user."
+          - name: ab_variant
+            description: "Assigned A/B experiment variant (control / treatment)."
+          - name: experiment_id
+            description: "Identifier of active experiment."
+
+      - name: raw_events
+        description: "Raw user behavioral clickstream events table."
+        columns:
+          - name: event_id
+            description: "Primary key. Unique interaction event identifier."
+          - name: session_id
+            description: "Foreign key referencing raw_sessions."
+          - name: user_id
+            description: "Foreign key referencing raw_users."
+          - name: event_timestamp
+            description: "Timestamp when the event took place."
+          - name: event_name
+            description: "Name of the event stage."
+          - name: event_type
+            description: "Type of event stage."
+          - name: step_number
+            description: "Funnel step sequence number (1 to 6)."
+          - name: page_url
+            description: "URL path associated with the event."
+          - name: product_id
+            description: "Nullable foreign key referencing raw_products."
+          - name: cart_value
+            description: "Running cart value at the time of event."
+
+      - name: raw_orders
+        description: "Raw transactional purchase orders table."
+        columns:
+          - name: order_id
+            description: "Primary key. Unique order identifier."
+          - name: session_id
+            description: "Foreign key referencing raw_sessions."
+          - name: user_id
+            description: "Foreign key referencing raw_users."
+          - name: order_date
+            description: "Calendar date of purchase."
+          - name: order_timestamp
+            description: "Precise timestamp of order completion."
+          - name: subtotal
+            description: "Order subtotal amount before taxes and discounts."
+          - name: tax_amount
+            description: "Sales tax charged."
+          - name: shipping_fee
+            description: "Shipping and handling charge."
+          - name: discount_amount
+            description: "Discount deducted."
+          - name: total_amount
+            description: "Grand total charged to the customer."
+          - name: payment_method
+            description: "Method of payment."
+          - name: status
+            description: "Order transaction status."
+          - name: ab_variant
+            description: "A/B test variant assigned to the order session."
+
+      - name: raw_order_items
+        description: "Raw order line items table."
+        columns:
+          - name: order_item_id
+            description: "Primary key. Unique line item identifier."
+          - name: order_id
+            description: "Foreign key referencing raw_orders."
+          - name: product_id
+            description: "Foreign key referencing raw_products."
+          - name: quantity
+            description: "Quantity of product ordered."
+          - name: unit_price
+            description: "Unit selling price."
+          - name: unit_cost
+            description: "Unit product cost."
+          - name: line_total
+            description: "Total line price (quantity * unit_price)."
+          - name: total_item_price
+            description: "Total item price."
+          - name: line_profit
+            description: "Profit margin on this line item."
+
+      - name: raw_products
+        description: "Raw product catalog table."
+        columns:
+          - name: product_id
+            description: "Primary key. Unique product catalog identifier."
+          - name: product_name
+            description: "Descriptive name of the product."
+          - name: category
+            description: "Merchandising category."
+          - name: cost
+            description: "Product unit manufacturing cost."
+          - name: price
+            description: "Product unit retail price."
+          - name: margin
+            description: "Product unit margin (price - cost)."
+          - name: inventory_count
+            description: "Current warehouse inventory quantity."
+          - name: created_at
+            description: "Date when the product was introduced."

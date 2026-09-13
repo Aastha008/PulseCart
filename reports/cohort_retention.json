@@ -1,0 +1,1982 @@
+{
+  "total_cohorts": 12,
+  "retention_invariants": {
+    "month_0_is_100_percent": true,
+    "decay_monotonic_vs_m0": true,
+    "all_decay_monotonic": false,
+    "cohort_count": 12,
+    "violations": []
+  },
+  "cohort_retention_matrix": [
+    {
+      "cohort_month": "2025-01",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 2.04,
+        "M2": 8.16,
+        "M3": 9.18,
+        "M4": 2.04,
+        "M5": 7.14,
+        "M6": 6.12,
+        "M7": 4.08,
+        "M8": 6.12,
+        "M9": 4.08,
+        "M10": 5.1,
+        "M11": 4.08
+      }
+    },
+    {
+      "cohort_month": "2025-02",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 6.78,
+        "M2": 3.39,
+        "M3": 5.65,
+        "M4": 10.17,
+        "M5": 7.34,
+        "M6": 9.04,
+        "M7": 6.78,
+        "M8": 4.52,
+        "M9": 5.65,
+        "M10": 5.08,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-03",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 3.46,
+        "M2": 7.79,
+        "M3": 6.49,
+        "M4": 6.06,
+        "M5": 6.06,
+        "M6": 3.9,
+        "M7": 7.36,
+        "M8": 7.36,
+        "M9": 5.19,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-04",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 7.21,
+        "M2": 9.18,
+        "M3": 9.18,
+        "M4": 7.87,
+        "M5": 8.52,
+        "M6": 5.9,
+        "M7": 7.21,
+        "M8": 8.2,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-05",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 9.57,
+        "M2": 6.3,
+        "M3": 8.31,
+        "M4": 8.56,
+        "M5": 5.29,
+        "M6": 9.07,
+        "M7": 5.04,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-06",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 9.11,
+        "M2": 9.31,
+        "M3": 9.5,
+        "M4": 8.91,
+        "M5": 7.33,
+        "M6": 7.72,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-07",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 9.14,
+        "M2": 7.5,
+        "M3": 8.81,
+        "M4": 9.14,
+        "M5": 8.65,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-08",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 10.28,
+        "M2": 9.86,
+        "M3": 10.14,
+        "M4": 10.83,
+        "M5": 0.0,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-09",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 12.25,
+        "M2": 10.4,
+        "M3": 9.53,
+        "M4": 0.0,
+        "M5": 0.0,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-10",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 11.88,
+        "M2": 13.89,
+        "M3": 0.0,
+        "M4": 0.0,
+        "M5": 0.0,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-11",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 17.46,
+        "M2": 0.0,
+        "M3": 0.0,
+        "M4": 0.0,
+        "M5": 0.0,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    },
+    {
+      "cohort_month": "2025-12",
+      "retention_rates": {
+        "M0": 100.0,
+        "M1": 0.0,
+        "M2": 0.0,
+        "M3": 0.0,
+        "M4": 0.0,
+        "M5": 0.0,
+        "M6": 0.0,
+        "M7": 0.0,
+        "M8": 0.0,
+        "M9": 0.0,
+        "M10": 0.0,
+        "M11": 0.0
+      }
+    }
+  ],
+  "repeat_purchase_metrics": {
+    "total_purchasing_users": 7042,
+    "repeat_purchasing_users": 2001,
+    "repeat_purchase_rate": 28.42,
+    "by_customer_segment": {
+      "Bargain": {
+        "total_users": 350,
+        "repeat_users": 15,
+        "repeat_purchase_rate": 4.29
+      },
+      "Regular": {
+        "total_users": 3663,
+        "repeat_users": 451,
+        "repeat_purchase_rate": 12.31
+      },
+      "VIP": {
+        "total_users": 3029,
+        "repeat_users": 1535,
+        "repeat_purchase_rate": 50.68
+      }
+    },
+    "by_country": {
+      "AU": {
+        "total_users": 315,
+        "repeat_users": 85,
+        "repeat_purchase_rate": 26.98
+      },
+      "CA": {
+        "total_users": 800,
+        "repeat_users": 239,
+        "repeat_purchase_rate": 29.88
+      },
+      "DE": {
+        "total_users": 440,
+        "repeat_users": 99,
+        "repeat_purchase_rate": 22.5
+      },
+      "FR": {
+        "total_users": 378,
+        "repeat_users": 88,
+        "repeat_purchase_rate": 23.28
+      },
+      "UK": {
+        "total_users": 1326,
+        "repeat_users": 351,
+        "repeat_purchase_rate": 26.47
+      },
+      "US": {
+        "total_users": 3783,
+        "repeat_users": 1139,
+        "repeat_purchase_rate": 30.11
+      }
+    }
+  },
+  "customer_lifetime_value_curves": [
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 0,
+      "active_users": 8,
+      "revenue": 1382.3,
+      "cohort_initial_size": 8,
+      "cumulative_revenue": 1382.3,
+      "cumulative_ltv": 172.79
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 0,
+      "active_users": 10,
+      "revenue": 2004.71,
+      "cohort_initial_size": 10,
+      "cumulative_revenue": 2004.71,
+      "cumulative_ltv": 200.47
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 0,
+      "active_users": 5,
+      "revenue": 795.7,
+      "cohort_initial_size": 5,
+      "cumulative_revenue": 795.7,
+      "cumulative_ltv": 159.14
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 4,
+      "active_users": 1,
+      "revenue": 368.04,
+      "cohort_initial_size": 5,
+      "cumulative_revenue": 1163.74,
+      "cumulative_ltv": 232.75
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 9,
+      "active_users": 1,
+      "revenue": 165.61,
+      "cohort_initial_size": 5,
+      "cumulative_revenue": 1329.35,
+      "cumulative_ltv": 265.87
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 0,
+      "active_users": 11,
+      "revenue": 3139.02,
+      "cohort_initial_size": 11,
+      "cumulative_revenue": 3139.02,
+      "cumulative_ltv": 285.37
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 0,
+      "active_users": 18,
+      "revenue": 4657.75,
+      "cohort_initial_size": 18,
+      "cumulative_revenue": 4657.75,
+      "cumulative_ltv": 258.76
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 0,
+      "active_users": 24,
+      "revenue": 4281.16,
+      "cohort_initial_size": 24,
+      "cumulative_revenue": 4281.16,
+      "cumulative_ltv": 178.38
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 0,
+      "active_users": 32,
+      "revenue": 6442.9,
+      "cohort_initial_size": 32,
+      "cumulative_revenue": 6442.9,
+      "cumulative_ltv": 201.34
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 3,
+      "active_users": 1,
+      "revenue": 206.19,
+      "cohort_initial_size": 32,
+      "cumulative_revenue": 6649.09,
+      "cumulative_ltv": 207.78
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 0,
+      "active_users": 37,
+      "revenue": 9270.66,
+      "cohort_initial_size": 37,
+      "cumulative_revenue": 9270.66,
+      "cumulative_ltv": 250.56
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 3,
+      "active_users": 1,
+      "revenue": 151.53,
+      "cohort_initial_size": 37,
+      "cumulative_revenue": 9422.19,
+      "cumulative_ltv": 254.65
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 0,
+      "active_users": 44,
+      "revenue": 10511.15,
+      "cohort_initial_size": 44,
+      "cumulative_revenue": 10511.15,
+      "cumulative_ltv": 238.89
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 1,
+      "active_users": 1,
+      "revenue": 62.27,
+      "cohort_initial_size": 44,
+      "cumulative_revenue": 10573.42,
+      "cumulative_ltv": 240.3
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 0,
+      "active_users": 58,
+      "revenue": 13876.16,
+      "cohort_initial_size": 58,
+      "cumulative_revenue": 13876.16,
+      "cumulative_ltv": 239.24
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 1,
+      "active_users": 2,
+      "revenue": 120.21,
+      "cohort_initial_size": 58,
+      "cumulative_revenue": 13996.37,
+      "cumulative_ltv": 241.32
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 2,
+      "active_users": 2,
+      "revenue": 470.87,
+      "cohort_initial_size": 58,
+      "cumulative_revenue": 14467.24,
+      "cumulative_ltv": 249.44
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 0,
+      "active_users": 60,
+      "revenue": 15380.03,
+      "cohort_initial_size": 60,
+      "cumulative_revenue": 15380.03,
+      "cumulative_ltv": 256.33
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 1,
+      "active_users": 4,
+      "revenue": 980.17,
+      "cohort_initial_size": 60,
+      "cumulative_revenue": 16360.2,
+      "cumulative_ltv": 272.67
+    },
+    {
+      "customer_segment": "Bargain",
+      "cohort_month_str": "2025-12",
+      "month_offset_int": 0,
+      "active_users": 43,
+      "revenue": 10567.61,
+      "cohort_initial_size": 43,
+      "cumulative_revenue": 10567.61,
+      "cumulative_ltv": 245.76
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 0,
+      "active_users": 54,
+      "revenue": 11221.06,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 11221.06,
+      "cumulative_ltv": 207.8
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 2,
+      "active_users": 3,
+      "revenue": 1362.6,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 12583.66,
+      "cumulative_ltv": 233.03
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 3,
+      "active_users": 2,
+      "revenue": 964.47,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 13548.13,
+      "cumulative_ltv": 250.89
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 5,
+      "active_users": 2,
+      "revenue": 840.5,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 14388.63,
+      "cumulative_ltv": 266.46
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 6,
+      "active_users": 1,
+      "revenue": 87.17,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 14475.8,
+      "cumulative_ltv": 268.07
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 7,
+      "active_users": 2,
+      "revenue": 285.2,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 14761.0,
+      "cumulative_ltv": 273.35
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 8,
+      "active_users": 2,
+      "revenue": 193.18,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 14954.18,
+      "cumulative_ltv": 276.93
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 10,
+      "active_users": 1,
+      "revenue": 229.48,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 15183.66,
+      "cumulative_ltv": 281.18
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 11,
+      "active_users": 1,
+      "revenue": 94.17,
+      "cohort_initial_size": 54,
+      "cumulative_revenue": 15277.83,
+      "cumulative_ltv": 282.92
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 0,
+      "active_users": 92,
+      "revenue": 24386.87,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 24386.87,
+      "cumulative_ltv": 265.07
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 1,
+      "active_users": 4,
+      "revenue": 405.4,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 24792.27,
+      "cumulative_ltv": 269.48
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 2,
+      "active_users": 1,
+      "revenue": 140.7,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 24932.97,
+      "cumulative_ltv": 271.01
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 3,
+      "active_users": 2,
+      "revenue": 508.22,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 25441.19,
+      "cumulative_ltv": 276.53
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 4,
+      "active_users": 2,
+      "revenue": 711.72,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 26152.91,
+      "cumulative_ltv": 284.27
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 5,
+      "active_users": 3,
+      "revenue": 1071.1,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 27224.01,
+      "cumulative_ltv": 295.91
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 6,
+      "active_users": 2,
+      "revenue": 187.78,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 27411.79,
+      "cumulative_ltv": 297.95
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 7,
+      "active_users": 1,
+      "revenue": 62.27,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 27474.06,
+      "cumulative_ltv": 298.63
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 8,
+      "active_users": 2,
+      "revenue": 626.21,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 28100.27,
+      "cumulative_ltv": 305.44
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 9,
+      "active_users": 1,
+      "revenue": 120.15,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 28220.42,
+      "cumulative_ltv": 306.74
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 10,
+      "active_users": 2,
+      "revenue": 207.86,
+      "cohort_initial_size": 92,
+      "cumulative_revenue": 28428.28,
+      "cumulative_ltv": 309.0
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 0,
+      "active_users": 125,
+      "revenue": 26320.92,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 26320.92,
+      "cumulative_ltv": 210.57
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 1,
+      "active_users": 4,
+      "revenue": 1341.28,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 27662.2,
+      "cumulative_ltv": 221.3
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 2,
+      "active_users": 2,
+      "revenue": 670.02,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 28332.22,
+      "cumulative_ltv": 226.66
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 3,
+      "active_users": 5,
+      "revenue": 2161.39,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 30493.61,
+      "cumulative_ltv": 243.95
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 4,
+      "active_users": 3,
+      "revenue": 440.61,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 30934.22,
+      "cumulative_ltv": 247.47
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 5,
+      "active_users": 2,
+      "revenue": 1245.37,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 32179.59,
+      "cumulative_ltv": 257.44
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 7,
+      "active_users": 3,
+      "revenue": 764.72,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 32944.31,
+      "cumulative_ltv": 263.55
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 8,
+      "active_users": 2,
+      "revenue": 300.35,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 33244.66,
+      "cumulative_ltv": 265.96
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 9,
+      "active_users": 2,
+      "revenue": 264.69,
+      "cohort_initial_size": 125,
+      "cumulative_revenue": 33509.35,
+      "cumulative_ltv": 268.07
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 0,
+      "active_users": 139,
+      "revenue": 32969.99,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 32969.99,
+      "cumulative_ltv": 237.19
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 1,
+      "active_users": 6,
+      "revenue": 882.21,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 33852.2,
+      "cumulative_ltv": 243.54
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 2,
+      "active_users": 4,
+      "revenue": 1040.24,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 34892.44,
+      "cumulative_ltv": 251.02
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 3,
+      "active_users": 4,
+      "revenue": 522.83,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 35415.27,
+      "cumulative_ltv": 254.79
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 4,
+      "active_users": 3,
+      "revenue": 1063.95,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 36479.22,
+      "cumulative_ltv": 262.44
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 5,
+      "active_users": 4,
+      "revenue": 653.3,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 37132.52,
+      "cumulative_ltv": 267.14
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 7,
+      "active_users": 1,
+      "revenue": 87.17,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 37219.69,
+      "cumulative_ltv": 267.77
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 8,
+      "active_users": 1,
+      "revenue": 40.62,
+      "cohort_initial_size": 139,
+      "cumulative_revenue": 37260.31,
+      "cumulative_ltv": 268.06
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 0,
+      "active_users": 185,
+      "revenue": 38291.35,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 38291.35,
+      "cumulative_ltv": 206.98
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 1,
+      "active_users": 3,
+      "revenue": 599.15,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 38890.5,
+      "cumulative_ltv": 210.22
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 2,
+      "active_users": 4,
+      "revenue": 747.43,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 39637.93,
+      "cumulative_ltv": 214.26
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 3,
+      "active_users": 5,
+      "revenue": 818.89,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 40456.82,
+      "cumulative_ltv": 218.69
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 4,
+      "active_users": 4,
+      "revenue": 2066.36,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 42523.18,
+      "cumulative_ltv": 229.86
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 5,
+      "active_users": 5,
+      "revenue": 1131.7,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 43654.88,
+      "cumulative_ltv": 235.97
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 6,
+      "active_users": 3,
+      "revenue": 1940.34,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 45595.22,
+      "cumulative_ltv": 246.46
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 7,
+      "active_users": 2,
+      "revenue": 313.36,
+      "cohort_initial_size": 185,
+      "cumulative_revenue": 45908.58,
+      "cumulative_ltv": 248.15
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 0,
+      "active_users": 242,
+      "revenue": 53888.28,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 53888.28,
+      "cumulative_ltv": 222.68
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 1,
+      "active_users": 7,
+      "revenue": 2422.01,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 56310.29,
+      "cumulative_ltv": 232.69
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 2,
+      "active_users": 8,
+      "revenue": 998.19,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 57308.48,
+      "cumulative_ltv": 236.81
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 3,
+      "active_users": 11,
+      "revenue": 2795.96,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 60104.44,
+      "cumulative_ltv": 248.37
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 4,
+      "active_users": 4,
+      "revenue": 1010.43,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 61114.87,
+      "cumulative_ltv": 252.54
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 5,
+      "active_users": 4,
+      "revenue": 585.34,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 61700.21,
+      "cumulative_ltv": 254.96
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 6,
+      "active_users": 6,
+      "revenue": 1084.64,
+      "cohort_initial_size": 242,
+      "cumulative_revenue": 62784.85,
+      "cumulative_ltv": 259.44
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 0,
+      "active_users": 312,
+      "revenue": 67751.38,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 67751.38,
+      "cumulative_ltv": 217.15
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 1,
+      "active_users": 11,
+      "revenue": 2298.05,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 70049.43,
+      "cumulative_ltv": 224.52
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 2,
+      "active_users": 5,
+      "revenue": 1877.01,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 71926.44,
+      "cumulative_ltv": 230.53
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 3,
+      "active_users": 13,
+      "revenue": 2870.38,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 74796.82,
+      "cumulative_ltv": 239.73
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 4,
+      "active_users": 6,
+      "revenue": 1704.03,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 76500.85,
+      "cumulative_ltv": 245.2
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 5,
+      "active_users": 7,
+      "revenue": 1226.46,
+      "cohort_initial_size": 312,
+      "cumulative_revenue": 77727.31,
+      "cumulative_ltv": 249.13
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 0,
+      "active_users": 353,
+      "revenue": 76217.32,
+      "cohort_initial_size": 353,
+      "cumulative_revenue": 76217.32,
+      "cumulative_ltv": 215.91
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 1,
+      "active_users": 11,
+      "revenue": 1992.57,
+      "cohort_initial_size": 353,
+      "cumulative_revenue": 78209.89,
+      "cumulative_ltv": 221.56
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 2,
+      "active_users": 12,
+      "revenue": 3059.57,
+      "cohort_initial_size": 353,
+      "cumulative_revenue": 81269.46,
+      "cumulative_ltv": 230.23
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 3,
+      "active_users": 17,
+      "revenue": 4026.31,
+      "cohort_initial_size": 353,
+      "cumulative_revenue": 85295.77,
+      "cumulative_ltv": 241.63
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 4,
+      "active_users": 10,
+      "revenue": 3278.0,
+      "cohort_initial_size": 353,
+      "cumulative_revenue": 88573.77,
+      "cumulative_ltv": 250.92
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 0,
+      "active_users": 401,
+      "revenue": 90439.76,
+      "cohort_initial_size": 401,
+      "cumulative_revenue": 90439.76,
+      "cumulative_ltv": 225.54
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 1,
+      "active_users": 17,
+      "revenue": 2821.0,
+      "cohort_initial_size": 401,
+      "cumulative_revenue": 93260.76,
+      "cumulative_ltv": 232.57
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 2,
+      "active_users": 19,
+      "revenue": 3140.98,
+      "cohort_initial_size": 401,
+      "cumulative_revenue": 96401.74,
+      "cumulative_ltv": 240.4
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 3,
+      "active_users": 20,
+      "revenue": 6799.68,
+      "cohort_initial_size": 401,
+      "cumulative_revenue": 103201.42,
+      "cumulative_ltv": 257.36
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 0,
+      "active_users": 565,
+      "revenue": 124865.16,
+      "cohort_initial_size": 565,
+      "cumulative_revenue": 124865.16,
+      "cumulative_ltv": 221.0
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 1,
+      "active_users": 26,
+      "revenue": 7050.87,
+      "cohort_initial_size": 565,
+      "cumulative_revenue": 131916.03,
+      "cumulative_ltv": 233.48
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 2,
+      "active_users": 28,
+      "revenue": 7092.03,
+      "cohort_initial_size": 565,
+      "cumulative_revenue": 139008.06,
+      "cumulative_ltv": 246.03
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 0,
+      "active_users": 628,
+      "revenue": 149141.79,
+      "cohort_initial_size": 628,
+      "cumulative_revenue": 149141.79,
+      "cumulative_ltv": 237.49
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 1,
+      "active_users": 39,
+      "revenue": 8895.34,
+      "cohort_initial_size": 628,
+      "cumulative_revenue": 158037.13,
+      "cumulative_ltv": 251.65
+    },
+    {
+      "customer_segment": "Regular",
+      "cohort_month_str": "2025-12",
+      "month_offset_int": 0,
+      "active_users": 567,
+      "revenue": 131356.58,
+      "cohort_initial_size": 567,
+      "cumulative_revenue": 131356.58,
+      "cumulative_ltv": 231.67
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 0,
+      "active_users": 36,
+      "revenue": 9536.06,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 9536.06,
+      "cumulative_ltv": 264.89
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 1,
+      "active_users": 2,
+      "revenue": 589.88,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 10125.94,
+      "cumulative_ltv": 281.28
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 2,
+      "active_users": 5,
+      "revenue": 1487.24,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 11613.18,
+      "cumulative_ltv": 322.59
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 3,
+      "active_users": 7,
+      "revenue": 1309.87,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 12923.05,
+      "cumulative_ltv": 358.97
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 4,
+      "active_users": 2,
+      "revenue": 331.36,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 13254.41,
+      "cumulative_ltv": 368.18
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 5,
+      "active_users": 5,
+      "revenue": 521.77,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 13776.18,
+      "cumulative_ltv": 382.67
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 6,
+      "active_users": 5,
+      "revenue": 1368.49,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 15144.67,
+      "cumulative_ltv": 420.69
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 7,
+      "active_users": 2,
+      "revenue": 528.01,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 15672.68,
+      "cumulative_ltv": 435.35
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 8,
+      "active_users": 4,
+      "revenue": 840.33,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 16513.01,
+      "cumulative_ltv": 458.69
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 9,
+      "active_users": 4,
+      "revenue": 726.84,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 17239.85,
+      "cumulative_ltv": 478.88
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 10,
+      "active_users": 4,
+      "revenue": 662.92,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 17902.77,
+      "cumulative_ltv": 497.3
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-01",
+      "month_offset_int": 11,
+      "active_users": 3,
+      "revenue": 424.89,
+      "cohort_initial_size": 36,
+      "cumulative_revenue": 18327.66,
+      "cumulative_ltv": 509.1
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 0,
+      "active_users": 75,
+      "revenue": 18272.75,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 18272.75,
+      "cumulative_ltv": 243.64
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 1,
+      "active_users": 8,
+      "revenue": 1803.59,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 20076.34,
+      "cumulative_ltv": 267.68
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 2,
+      "active_users": 5,
+      "revenue": 656.55,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 20732.89,
+      "cumulative_ltv": 276.44
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 3,
+      "active_users": 8,
+      "revenue": 1539.62,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 22272.51,
+      "cumulative_ltv": 296.97
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 4,
+      "active_users": 16,
+      "revenue": 3206.73,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 25479.24,
+      "cumulative_ltv": 339.72
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 5,
+      "active_users": 10,
+      "revenue": 2064.83,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 27544.07,
+      "cumulative_ltv": 367.25
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 6,
+      "active_users": 14,
+      "revenue": 2155.69,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 29699.76,
+      "cumulative_ltv": 396.0
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 7,
+      "active_users": 11,
+      "revenue": 2848.15,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 32547.91,
+      "cumulative_ltv": 433.97
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 8,
+      "active_users": 6,
+      "revenue": 1174.04,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 33721.95,
+      "cumulative_ltv": 449.63
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 9,
+      "active_users": 9,
+      "revenue": 1676.5,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 35398.45,
+      "cumulative_ltv": 471.98
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-02",
+      "month_offset_int": 10,
+      "active_users": 7,
+      "revenue": 2204.11,
+      "cohort_initial_size": 75,
+      "cumulative_revenue": 37602.56,
+      "cumulative_ltv": 501.37
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 0,
+      "active_users": 101,
+      "revenue": 21802.45,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 21802.45,
+      "cumulative_ltv": 215.87
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 1,
+      "active_users": 4,
+      "revenue": 530.22,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 22332.67,
+      "cumulative_ltv": 221.12
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 2,
+      "active_users": 16,
+      "revenue": 2901.82,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 25234.49,
+      "cumulative_ltv": 249.85
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 3,
+      "active_users": 10,
+      "revenue": 2134.34,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 27368.83,
+      "cumulative_ltv": 270.98
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 4,
+      "active_users": 10,
+      "revenue": 1309.97,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 28678.8,
+      "cumulative_ltv": 283.95
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 5,
+      "active_users": 12,
+      "revenue": 1807.01,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 30485.81,
+      "cumulative_ltv": 301.84
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 6,
+      "active_users": 9,
+      "revenue": 1556.33,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 32042.14,
+      "cumulative_ltv": 317.25
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 7,
+      "active_users": 14,
+      "revenue": 2818.29,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 34860.43,
+      "cumulative_ltv": 345.15
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 8,
+      "active_users": 15,
+      "revenue": 4082.65,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 38943.08,
+      "cumulative_ltv": 385.58
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-03",
+      "month_offset_int": 9,
+      "active_users": 9,
+      "revenue": 2412.95,
+      "cohort_initial_size": 101,
+      "cumulative_revenue": 41356.03,
+      "cumulative_ltv": 409.47
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 0,
+      "active_users": 155,
+      "revenue": 33605.32,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 33605.32,
+      "cumulative_ltv": 216.81
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 1,
+      "active_users": 16,
+      "revenue": 2628.41,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 36233.73,
+      "cumulative_ltv": 233.77
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 2,
+      "active_users": 24,
+      "revenue": 4311.39,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 40545.12,
+      "cumulative_ltv": 261.58
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 3,
+      "active_users": 24,
+      "revenue": 5975.98,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 46521.1,
+      "cumulative_ltv": 300.14
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 4,
+      "active_users": 21,
+      "revenue": 3978.86,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 50499.96,
+      "cumulative_ltv": 325.81
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 5,
+      "active_users": 22,
+      "revenue": 4619.14,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 55119.1,
+      "cumulative_ltv": 355.61
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 6,
+      "active_users": 18,
+      "revenue": 3646.25,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 58765.35,
+      "cumulative_ltv": 379.13
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 7,
+      "active_users": 21,
+      "revenue": 4862.87,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 63628.22,
+      "cumulative_ltv": 410.5
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-04",
+      "month_offset_int": 8,
+      "active_users": 24,
+      "revenue": 5141.8,
+      "cohort_initial_size": 155,
+      "cumulative_revenue": 68770.02,
+      "cumulative_ltv": 443.68
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 0,
+      "active_users": 194,
+      "revenue": 37985.18,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 37985.18,
+      "cumulative_ltv": 195.8
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 1,
+      "active_users": 35,
+      "revenue": 8888.22,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 46873.4,
+      "cumulative_ltv": 241.62
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 2,
+      "active_users": 21,
+      "revenue": 3953.87,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 50827.27,
+      "cumulative_ltv": 262.0
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 3,
+      "active_users": 28,
+      "revenue": 6839.83,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 57667.1,
+      "cumulative_ltv": 297.25
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 4,
+      "active_users": 30,
+      "revenue": 8650.63,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 66317.73,
+      "cumulative_ltv": 341.84
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 5,
+      "active_users": 16,
+      "revenue": 4235.78,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 70553.51,
+      "cumulative_ltv": 363.68
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 6,
+      "active_users": 33,
+      "revenue": 7588.66,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 78142.17,
+      "cumulative_ltv": 402.79
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-05",
+      "month_offset_int": 7,
+      "active_users": 18,
+      "revenue": 4986.84,
+      "cohort_initial_size": 194,
+      "cumulative_revenue": 83129.01,
+      "cumulative_ltv": 428.5
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 0,
+      "active_users": 239,
+      "revenue": 48026.24,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 48026.24,
+      "cumulative_ltv": 200.95
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 1,
+      "active_users": 39,
+      "revenue": 9353.03,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 57379.27,
+      "cumulative_ltv": 240.08
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 2,
+      "active_users": 39,
+      "revenue": 8155.32,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 65534.59,
+      "cumulative_ltv": 274.2
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 3,
+      "active_users": 37,
+      "revenue": 9074.03,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 74608.62,
+      "cumulative_ltv": 312.17
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 4,
+      "active_users": 41,
+      "revenue": 9429.6,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 84038.22,
+      "cumulative_ltv": 351.62
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 5,
+      "active_users": 33,
+      "revenue": 7629.57,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 91667.79,
+      "cumulative_ltv": 383.55
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-06",
+      "month_offset_int": 6,
+      "active_users": 33,
+      "revenue": 7308.89,
+      "cohort_initial_size": 239,
+      "cumulative_revenue": 98976.68,
+      "cumulative_ltv": 414.13
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 0,
+      "active_users": 269,
+      "revenue": 59315.85,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 59315.85,
+      "cumulative_ltv": 220.51
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 1,
+      "active_users": 45,
+      "revenue": 8364.76,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 67680.61,
+      "cumulative_ltv": 251.6
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 2,
+      "active_users": 41,
+      "revenue": 10365.9,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 78046.51,
+      "cumulative_ltv": 290.14
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 3,
+      "active_users": 40,
+      "revenue": 7872.27,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 85918.78,
+      "cumulative_ltv": 319.4
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 4,
+      "active_users": 50,
+      "revenue": 11935.62,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 97854.4,
+      "cumulative_ltv": 363.77
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-07",
+      "month_offset_int": 5,
+      "active_users": 46,
+      "revenue": 9481.5,
+      "cohort_initial_size": 269,
+      "cumulative_revenue": 107335.9,
+      "cumulative_ltv": 399.02
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 0,
+      "active_users": 330,
+      "revenue": 75725.99,
+      "cohort_initial_size": 330,
+      "cumulative_revenue": 75725.99,
+      "cumulative_ltv": 229.47
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 1,
+      "active_users": 63,
+      "revenue": 13804.44,
+      "cohort_initial_size": 330,
+      "cumulative_revenue": 89530.43,
+      "cumulative_ltv": 271.3
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 2,
+      "active_users": 59,
+      "revenue": 12808.88,
+      "cohort_initial_size": 330,
+      "cumulative_revenue": 102339.31,
+      "cumulative_ltv": 310.12
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 3,
+      "active_users": 55,
+      "revenue": 12918.58,
+      "cohort_initial_size": 330,
+      "cumulative_revenue": 115257.89,
+      "cumulative_ltv": 349.27
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-08",
+      "month_offset_int": 4,
+      "active_users": 68,
+      "revenue": 13131.86,
+      "cohort_initial_size": 330,
+      "cumulative_revenue": 128389.75,
+      "cumulative_ltv": 389.06
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 0,
+      "active_users": 363,
+      "revenue": 83874.96,
+      "cohort_initial_size": 363,
+      "cumulative_revenue": 83874.96,
+      "cumulative_ltv": 231.06
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 1,
+      "active_users": 81,
+      "revenue": 15982.93,
+      "cohort_initial_size": 363,
+      "cumulative_revenue": 99857.89,
+      "cumulative_ltv": 275.09
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 2,
+      "active_users": 65,
+      "revenue": 13587.17,
+      "cohort_initial_size": 363,
+      "cumulative_revenue": 113445.06,
+      "cumulative_ltv": 312.52
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-09",
+      "month_offset_int": 3,
+      "active_users": 57,
+      "revenue": 13539.0,
+      "cohort_initial_size": 363,
+      "cumulative_revenue": 126984.06,
+      "cumulative_ltv": 349.82
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 0,
+      "active_users": 421,
+      "revenue": 95736.13,
+      "cohort_initial_size": 421,
+      "cumulative_revenue": 95736.13,
+      "cumulative_ltv": 227.4
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 1,
+      "active_users": 96,
+      "revenue": 22162.56,
+      "cohort_initial_size": 421,
+      "cumulative_revenue": 117898.69,
+      "cumulative_ltv": 280.04
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-10",
+      "month_offset_int": 2,
+      "active_users": 115,
+      "revenue": 28065.44,
+      "cohort_initial_size": 421,
+      "cumulative_revenue": 145964.13,
+      "cumulative_ltv": 346.71
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 0,
+      "active_users": 492,
+      "revenue": 118248.99,
+      "cohort_initial_size": 492,
+      "cumulative_revenue": 118248.99,
+      "cumulative_ltv": 240.34
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-11",
+      "month_offset_int": 1,
+      "active_users": 163,
+      "revenue": 38632.47,
+      "cohort_initial_size": 492,
+      "cumulative_revenue": 156881.46,
+      "cumulative_ltv": 318.86
+    },
+    {
+      "customer_segment": "VIP",
+      "cohort_month_str": "2025-12",
+      "month_offset_int": 0,
+      "active_users": 354,
+      "revenue": 81707.43,
+      "cohort_initial_size": 354,
+      "cumulative_revenue": 81707.43,
+      "cumulative_ltv": 230.81
+    }
+  ]
+}

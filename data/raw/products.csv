@@ -1,0 +1,101 @@
+product_id,product_name,category,cost,price,margin,inventory_count,created_at
+PRD-00001,AeroPulse Wireless Headphones,Electronics,176.63,320.99,144.36,748,2024-12-01
+PRD-00002,ProStream HD Webcam,Electronics,113.88,203.99,90.11,545,2024-12-01
+PRD-00003,OmniCharge 65W GaN Charger,Electronics,212.61,350.49,137.88,205,2024-12-01
+PRD-00004,SoundSphere Bluetooth Speaker,Electronics,168.07,294.49,126.42,685,2024-12-01
+PRD-00005,ClarityView 27-inch Monitor,Electronics,47.75,82.99,35.24,552,2024-12-01
+PRD-00006,KeyCraft Mechanical Keyboard,Electronics,223.93,391.99,168.06,594,2024-12-01
+PRD-00007,GlideOptix Wireless Mouse,Electronics,172.8,316.99,144.19,545,2024-12-01
+PRD-00008,PowerVault 20000mAh PowerBank,Electronics,186.16,325.99,139.83,537,2024-12-01
+PRD-00009,HyperDrive 1TB Portable SSD,Electronics,52.51,94.99,42.48,213,2024-12-01
+PRD-00010,AuraRGB LED Desk Lamp,Electronics,120.07,207.99,87.92,541,2024-12-01
+PRD-00011,NanoLite Noise-Cancelling Earbuds,Electronics,102.31,179.99,77.68,706,2024-12-01
+PRD-00012,UltraCast 4K Streaming Stick,Electronics,207.75,374.49,166.74,362,2024-12-01
+PRD-00013,SmartHome Mini Hub,Electronics,176.16,275.99,99.83,571,2024-12-01
+PRD-00014,FlexArm Dual Monitor Mount,Electronics,200.36,337.99,137.63,171,2024-12-01
+PRD-00015,PulseFit Smart Fitness Tracker,Electronics,123.35,205.99,82.64,393,2024-12-01
+PRD-00016,EchoWave Conference Speakerphone,Electronics,78.72,129.99,51.27,455,2024-12-01
+PRD-00017,VividCapture 4K Capture Card,Electronics,144.79,244.99,100.2,837,2024-12-01
+PRD-00018,ThermoGuard Smart Thermostat,Electronics,37.97,72.99,35.02,300,2024-12-01
+PRD-00019,ProGamer Wired Headset,Electronics,208.97,339.99,131.02,343,2024-12-01
+PRD-00020,SafeShield USB-C Security Key,Electronics,147.22,271.99,124.77,435,2024-12-01
+PRD-00021,Classic Merino Wool Crewneck,Apparel,46.3,114.99,68.69,842,2024-12-01
+PRD-00022,Everyday Flex Chino Pant,Apparel,20.52,49.99,29.47,556,2024-12-01
+PRD-00023,Waterproof Commuter Jacket,Apparel,14.2,31.99,17.79,462,2024-12-01
+PRD-00024,Breathable Mesh Running Tee,Apparel,26.28,54.99,28.71,392,2024-12-01
+PRD-00025,All-Season Denim Jacket,Apparel,23.35,55.99,32.64,578,2024-12-01
+PRD-00026,EcoWarm Recycled Fleece,Apparel,41.91,94.99,53.08,563,2024-12-01
+PRD-00027,Tailored Oxford Dress Shirt,Apparel,34.49,83.99,49.5,356,2024-12-01
+PRD-00028,Essential Cotton Crew Socks 3-Pack,Apparel,45.05,107.49,62.44,165,2024-12-01
+PRD-00029,Urban Active Jogger Pants,Apparel,33.63,94.49,60.86,256,2024-12-01
+PRD-00030,Thermal Ribbed Beanie,Apparel,29.21,67.99,38.78,820,2024-12-01
+PRD-00031,Packable Windbreaker Jacket,Apparel,51.16,110.99,59.83,442,2024-12-01
+PRD-00032,Heritage Canvas Weekender Bag,Apparel,17.54,42.49,24.95,487,2024-12-01
+PRD-00033,Seamless Workout Leggings,Apparel,11.51,27.99,16.48,476,2024-12-01
+PRD-00034,Vintage Washed Graphic Hoodie,Apparel,12.79,34.99,22.2,697,2024-12-01
+PRD-00035,StormProof Rain Shell,Apparel,39.04,100.99,61.95,195,2024-12-01
+PRD-00036,ComfortFit Lounge Sweatpants,Apparel,30.02,73.99,43.97,207,2024-12-01
+PRD-00037,Lightweight Linen Summer Shirt,Apparel,15.18,41.99,26.81,343,2024-12-01
+PRD-00038,UV Protection Outdoor Cap,Apparel,36.23,77.49,41.26,490,2024-12-01
+PRD-00039,Heavyweight Loopback Sweatshirt,Apparel,18.26,40.99,22.73,619,2024-12-01
+PRD-00040,Merino Wool Blend Scarf,Apparel,45.24,98.99,53.75,493,2024-12-01
+PRD-00041,Precision Pour-Over Coffee Kettle,Home & Kitchen,84.81,180.99,96.18,453,2024-12-01
+PRD-00042,Cast Iron Pre-Seasoned Skillet 10in,Home & Kitchen,52.18,121.99,69.81,250,2024-12-01
+PRD-00043,Stainless Steel Mixing Bowl Set,Home & Kitchen,49.95,105.99,56.04,804,2024-12-01
+PRD-00044,Cold Brew Glass Carafe 1.5L,Home & Kitchen,36.23,72.99,36.76,159,2024-12-01
+PRD-00045,ChefSeries 8-inch Chef Knife,Home & Kitchen,36.38,83.49,47.11,271,2024-12-01
+PRD-00046,AromaMist Essential Oil Diffuser,Home & Kitchen,52.53,113.49,60.96,310,2024-12-01
+PRD-00047,Silicone Cooking Utensil 8-Piece Set,Home & Kitchen,42.27,100.99,58.72,345,2024-12-01
+PRD-00048,Double-Walled Espresso Glasses 4-Pack,Home & Kitchen,15.83,33.49,17.66,242,2024-12-01
+PRD-00049,Bamboo Cutting Board with Juice Groove,Home & Kitchen,86.22,162.99,76.77,162,2024-12-01
+PRD-00050,Heavyweight French Fry Press,Home & Kitchen,93.04,173.99,80.95,624,2024-12-01
+PRD-00051,Digital Instant-Read Meat Thermometer,Home & Kitchen,21.94,52.99,31.05,828,2024-12-01
+PRD-00052,Vacuum Insulated Travel Tumbler 20oz,Home & Kitchen,48.71,118.49,69.78,235,2024-12-01
+PRD-00053,Under-Cabinet LED Strip Lighting,Home & Kitchen,23.38,47.99,24.61,357,2024-12-01
+PRD-00054,Non-Stick Ceramic Baking Sheet Set,Home & Kitchen,68.35,137.99,69.64,504,2024-12-01
+PRD-00055,UltraSoft Bamboo Cotton Towel Set,Home & Kitchen,31.61,74.99,43.38,799,2024-12-01
+PRD-00056,AirTight Food Storage Canister 5-Pack,Home & Kitchen,71.03,135.49,64.46,635,2024-12-01
+PRD-00057,Automatic Electric Salt & Pepper Grinders,Home & Kitchen,75.56,146.49,70.93,686,2024-12-01
+PRD-00058,Compact Multi-Blade Spiralizer,Home & Kitchen,69.5,152.99,83.49,556,2024-12-01
+PRD-00059,Stoneware Dinnerware Set 16-Piece,Home & Kitchen,23.54,47.49,23.95,441,2024-12-01
+PRD-00060,Silicone Microwave Popcorn Popper,Home & Kitchen,84.75,176.49,91.74,289,2024-12-01
+PRD-00061,Hyaluronic Acid Deep Hydration Serum,Beauty & Personal Care,20.12,75.99,55.87,450,2024-12-01
+PRD-00062,Revitalizing Vitamin C Daily Cleanser,Beauty & Personal Care,27.5,68.49,40.99,563,2024-12-01
+PRD-00063,Nourishing Argan Oil Hair Mask,Beauty & Personal Care,27.76,70.49,42.73,511,2024-12-01
+PRD-00064,Broad Spectrum SPF 50 Mineral Sunscreen,Beauty & Personal Care,6.91,24.99,18.08,626,2024-12-01
+PRD-00065,Botanical Gentle Face Exfoliator,Beauty & Personal Care,5.84,24.99,19.15,712,2024-12-01
+PRD-00066,Calming Lavender Night Repair Cream,Beauty & Personal Care,33.73,84.99,51.26,425,2024-12-01
+PRD-00067,Peptide Firming Eye Complex,Beauty & Personal Care,16.41,44.99,28.58,729,2024-12-01
+PRD-00068,Detoxifying Charcoal Clay Mask,Beauty & Personal Care,12.61,37.49,24.88,372,2024-12-01
+PRD-00069,Volumizing Biotin Hair Shampoo,Beauty & Personal Care,14.6,51.99,37.39,839,2024-12-01
+PRD-00070,Silk Smooth Moisturizing Body Butter,Beauty & Personal Care,25.31,64.99,39.68,503,2024-12-01
+PRD-00071,Antioxidant Green Tea Facial Toner,Beauty & Personal Care,31.3,86.99,55.69,665,2024-12-01
+PRD-00072,Gentle Sulfate-Free Body Wash,Beauty & Personal Care,11.8,36.99,25.19,762,2024-12-01
+PRD-00073,Overnight Barrier Repair Balm,Beauty & Personal Care,28.1,84.49,56.39,704,2024-12-01
+PRD-00074,Rejuvenating Rosehip Facial Oil,Beauty & Personal Care,6.2,16.99,10.79,745,2024-12-01
+PRD-00075,Hydrating Coconut Lip Polish Set,Beauty & Personal Care,20.25,56.99,36.74,525,2024-12-01
+PRD-00076,Clarifying Salicylic Acid Spot Treatment,Beauty & Personal Care,25.51,62.99,37.48,180,2024-12-01
+PRD-00077,Mineral Rich Bath Soak Salts,Beauty & Personal Care,8.27,22.99,14.72,495,2024-12-01
+PRD-00078,Brightening Niacinamide Concentrate,Beauty & Personal Care,9.37,25.99,16.62,277,2024-12-01
+PRD-00079,Restorative Collagen Hand Cream,Beauty & Personal Care,15.84,46.49,30.65,772,2024-12-01
+PRD-00080,Aromatherapy Shower Steamers 6-Pack,Beauty & Personal Care,32.75,87.99,55.24,315,2024-12-01
+PRD-00081,ProGrip High-Density Yoga Mat,Sports & Outdoors,39.19,77.99,38.8,461,2024-12-01
+PRD-00082,Heavy-Duty Resistance Bands 5-Pack,Sports & Outdoors,68.21,151.49,83.28,697,2024-12-01
+PRD-00083,Insulated Hydro Canteen 32oz,Sports & Outdoors,58.28,115.99,57.71,847,2024-12-01
+PRD-00084,Ultralight Carbon Trekking Poles,Sports & Outdoors,15.58,31.99,16.41,706,2024-12-01
+PRD-00085,Compact Inflatable Camping Pillow,Sports & Outdoors,56.37,105.99,49.62,801,2024-12-01
+PRD-00086,Fast-Drying Microfiber Gym Towel,Sports & Outdoors,72.94,140.99,68.05,812,2024-12-01
+PRD-00087,Speed Jump Rope with Ball Bearings,Sports & Outdoors,24.1,43.99,19.89,213,2024-12-01
+PRD-00088,Tactical Folding Multi-Tool Knife,Sports & Outdoors,101.84,211.99,110.15,327,2024-12-01
+PRD-00089,Waterproof Dry Bag 20L Backpack,Sports & Outdoors,18.14,31.99,13.85,655,2024-12-01
+PRD-00090,Adjustable Dumbbell Set 5-25lbs,Sports & Outdoors,113.86,232.99,119.13,563,2024-12-01
+PRD-00091,High-Visibility Running Vest with LED,Sports & Outdoors,22.68,42.99,20.31,185,2024-12-01
+PRD-00092,Portable Aluminum Camping Chair,Sports & Outdoors,101.72,214.99,113.27,216,2024-12-01
+PRD-00093,TrailReady 500-Lumen Headlamp,Sports & Outdoors,111.71,227.99,116.28,514,2024-12-01
+PRD-00094,Foam Muscle Recovery Roller,Sports & Outdoors,110.0,245.99,135.99,581,2024-12-01
+PRD-00095,Heavy-Duty Kettlebell 16kg,Sports & Outdoors,100.6,204.99,104.39,267,2024-12-01
+PRD-00096,GripTech Weightlifting Gloves,Sports & Outdoors,116.57,199.99,83.42,269,2024-12-01
+PRD-00097,Quick-Pitch 2-Person Backpacking Tent,Sports & Outdoors,87.54,167.49,79.95,240,2024-12-01
+PRD-00098,Stainless Steel Campfire Mess Kit,Sports & Outdoors,113.09,199.49,86.4,545,2024-12-01
+PRD-00099,Electrolyte Hydration Flask 24oz,Sports & Outdoors,27.57,50.99,23.42,155,2024-12-01
+PRD-00100,Thermal Insulated Ski Gloves,Sports & Outdoors,66.17,143.99,77.82,550,2024-12-01
