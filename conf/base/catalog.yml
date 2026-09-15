@@ -1,0 +1,87 @@
+# ==============================================================================
+# PulseCart Kedro Data Catalog
+# ==============================================================================
+# Decouples storage details (paths, serialization, cloud drivers) from analytics code.
+# In production, local Parquet/CSV datasets map directly to BigQuery tables
+# (e.g., kedro_datasets.pandas.GBQTableDataset) without altering any downstream nodes.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Raw Ingestion Layer (data/raw/)
+# ------------------------------------------------------------------------------
+raw_users:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/users.parquet
+
+raw_sessions:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/sessions.parquet
+
+raw_events:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/events.parquet
+
+raw_orders:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/orders.parquet
+
+raw_order_items:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/order_items.parquet
+
+raw_products:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/raw/products.parquet
+
+
+# ------------------------------------------------------------------------------
+# 2. Production Marts Layer (data/marts/ / BigQuery `pulsecart_marts`)
+# ------------------------------------------------------------------------------
+# Produced by dbt transformation nodes and consumed by statistical Python nodes.
+fct_funnel:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/fct_funnel.parquet
+
+fct_orders:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/fct_orders.parquet
+
+fct_user_retention:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/fct_user_retention.parquet
+
+fct_ab_test:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/fct_ab_test.parquet
+
+dim_users:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/dim_users.parquet
+
+dim_products:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/dim_products.parquet
+
+dim_date:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/marts/dim_date.parquet
+
+
+# ------------------------------------------------------------------------------
+# 3. Statistical Reporting & Metric Deliverables (reports/)
+# ------------------------------------------------------------------------------
+funnel_analysis_report:
+  type: kedro_datasets.json.JSONDataset
+  filepath: reports/funnel_analysis.json
+
+cohort_retention_report:
+  type: kedro_datasets.json.JSONDataset
+  filepath: reports/cohort_retention.json
+
+ab_test_results_report:
+  type: kedro_datasets.json.JSONDataset
+  filepath: reports/ab_test_results.json
+
+statistical_summary_report:
+  type: kedro_datasets.json.JSONDataset
+  filepath: reports/statistical_summary.json

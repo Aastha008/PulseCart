@@ -22,3 +22,9 @@ desktop.ini
 venv/
 .venv/
 env/
+
+# Python packaging
+*.egg-info/
+
+# Local Kedro configuration & credentials
+conf/local/

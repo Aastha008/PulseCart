@@ -1,0 +1,31 @@
+# ==============================================================================
+# Statistical Analytics & Experimentation Parameters
+# ==============================================================================
+ab_test:
+  alpha: 0.05
+  confidence_level: 0.95
+  srm_alpha: 0.01
+  expected_control_prop: 0.50
+  power: 0.80
+
+cohort_retention:
+  max_months: 6
+  churn_threshold_days: 60
+  rfm_tiers:
+    vip_threshold_orders: 4
+    vip_threshold_spend: 300.00
+
+funnel:
+  stages:
+    - step: 1
+      name: "landing_page"
+    - step: 2
+      name: "product_view"
+    - step: 3
+      name: "add_to_cart"
+    - step: 4
+      name: "checkout_started"
+    - step: 5
+      name: "payment_started"
+    - step: 6
+      name: "purchase"

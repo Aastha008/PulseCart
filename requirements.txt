@@ -9,3 +9,5 @@ pytest>=7.3.0
 dbt-core>=1.6.0
 dbt-bigquery>=1.6.0
 dbt-duckdb>=1.6.0
+kedro>=1.6.0
+kedro-datasets[pandas-parquet,pandas-csv]>=9.0.0

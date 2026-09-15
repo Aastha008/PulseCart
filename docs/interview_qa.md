@@ -114,3 +114,30 @@ This document provides 5 rigorous, production-grade technical interview question
 >    Test conversion with a Two-Proportion Z-Test, and test conditional AOV among converters using Welch's t-test or Mann-Whitney U.
 > 2. **Non-Parametric Bootstrap:** Resample the control and treatment revenue distributions with replacement (10,000 iterations) to compute empirical confidence intervals for mean revenue difference without making parametric normality assumptions.
 > 3. **CUPED (Controlled-experiment Using Pre-Experiment Data):** Utilize pre-experiment user spend as a covariate to reduce variance in post-experiment revenue metrics, shrinking required sample size and accelerating experiment velocity by 30–50%."
+
+---
+
+### Question 6: Why restructure an analytics & experimentation pipeline with Kedro and dbt together? Explain how Nodes, the Data Catalog, Pipeline Registry, and Parameters function in production.
+
+**Model Answer:**
+> "In enterprise data environments, bridging the gap between data warehouse ELT and scientific Python experimentation is one of the hardest architectural challenges. Restructuring PulseCart as a **Kedro + dbt hybrid pipeline** provides the optimal separation of concerns:
+>
+> 1. **Why dbt + Kedro Together (The Synergistic Architecture):**
+>    - **dbt's Domain:** In-warehouse transformations where SQL pushdown is fastest and cheapest (BigQuery/Snowflake compute). dbt excels at staging views, dimensional joins, surrogate key generation, and relational schema tests.
+>    - **Kedro's Domain:** Modular software engineering for scientific Python workflows. dbt cannot natively run parametric statistical hypothesis tests (`scipy.stats` for two-proportion z-tests, SRM $\chi^2$ goodness-of-fit, Delta Method confidence intervals, or non-linear cohort retention curves).
+>    - **The Synergy:** Kedro wraps the dbt execution into upstream DAG nodes (`dbt_pipeline`), ensuring marts are materialized and verified by 115+ schema tests before downstream Python analytics nodes (`analytics_pipeline`) ingest the tables directly via the Kedro Data Catalog.
+>
+> 2. **Kedro Core Concepts Explained:**
+>    - **Nodes (`nodes.py`):**
+>      A Node is a pure, stateless Python function with explicitly declared inputs and outputs. Nodes have zero awareness of file paths, SQL connection drivers, or cloud buckets — they simply accept in-memory objects (like `pd.DataFrame`) and return transformed outputs. This makes unit testing trivial and eliminates side-effect bugs.
+>    - **Data Catalog (`catalog.yml`):**
+>      The Data Catalog is Kedro's declarative abstraction layer between computation and storage. Instead of hardcoding `pd.read_parquet('data/marts/fct_ab_test.parquet')` inside analytical code, we declare `fct_ab_test` in YAML. In local development, it points to Parquet files; in cloud production, we change the catalog type to `kedro_datasets.pandas.GBQTableDataset` pointing to BigQuery without modifying a single line of node Python logic.
+>    - **Pipeline Registry (`pipeline_registry.py`):**
+>      The registry discovers and organizes composite `Pipeline` objects. Nodes declare data dependencies, and Kedro automatically computes the topological execution graph (DAG). In PulseCart, the registry exposes modular sub-pipelines:
+>      - `kedro run --pipeline dbt_pipeline`: Executes only the warehouse ELT and data quality checks.
+>      - `kedro run --pipeline analytics_pipeline`: Executes only the statistical engines on existing marts.
+>      - `kedro run`: Executes the end-to-end `__default__` pipeline.
+>    - **Parameters (`parameters*.yml`):**
+>      Centralizes all business logic thresholds ($\alpha = 0.05$, $95\%$ confidence intervals, SRM threshold $\alpha = 0.01$, cohort window horizons). Parameters are injected into node signatures automatically, preventing magic numbers from polluting Python logic.
+>    - **Hooks & Observability (`settings.py`):**
+>      Lifecycle event interceptors (`before_node_run`, `after_node_run`, `on_pipeline_error`). In PulseCart, hooks act as automated circuit breakers: if a data quality test fails, the hook immediately halts the session and aborts downstream Power BI REST API refreshes to prevent corrupt metrics from reaching executive dashboards."

@@ -140,3 +140,60 @@ WITH sessions AS (
 2. **Pre-Aggregation in Intermediate Layer:** Heavy line-item joins and window aggregations are computed once in `int_order_items_aggregated` and `int_user_order_summary` rather than being re-computed inside downstream BI queries.
 3. **Partition & Cluster Pruning:** All analytical queries filter on partitioned date columns (`session_date`, `order_date`) before applying secondary cluster filters (`device_type`, `ab_variant`).
 4. **Window Function Placement:** Window operations (`ROW_NUMBER()`, `LAG()`) are isolated to staging and intermediate CTEs to prevent Cartesian joins in fact marts.
+
+---
+
+## 6. Kedro Orchestration & Data Catalog Architecture
+
+PulseCart is orchestrated as an enterprise-grade **Kedro pipeline**, unifying in-warehouse dbt transformations with scientific Python experimentation under a single declarative framework.
+
+### Kedro Architecture Diagram
+
+```mermaid
+flowchart TD
+    subgraph KEDRO_CATALOG ["Kedro Data Catalog (conf/base/catalog.yml)"]
+        cat_raw[raw_users, raw_sessions, raw_events, etc.]
+        cat_marts[fct_funnel, fct_orders, fct_user_retention, fct_ab_test]
+        cat_rep[funnel_report, cohort_report, ab_report, summary_report]
+    end
+
+    subgraph PIPELINE_DBT ["1. dbt_pipeline (dbt_transforms)"]
+        node_val[validate_raw_sources_node]
+        node_dbt[materialize_dbt_models_node]
+        node_test[run_dbt_schema_tests_node]
+        node_val --> node_dbt --> node_test
+    end
+
+    subgraph PIPELINE_ANALYTICS ["2. analytics_pipeline (statistical_analytics)"]
+        node_funnel[compute_funnel_analytics_node]
+        node_cohort[compute_cohort_retention_node]
+        node_ab[evaluate_ab_experiment_node]
+    end
+
+    subgraph PIPELINE_REPORTING ["3. reporting_pipeline (reporting)"]
+        node_summary[generate_executive_summary_node]
+        node_pbi[trigger_power_bi_refresh_node]
+        node_summary --> node_pbi
+    end
+
+    cat_raw --> node_val
+    node_dbt --> cat_marts
+    cat_marts --> node_funnel & node_cohort & node_ab
+    node_funnel & node_cohort & node_ab --> cat_rep
+    cat_rep --> node_summary
+```
+
+### Modular Pipeline Registry:
+1. **`dbt_pipeline`**:
+   - Executes validation on raw catalog datasets.
+   - Executes in-warehouse dbt models across staging, intermediate, and marts layers.
+   - Executes 115+ automated schema tests (uniqueness, referential integrity, accepted values).
+   - Serves as the upstream data quality circuit breaker.
+2. **`analytics_pipeline`**:
+   - Ingests verified marts (`fct_funnel`, `fct_user_retention`, `fct_orders`, `fct_ab_test`) directly via Kedro's Data Catalog (`pandas.ParquetDataset` or `GBQTableDataset`).
+   - Runs pure Python statistical engines (Two-Proportion Z-Test, SRM $\chi^2$ test, 95% CI, cohort decay matrices).
+3. **`reporting_pipeline`**:
+   - Synthesizes consolidated executive summaries.
+   - Triggers automated Power BI semantic model refreshes via REST API.
+4. **`__default__`**:
+   - Unites all sub-pipelines into an end-to-end Directed Acyclic Graph (DAG) executed via `python -m pulsecart` or `kedro run`.

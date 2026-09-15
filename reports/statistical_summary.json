@@ -1,9 +1,6 @@
 {
   "status": "SUCCESS",
-  "execution_timestamp": "2026-09-07T10:05:14.599927+00:00",
-  "duration_seconds": 1.49,
-  "data_directory": "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\data\\marts",
-  "output_directory": "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports",
+  "execution_timestamp": "2026-09-15T18:31:27.016062+00:00",
   "funnel_summary": {
     "total_sessions": 100000,
     "overall_conversion_rate": 10.02,
@@ -33,11 +30,5 @@
       0.10992579743354905
     ],
     "recommendation": "DEPLOY TREATMENT: Statistically significant positive lift observed without SRM."
-  },
-  "generated_reports": [
-    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\funnel_analysis.json",
-    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\cohort_retention.json",
-    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\ab_test_results.json",
-    "C:\\Users\\hp\\.gemini\\antigravity\\scratch\\pulsecart\\reports\\statistical_summary.json"
-  ]
+  }
 }

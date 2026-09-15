@@ -1,0 +1,13 @@
+# ==============================================================================
+# dbt Transformation Node Execution Parameters
+# ==============================================================================
+dbt:
+  project_dir: "dbt_pulsecart"
+  profiles_dir: "dbt_pulsecart"
+  target: "duckdb" # Set to "bigquery" in production enterprise environments
+  fail_fast: false
+  threads: 4
+  models:
+    staging: "tag:staging"
+    intermediate: "tag:intermediate"
+    marts: "tag:marts"

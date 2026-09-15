@@ -1,0 +1,9 @@
+# ==============================================================================
+# Global Pipeline Parameters
+# ==============================================================================
+project_name: "PulseCart Analytics Infrastructure"
+environment: "production"
+enable_telemetry: false
+power_bi:
+  dataset_name: "PulseCart_Production_Mart"
+  auto_refresh_enabled: true
