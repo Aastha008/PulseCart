@@ -7,7 +7,7 @@
       'field': 'session_date',
       'data_type': 'date',
       'granularity': 'day'
-    },
+    } if target.type == 'bigquery' else none,
     cluster_by = ['device_type', 'country', 'traffic_source', 'ab_variant']
   )
 }}
@@ -15,7 +15,7 @@
 WITH sessions AS (
     SELECT * FROM {{ ref('stg_sessions') }}
     {% if is_incremental() %}
-      WHERE session_start >= (SELECT TIMESTAMP_SUB(MAX(session_start), INTERVAL 3 DAY) FROM {{ this }})
+      WHERE session_start >= (SELECT {{ date_sub_days_cross('MAX(session_start)', 3) }} FROM {{ this }})
     {% endif %}
 ),
 users AS (

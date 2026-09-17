@@ -10,7 +10,7 @@ cleaned AS (
         CAST(session_start AS TIMESTAMP) AS session_start,
         CAST(session_end AS TIMESTAMP) AS session_end,
         DATE(CAST(session_start AS TIMESTAMP)) AS session_date,
-        GREATEST(0, TIMESTAMP_DIFF(CAST(session_end AS TIMESTAMP), CAST(session_start AS TIMESTAMP), SECOND)) AS session_duration_seconds,
+        GREATEST(0, {{ datediff_cross('CAST(session_start AS TIMESTAMP)', 'CAST(session_end AS TIMESTAMP)', 'SECOND') }}) AS session_duration_seconds,
         TRIM(device_type) AS device_type,
         UPPER(TRIM(country)) AS country,
         TRIM(traffic_source) AS traffic_source,

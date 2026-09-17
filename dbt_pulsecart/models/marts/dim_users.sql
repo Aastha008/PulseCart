@@ -45,7 +45,7 @@ SELECT
     COALESCE(summary.avg_days_between_orders, 0.0) AS avg_days_between_orders,
     
     -- RFM Behavioral Segmentation
-    TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), CAST(COALESCE(summary.most_recent_order_date, users.signup_date) AS TIMESTAMP), DAY) AS recency_days,
+    {{ datediff_cross('CAST(COALESCE(summary.most_recent_order_date, users.signup_date) AS TIMESTAMP)', 'CURRENT_TIMESTAMP()', 'DAY') }} AS recency_days,
     CASE
         WHEN summary.lifetime_orders IS NULL OR summary.lifetime_orders = 0 THEN '0 Orders'
         WHEN summary.lifetime_orders = 1 THEN '1 Order'
@@ -62,8 +62,8 @@ SELECT
     CASE
         WHEN summary.lifetime_orders IS NULL OR summary.lifetime_orders = 0 THEN 'Registered Non-Purchaser'
         WHEN summary.lifetime_orders = 1 THEN 'Single Purchaser'
-        WHEN summary.lifetime_orders > 1 AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), summary.most_recent_order_timestamp, DAY) <= 60 THEN 'Active Repeat'
-        WHEN summary.lifetime_orders > 1 AND TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), summary.most_recent_order_timestamp, DAY) <= 120 THEN 'Dormant Repeat'
+        WHEN summary.lifetime_orders > 1 AND {{ datediff_cross('summary.most_recent_order_timestamp', 'CURRENT_TIMESTAMP()', 'DAY') }} <= 60 THEN 'Active Repeat'
+        WHEN summary.lifetime_orders > 1 AND {{ datediff_cross('summary.most_recent_order_timestamp', 'CURRENT_TIMESTAMP()', 'DAY') }} <= 120 THEN 'Dormant Repeat'
         ELSE 'Churned Repeat'
     END AS customer_lifecycle_status
 FROM users

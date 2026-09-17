@@ -3,15 +3,15 @@
 <div align="center">
 
 [![Orchestration](https://img.shields.io/badge/Orchestrator-Kedro%20v1.6-FFA500?style=for-the-badge&logo=kedro&logoColor=black)](https://kedro.org/)
-[![Data Warehouse](https://img.shields.io/badge/Warehouse-Google%20BigQuery-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)](https://cloud.google.com/bigquery)
-[![Transformation](https://img.shields.io/badge/Modeling-dbt%20Core%20v1.6-FF694B?style=for-the-badge&logo=dbt&logoColor=white)](https://www.getdbt.com/)
+[![Data Warehouse](https://img.shields.io/badge/Warehouse-Snowflake%20%7C%20BigQuery-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)](https://www.snowflake.com/)
+[![Transformation](https://img.shields.io/badge/Modeling-dbt%20Core%20v1.12-FF694B?style=for-the-badge&logo=dbt&logoColor=white)](https://www.getdbt.com/)
 [![Scientific Analytics](https://img.shields.io/badge/Analytics-Python%20%7C%20Pandas%20%7C%20SciPy-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Executive BI](https://img.shields.io/badge/BI-Power%20BI%20%7C%20DAX-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
 [![Schema Quality](https://img.shields.io/badge/dbt%20Tests-174%20Passing-10B981?style=for-the-badge&logo=checkmarx&logoColor=white)](https://docs.getdbt.com/docs/build/data-tests)
 [![Unit Testing](https://img.shields.io/badge/Unit%20Tests-110%20Passing-00C7B7?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 
-**Production-grade Analytics Engineering, Experimentation, and Cohort Retention Infrastructure**  
-*Analyzing 100,000+ customer sessions across Google BigQuery, dbt Core, Kedro, and Power BI.*
+**Production-grade Multi-Cloud Analytics Engineering, Experimentation, and Cohort Retention Infrastructure**  
+*Analyzing 100,000+ customer sessions across Snowflake & Google BigQuery, dbt Core, Kedro, and Power BI.*
 
 [Key Metrics](#-key-empirical-highlights) •
 [Architecture](#-system-architecture) •
@@ -276,6 +276,33 @@ WITH sessions AS (
 ```
 * **Partition Pruning:** Scans only the last 72 hours of data instead of full table history, reducing daily cloud compute costs by **>90%**.
 * **Atomic Merge Idempotency:** The `unique_key = 'session_id'` clause executes an atomic `MERGE INTO`, preventing duplicate records during backfills.
+
+### 4. Cross-Warehouse Multi-Target Execution (Snowflake + BigQuery + DuckDB)
+
+PulseCart is architected for **zero SQL duplication across cloud warehouses**. The same 18 models compile and run identically on **Snowflake**, **Google BigQuery**, and local **DuckDB**:
+
+* **Target-Aware Dialect Abstraction (`macros/cross_warehouse.sql`):**
+  * `datediff_cross(start, end, unit)`: Dynamically handles BigQuery `TIMESTAMP_DIFF(end, start, unit)` vs. Snowflake `DATEDIFF(unit, start, end)`.
+  * `date_trunc_cross(expr, unit)`: Resolves BigQuery `DATE_TRUNC(col, MONTH)` vs. Snowflake `DATE_TRUNC('MONTH', col)`.
+  * `safe_divide_cross(num, denom)`: Portable ANSI `CASE WHEN (b)=0 OR (b) IS NULL THEN NULL ELSE (a)/(b) END`.
+  * `date_sub_days_cross(ts, days)`: Resolves BigQuery `TIMESTAMP_SUB(...)` vs. Snowflake `DATEADD(day, -N, ...)`.
+* **Config-Aware Partitioning & Clustering:** Conditionally configures BigQuery `partition_by` dictionaries while leveraging Snowflake clustering keys across micro-partitions.
+* **100% Quality Verification:** All **174 dbt data tests** pass with 0 errors and 0 warnings across both BigQuery and Snowflake.
+
+### 5. Snowflake Real-Time CDC: Streams & Tasks
+
+To eliminate compute-heavy full table scans for event streaming, PulseCart implements native Snowflake Change Data Capture (`sql/snowflake/01_streams_and_tasks_ingestion.sql`):
+
+* **Append-Only Stream (`RAW_PULSECART.STREAM_RAW_EVENTS`):** Captures delta changes from clickstream ingestion without duplicating physical data.
+* **Serverless Task (`STAGING.TSK_INGEST_STG_EVENTS`):** Evaluates `SYSTEM$STREAM_HAS_DATA()` at the cloud services layer. When idle, the virtual warehouse remains suspended consuming **0 credits**. When new events arrive, it executes an automated `MERGE INTO STAGING.STG_EVENTS_CDC` and atomically advances the stream offset.
+
+### 6. Snowflake Time Travel & Sub-Second Disaster Recovery
+
+PulseCart features an automated disaster recovery runbook (`sql/snowflake/02_time_travel_incident_recovery.sql` & `tests/test_snowflake_time_travel.py`):
+
+* **The Incident:** Simulated corrupted batch script executing an unconstrained update zeroing out revenue across 10,022 orders in `MARTS.FCT_ORDERS`.
+* **Micro-Partition Immobility:** Snowflake preserves immutable pre-incident micro-partitions in the Continuous Data Protection (CDP) layer.
+* **Instantaneous Recovery:** Using statement-level Time Travel (`BEFORE(STATEMENT => '<QUERY_ID>')`), the table is restored to its exact pre-corruption state ($2,101,303.00 revenue) in **0.63 seconds** (sub-second RTO) with zero data loss.
 
 ---
 

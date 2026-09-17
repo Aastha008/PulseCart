@@ -12,9 +12,9 @@ cleaned AS (
         CAST(price AS NUMERIC) AS price,
         CAST(margin AS NUMERIC) AS margin,
         CAST(price - cost AS NUMERIC) AS unit_margin,
-        SAFE_DIVIDE(price - cost, price) AS margin_rate,
-        CAST(inventory_count AS INT64) AS inventory_count,
-        DATE(CAST(created_at AS DATE)) AS created_at
+        {{ safe_divide_cross('price - cost', 'price') }} AS margin_rate,
+        CAST(inventory_count AS INTEGER) AS inventory_count,
+        CAST(created_at AS DATE) AS created_at
     FROM source
     WHERE product_id IS NOT NULL
 )

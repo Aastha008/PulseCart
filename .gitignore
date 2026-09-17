@@ -28,3 +28,9 @@ env/
 
 # Local Kedro configuration & credentials
 conf/local/
+
+# dbt artifacts
+dbt_pulsecart/target/
+dbt_pulsecart/logs/
+dbt_pulsecart/.user.yml
+.env

@@ -28,16 +28,4 @@ models:
     marts:
       +schema: marts
       +tags: ["marts"]
-      core:
-        +materialized: table
-      facts:
-        fct_funnel:
-          +materialized: incremental
-        fct_orders:
-          +materialized: incremental
-        fct_user_retention:
-          +materialized: table
-        fct_ab_test:
-          +materialized: table
-      dimensions:
-        +materialized: table
+      +materialized: table

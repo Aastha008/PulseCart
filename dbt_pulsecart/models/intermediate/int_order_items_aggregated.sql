@@ -17,7 +17,7 @@ SELECT
     SUM(items.quantity * items.unit_cost) AS total_cost,
     SUM(items.line_profit) AS gross_profit,
     SUM(items.line_profit) AS gross_margin_amount,
-    SAFE_DIVIDE(SUM(items.line_profit), SUM(items.line_total)) AS margin_rate,
+    {{ safe_divide_cross('SUM(items.line_profit)', 'SUM(items.line_total)') }} AS margin_rate,
     MAX(products.category) AS primary_product_category
 FROM items
 LEFT JOIN products ON items.product_id = products.product_id

@@ -17,12 +17,12 @@ SELECT
     COUNT(CASE WHEN event_type = 'purchase' THEN 1 END) AS purchase_events,
     
     -- Boolean flags
-    LOGICAL_OR(event_type = 'landing_page') AS has_landing_page,
-    LOGICAL_OR(event_type = 'product_view') AS has_product_view,
-    LOGICAL_OR(event_type = 'add_to_cart') AS has_add_to_cart,
-    LOGICAL_OR(event_type = 'checkout_started') AS has_checkout_started,
-    LOGICAL_OR(event_type = 'payment_started') AS has_payment_started,
-    LOGICAL_OR(event_type = 'purchase') AS has_purchase,
+    MAX(CASE WHEN event_type = 'landing_page' THEN 1 ELSE 0 END) = 1 AS has_landing_page,
+    MAX(CASE WHEN event_type = 'product_view' THEN 1 ELSE 0 END) = 1 AS has_product_view,
+    MAX(CASE WHEN event_type = 'add_to_cart' THEN 1 ELSE 0 END) = 1 AS has_add_to_cart,
+    MAX(CASE WHEN event_type = 'checkout_started' THEN 1 ELSE 0 END) = 1 AS has_checkout_started,
+    MAX(CASE WHEN event_type = 'payment_started' THEN 1 ELSE 0 END) = 1 AS has_payment_started,
+    MAX(CASE WHEN event_type = 'purchase' THEN 1 ELSE 0 END) = 1 AS has_purchase,
     
     -- Numeric reached flags (1/0)
     MAX(CASE WHEN event_type = 'landing_page' THEN 1 ELSE 0 END) AS reached_landing_page,

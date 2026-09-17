@@ -141,3 +141,98 @@ This document provides 5 rigorous, production-grade technical interview question
 >      Centralizes all business logic thresholds ($\alpha = 0.05$, $95\%$ confidence intervals, SRM threshold $\alpha = 0.01$, cohort window horizons). Parameters are injected into node signatures automatically, preventing magic numbers from polluting Python logic.
 >    - **Hooks & Observability (`settings.py`):**
 >      Lifecycle event interceptors (`before_node_run`, `after_node_run`, `on_pipeline_error`). In PulseCart, hooks act as automated circuit breakers: if a data quality test fails, the hook immediately halts the session and aborts downstream Power BI REST API refreshes to prevent corrupt metrics from reaching executive dashboards."
+
+---
+
+### Question 7: How do you architect a multi-warehouse dbt pipeline (BigQuery + Snowflake + DuckDB) with zero SQL duplication? Explain dialect differences, macro abstraction, and partitioning vs. clustering.
+
+**Model Answer:**
+> "Supporting multiple cloud data warehouses (e.g., BigQuery, Snowflake, and local DuckDB) without duplicating SQL models is a hallmark of senior analytics engineering. Maintaining separate SQL files per warehouse creates technical debt, drift, and quadruples testing overhead.
+>
+> In PulseCart, we achieved **100% cross-warehouse execution across 18 models and 174 tests** using a three-tiered abstraction strategy:
+>
+> 1. **Cross-Warehouse Macro Abstraction (`macros/cross_warehouse.sql`):**
+>    We identified dialect divergences across SQL engines and created target-aware Jinja macros:
+>    - **Timestamp Differences:** BigQuery syntax is `TIMESTAMP_DIFF(end, start, unit)`, whereas Snowflake is `DATEDIFF(unit, start, end)`. Our `datediff_cross(start, end, unit)` macro inspects `target.type` at compile time and emits the appropriate dialect syntax.
+>    - **Date Truncation:** BigQuery uses `DATE_TRUNC(col, MONTH)`, while Snowflake requires `DATE_TRUNC('MONTH', col)`. Abstraction: `date_trunc_cross(expr, unit)`.
+>    - **Safe Division:** BigQuery provides `SAFE_DIVIDE(a, b)` which is non-standard. Snowflake lacks `SAFE_DIVIDE`. Rather than vendor-specific UDFs, our `safe_divide_cross(num, denom)` macro compiles into ANSI standard `CASE WHEN (denom) = 0 OR (denom) IS NULL THEN NULL ELSE (num) / (denom) END`, which executes identically across BigQuery, Snowflake, DuckDB, and Postgres with zero runtime overhead.
+>    - **Logical Aggregations:** BigQuery supports `LOGICAL_OR(condition)`. Snowflake does not. We rewrote this using ANSI SQL: `MAX(CASE WHEN condition THEN 1 ELSE 0 END) = 1`, which natively evaluates to a boolean across all warehouses.
+>
+> 2. **Config-Aware Partitioning & Clustering:**
+>    - BigQuery requires a `partition_by` dictionary (`{'field': 'date_col', 'data_type': 'date', 'granularity': 'day'}`). In Snowflake, partition dictionaries cause a hard compilation error because Snowflake automatically manages micro-partitioning (50–500 MB columnar blocks).
+>    - In PulseCart, we parameterized the dbt model configurations dynamically:
+>      ```sql
+>      partition_by = {
+>        'field': 'session_date', 'data_type': 'date', 'granularity': 'day'
+>      } if target.type == 'bigquery' else none,
+>      cluster_by = ['device_type', 'country', 'traffic_source', 'ab_variant']
+>      ```
+>      This gives BigQuery explicit daily partitioning while allowing Snowflake to leverage the clustering keys to optimize micro-partition pruning.
+>
+> 3. **Synthetic Spine Generation (`dim_date`):**
+>    - BigQuery generates date spines via `UNNEST(GENERATE_DATE_ARRAY(...))`.
+>    - Snowflake achieves this via `TABLE(GENERATOR(ROWCOUNT => 1096))` joined with `SEQ4()`.
+>    - Our `dim_date.sql` utilizes target branching to generate 3 full calendar years of dates natively on each platform."
+
+---
+
+### Question 8: What problem do Snowflake Streams & Tasks solve over traditional high-watermark dbt incremental models? Explain Change Data Capture (CDC) mechanics and compute optimization.
+
+**Model Answer:**
+> "In high-velocity clickstream event pipelines (like PulseCart's 230K+ events), traditional dbt incremental materialization uses high-watermark filtering:
+> `WHERE event_timestamp > (SELECT MAX(event_timestamp) FROM {{ this }})`
+>
+> While simple, this approach has three critical architectural flaws:
+> 1. **Late-Arriving Fact Loss:** Mobile devices caching events offline or asynchronous payment webhooks often arrive with timestamps hours or days older than the current high-watermark. High-watermark queries permanently miss these events unless costly lookback windows are applied.
+> 2. **No CDC (Deletes & Updates):** High-watermark filtering only detects new rows. Source updates (e.g. order status changes from 'pending' to 'cancelled') or hard deletes are invisible.
+> 3. **Compute Waste:** Scanning high-volume raw tables every 5–15 minutes on a scheduled warehouse wakes up virtual compute and consumes credits even when zero new events have landed.
+>
+> **The Snowflake Streams & Tasks Solution:**
+> In PulseCart Stage 4, we implemented native Change Data Capture (CDC):
+> - **Snowflake Stream (`STREAM_RAW_EVENTS`):** An append-only stream placed on `RAW_PULSECART.RAW_EVENTS`. The stream creates an offset pointer into Snowflake's immutable micro-partition version log without copying data. It tracks row delta and provides metadata columns: `METADATA$ACTION` ('INSERT'), `METADATA$ISUPDATE`, and `METADATA$ROW_ID`.
+> - **Snowflake Task (`TSK_INGEST_STG_EVENTS`):** A scheduled task executing a `MERGE INTO STAGING.STG_EVENTS_CDC` query. Crucially, the task includes the guard condition:
+>   `WHEN SYSTEM$STREAM_HAS_DATA('RAW_PULSECART.STREAM_RAW_EVENTS')`
+>
+> **Compute Optimization (Zero Idle Cost):**
+> Snowflake evaluates `SYSTEM$STREAM_HAS_DATA()` at the cloud services metadata layer in sub-seconds without spinning up the virtual warehouse. If no new events arrived, the warehouse remains suspended and consumes **zero credits**. When data arrives, the task wakes the warehouse, merges only the delta records into staging, and atomically advances the stream offset upon commit."
+
+---
+
+### Question 9: How do you design and execute a sub-second disaster recovery strategy using Snowflake Time Travel following a corrupted batch ETL run?
+
+**Model Answer:**
+> "Data corruption in production marts is an inevitable operational reality — whether caused by a malformed incremental merge, an accidental unconstrained `UPDATE`, or an errant administrative `DROP TABLE`. In traditional warehouses or legacy RDBMS, recovering from such an incident requires restoring multi-terabyte backups, spinning up staging servers, and replaying raw logs, incurring hours or days of Recovery Time Objective (RTO).
+>
+> In PulseCart Stage 5, we simulated and verified a mission-critical disaster recovery scenario on `MARTS.FCT_ORDERS` (10,022 orders, $2,101,303.00 revenue):
+>
+> 1. **The Incident:**
+>    A buggy batch script executed an unconstrained update:
+>    `UPDATE MARTS.FCT_ORDERS SET total_amount = 0.0, subtotal = 0.0 WHERE order_date >= '2025-01-01';`
+>    Downstream Power BI dashboards showed $0.00 revenue, triggering a P1 data outage.
+>
+> 2. **Snowflake Micro-Partition Immobility:**
+>    Snowflake micro-partitions are immutable. When an `UPDATE` executes, Snowflake does not overwrite existing data in place; it marks the old micro-partitions as inactive and writes new micro-partitions containing the zeroes. The old micro-partitions remain accessible via Time Travel for up to 90 days.
+>
+> 3. **Forensics via Query History:**
+>    We captured the offending statement ID directly from cursor metadata or `INFORMATION_SCHEMA.QUERY_HISTORY()`:
+>    `SET bad_query_id = '01c7207a-000d-ff91-0000-00023712f185';`
+>
+> 4. **Pre-Recovery Inspection:**
+>    Before altering anything, we queried the historical state immediately prior to the corrupting query:
+>    ```sql
+>    SELECT COUNT(*), ROUND(SUM(total_amount), 2)
+>    FROM MARTS.FCT_ORDERS BEFORE(STATEMENT => $bad_query_id);
+>    ```
+>    This proved the pre-incident state was completely intact ($2,101,303.00 revenue).
+>
+> 5. **Sub-Second Restoration:**
+>    We restored the table instantaneously using statement-level Time Travel:
+>    ```sql
+>    CREATE OR REPLACE TABLE MARTS.FCT_ORDERS AS 
+>    SELECT * FROM MARTS.FCT_ORDERS BEFORE(STATEMENT => $bad_query_id);
+>    ```
+>    Alternatively, we can execute a zero-copy clone:
+>    `CREATE TABLE MARTS.FCT_ORDERS_RECOVERED CLONE MARTS.FCT_ORDERS BEFORE(STATEMENT => $bad_query_id);`
+>
+> 6. **Results & Business Impact:**
+>    The entire recovery executed in **0.63 seconds** (sub-second RTO) with 100% data fidelity restored down to the exact penny, completely eliminating pipeline downtime."

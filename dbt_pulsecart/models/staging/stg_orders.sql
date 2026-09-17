@@ -8,7 +8,7 @@ cleaned AS (
         CAST(TRIM(order_id) AS STRING) AS order_id,
         CAST(TRIM(session_id) AS STRING) AS session_id,
         CAST(TRIM(user_id) AS STRING) AS user_id,
-        DATE(CAST(order_date AS DATE)) AS order_date,
+        CAST(order_date AS DATE) AS order_date,
         CAST(order_timestamp AS TIMESTAMP) AS order_timestamp,
         CAST(COALESCE(subtotal, 0.0) AS NUMERIC) AS subtotal,
         CAST(COALESCE(subtotal, 0.0) AS NUMERIC) AS subtotal_amount,

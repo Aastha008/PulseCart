@@ -19,3 +19,14 @@ pulsecart:
       threads: 4
       timeout_seconds: 300
       location: US
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', 'NW84710.ap-southeast-7.aws') }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER', 'DBT_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', 'Aastha1234567890') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORM_ROLE') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'SNOWFLAKE_LEARNING_DB') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'SNOWFLAKE_LEARNING_WH') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
+      threads: 4
+      client_session_keep_alive: False

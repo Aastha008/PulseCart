@@ -25,7 +25,7 @@ SELECT
     products.cost,
     products.price,
     ROUND(CAST(products.price - products.cost AS NUMERIC), 2) AS margin_amount,
-    ROUND(SAFE_DIVIDE(products.price - products.cost, products.price) * 100.0, 2) AS margin_percentage,
+    ROUND({{ safe_divide_cross('products.price - products.cost', 'products.price') }} * 100.0, 2) AS margin_percentage,
     products.margin,
     products.unit_margin,
     products.margin_rate,
@@ -35,6 +35,6 @@ SELECT
     COALESCE(item_stats.total_units_sold, 0) AS total_units_sold,
     COALESCE(item_stats.total_revenue_generated, 0.0) AS total_revenue_generated,
     COALESCE(item_stats.total_profit_generated, 0.0) AS total_profit_generated,
-    SAFE_DIVIDE(item_stats.total_revenue_generated, item_stats.total_units_sold) AS realized_avg_selling_price
+    {{ safe_divide_cross('item_stats.total_revenue_generated', 'item_stats.total_units_sold') }} AS realized_avg_selling_price
 FROM products
 LEFT JOIN item_stats ON products.product_id = item_stats.product_id

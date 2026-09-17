@@ -5,7 +5,7 @@
       'field': 'activity_month',
       'data_type': 'date',
       'granularity': 'month'
-    },
+    } if target.type == 'bigquery' else none,
     cluster_by = ['cohort_month', 'customer_segment', 'country']
   )
 }}

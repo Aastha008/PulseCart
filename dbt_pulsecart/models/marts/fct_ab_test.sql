@@ -5,7 +5,7 @@
       'field': 'session_date',
       'data_type': 'date',
       'granularity': 'day'
-    },
+    } if target.type == 'bigquery' else none,
     cluster_by = ['ab_variant', 'device_type', 'country']
   )
 }}
@@ -33,6 +33,6 @@ SELECT
     CASE WHEN ab.completed_purchase = 1 THEN 1 ELSE 0 END AS converted_to_purchase,
     ab.order_id,
     ab.order_revenue,
-    TIMESTAMP_DIFF(CAST(ab.session_date AS TIMESTAMP), CAST(users.signup_date AS TIMESTAMP), DAY) AS days_since_user_signup
+    {{ datediff_cross('CAST(users.signup_date AS TIMESTAMP)', 'CAST(ab.session_date AS TIMESTAMP)', 'DAY') }} AS days_since_user_signup
 FROM ab_conversions ab
 LEFT JOIN users ON ab.user_id = users.user_id

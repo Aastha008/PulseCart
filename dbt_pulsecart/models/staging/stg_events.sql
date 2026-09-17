@@ -12,7 +12,7 @@ cleaned AS (
         DATE(CAST(event_timestamp AS TIMESTAMP)) AS event_date,
         LOWER(TRIM(event_name)) AS event_name,
         LOWER(TRIM(event_type)) AS event_type,
-        CAST(step_number AS INT64) AS step_number,
+        CAST(step_number AS INTEGER) AS step_number,
         TRIM(page_url) AS page_url,
         NULLIF(TRIM(product_id), '') AS product_id,
         CAST(COALESCE(cart_value, 0.0) AS NUMERIC) AS cart_value

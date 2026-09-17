@@ -8,7 +8,7 @@ cleaned AS (
         CAST(TRIM(order_item_id) AS STRING) AS order_item_id,
         CAST(TRIM(order_id) AS STRING) AS order_id,
         CAST(TRIM(product_id) AS STRING) AS product_id,
-        CAST(quantity AS INT64) AS quantity,
+        CAST(quantity AS INTEGER) AS quantity,
         CAST(unit_price AS NUMERIC) AS unit_price,
         CAST(unit_cost AS NUMERIC) AS unit_cost,
         CAST(line_total AS NUMERIC) AS line_total,

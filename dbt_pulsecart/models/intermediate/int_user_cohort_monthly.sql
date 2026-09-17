@@ -20,7 +20,7 @@ orders AS (
         order_id,
         user_id,
         order_date,
-        DATE_TRUNC(order_date, MONTH) AS order_month,
+        {{ date_trunc_cross('order_date', 'MONTH') }} AS order_month,
         total_amount
     FROM {{ ref('stg_orders') }}
     WHERE status = 'completed'
@@ -40,9 +40,9 @@ SELECT
     user_summary.first_order_cohort_month AS cohort_month,
     orders.order_month AS activity_month,
     CAST((EXTRACT(YEAR FROM orders.order_month) - EXTRACT(YEAR FROM user_summary.first_order_cohort_month)) * 12 + 
-         (EXTRACT(MONTH FROM orders.order_month) - EXTRACT(MONTH FROM user_summary.first_order_cohort_month)) AS INT64) AS month_number,
+         (EXTRACT(MONTH FROM orders.order_month) - EXTRACT(MONTH FROM user_summary.first_order_cohort_month)) AS INTEGER) AS month_number,
     CAST((EXTRACT(YEAR FROM orders.order_month) - EXTRACT(YEAR FROM user_summary.first_order_cohort_month)) * 12 + 
-         (EXTRACT(MONTH FROM orders.order_month) - EXTRACT(MONTH FROM user_summary.first_order_cohort_month)) AS INT64) AS month_offset,
+         (EXTRACT(MONTH FROM orders.order_month) - EXTRACT(MONTH FROM user_summary.first_order_cohort_month)) AS INTEGER) AS month_offset,
     COUNT(DISTINCT orders.order_id) AS monthly_orders,
     COUNT(DISTINCT orders.order_id) AS orders_in_month,
     SUM(orders.total_amount) AS monthly_revenue,

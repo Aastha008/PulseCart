@@ -7,7 +7,7 @@
       'field': 'order_date',
       'data_type': 'date',
       'granularity': 'day'
-    },
+    } if target.type == 'bigquery' else none,
     cluster_by = ['user_id', 'status', 'ab_variant']
   )
 }}
@@ -15,7 +15,7 @@
 WITH orders AS (
     SELECT * FROM {{ ref('stg_orders') }}
     {% if is_incremental() %}
-      WHERE order_timestamp >= (SELECT TIMESTAMP_SUB(MAX(order_timestamp), INTERVAL 3 DAY) FROM {{ this }})
+      WHERE order_timestamp >= (SELECT {{ date_sub_days_cross('MAX(order_timestamp)', 3) }} FROM {{ this }})
     {% endif %}
 ),
 sessions AS (
@@ -67,8 +67,8 @@ SELECT
     sequenced.user_order_sequence,
     CASE WHEN sequenced.user_order_sequence = 1 THEN TRUE ELSE FALSE END AS is_first_order,
     CASE WHEN sequenced.user_order_sequence > 1 THEN TRUE ELSE FALSE END AS is_repeat_order,
-    TIMESTAMP_DIFF(orders.order_timestamp, sequenced.prior_order_timestamp, DAY) AS days_since_prior_order,
-    TIMESTAMP_DIFF(orders.order_timestamp, CAST(users.signup_date AS TIMESTAMP), DAY) AS days_since_user_signup,
+    {{ datediff_cross('sequenced.prior_order_timestamp', 'orders.order_timestamp', 'DAY') }} AS days_since_prior_order,
+    {{ datediff_cross('CAST(users.signup_date AS TIMESTAMP)', 'orders.order_timestamp', 'DAY') }} AS days_since_user_signup,
     
     -- Contextual dimensions
     sessions.device_type,
