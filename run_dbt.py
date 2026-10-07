@@ -110,7 +110,17 @@ def translate_bq_to_duckdb_sql(sql: str) -> str:
     # 2. Strip Jinja config block
     clean_sql = re.sub(r"\{\{\s*config\([\s\S]*?\)\s*\}\}", "", clean_sql)
 
+
+    # 2c. Resolve target.type conditional blocks for DuckDB
+    clean_sql = re.sub(
+        r"\{%\s*if\s+target\.type\s*==\s*['\"]snowflake['\"]\s*%\}.*?\{%\s*else\s*%\}(.*?)\{%\s*endif\s*%\}",
+        r"\1",
+        clean_sql,
+        flags=re.DOTALL,
+    )
+
     # 3. Strip is_incremental() blocks for full build
+
     clean_sql = re.sub(
         r"\{%\s*if\s+is_incremental\(\)\s*%\}([\s\S]*?)\{%\s*endif\s*%\}",
         "",
@@ -163,7 +173,43 @@ def translate_bq_to_duckdb_sql(sql: str) -> str:
     # 11. BigQuery CURRENT_TIMESTAMP() -> DuckDB CURRENT_TIMESTAMP
     clean_sql = re.sub(r"\bCURRENT_TIMESTAMP\s*\(\s*\)", "CURRENT_TIMESTAMP", clean_sql, flags=re.IGNORECASE)
 
+    # 12. Resolve cross_warehouse Jinja macros
+    def _replace_date_trunc_cross(m):
+        args = split_top_level_args(m.group(1))
+        if len(args) == 2:
+            expr = args[0].strip().strip("'\"")
+            unit = args[1].strip().strip("'\"").lower()
+            return f"date_trunc('{unit}', {expr})"
+        return m.group(0)
+
+    def _replace_datediff_cross(m):
+        args = split_top_level_args(m.group(1))
+        if len(args) == 3:
+            start = args[0].strip().strip("'\"")
+            end = args[1].strip().strip("'\"")
+            unit = args[2].strip().strip("'\"").lower()
+            return f"date_diff('{unit}', {start}, {end})"
+        return m.group(0)
+
+    clean_sql = re.sub(
+        r"\{\{\s*date_trunc_cross\(([\s\S]*?)\)\s*\}\}",
+        _replace_date_trunc_cross,
+        clean_sql,
+    )
+    clean_sql = re.sub(
+        r"\{\{\s*datediff_cross\(([\s\S]*?)\)\s*\}\}",
+        _replace_datediff_cross,
+        clean_sql,
+    )
+    clean_sql = re.sub(
+        r"\{\{\s*safe_divide_cross\(\s*['\"]?(.*?)['\"]?\s*,\s*['\"]?(.*?)['\"]?\s*\)\s*\}\}",
+        r"CASE WHEN (\2)=0 OR (\2) IS NULL THEN NULL ELSE (\1)/(\2) END",
+        clean_sql,
+    )
+
+
     return clean_sql.strip()
+
 
 
 class DbtExecutionEngine:

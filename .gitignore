@@ -34,3 +34,12 @@ dbt_pulsecart/target/
 dbt_pulsecart/logs/
 dbt_pulsecart/.user.yml
 .env
+
+# Java & Maven build artifacts
+backend/target/
+*.class
+*.jar
+*.war
+.m2/
+.idea/
+*.iml

@@ -2,16 +2,17 @@
 
 <div align="center">
 
+[![Backend](https://img.shields.io/badge/Backend-Java%2021%20%7C%20Spring%20Boot%203.3-007396?style=for-the-badge&logo=openjdk&logoColor=white)](backend/)
+[![Database](https://img.shields.io/badge/Database-PostgreSQL%2016-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](backend/)
+[![Security](https://img.shields.io/badge/Security-Spring%20Security%20%7C%20JWT-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)](backend/)
 [![Orchestration](https://img.shields.io/badge/Orchestrator-Kedro%20v1.6-FFA500?style=for-the-badge&logo=kedro&logoColor=black)](https://kedro.org/)
 [![Data Warehouse](https://img.shields.io/badge/Warehouse-Snowflake%20%7C%20BigQuery-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)](https://www.snowflake.com/)
 [![Transformation](https://img.shields.io/badge/Modeling-dbt%20Core%20v1.12-FF694B?style=for-the-badge&logo=dbt&logoColor=white)](https://www.getdbt.com/)
-[![Scientific Analytics](https://img.shields.io/badge/Analytics-Python%20%7C%20Pandas%20%7C%20SciPy-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Executive BI](https://img.shields.io/badge/BI-Power%20BI%20%7C%20DAX-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
-[![Schema Quality](https://img.shields.io/badge/dbt%20Tests-174%20Passing-10B981?style=for-the-badge&logo=checkmarx&logoColor=white)](https://docs.getdbt.com/docs/build/data-tests)
-[![Unit Testing](https://img.shields.io/badge/Unit%20Tests-110%20Passing-00C7B7?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![Backend Tests](https://img.shields.io/badge/Backend%20Tests-14%20Passing-brightgreen?style=for-the-badge&logo=junit5&logoColor=white)](backend/)
+[![Unit Testing](https://img.shields.io/badge/Analytics%20Tests-110%20Passing-00C7B7?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 
-**Production-grade Multi-Cloud Analytics Engineering, Experimentation, and Cohort Retention Infrastructure**  
-*Analyzing 100,000+ customer sessions across Snowflake & Google BigQuery, dbt Core, Kedro, and Power BI.*
+**Production-grade E-Commerce Backend & Multi-Cloud Analytics Engineering Infrastructure**  
+*Transactional Java 21 + Spring Boot 3.3 engine managing products, inventory, and orders, supplying operational data to a 100K-session analytics warehouse.*
 
 [Key Metrics](#-key-empirical-highlights) •
 [Architecture](#-system-architecture) •
@@ -64,7 +65,23 @@ PulseCart bridges in-warehouse ELT with Python scientific computing using Kedro 
 
 ```mermaid
 flowchart TD
-    subgraph INGESTION ["1. Ingestion Layer (data/raw/)"]
+    subgraph BACKEND ["0. Operational E-Commerce Engine (Java 21 + Spring Boot 3.3)"]
+        api_auth["Auth & RBAC (BCrypt, Stateless JWT)"]
+        api_catalog["Product Catalog & Dynamic Search"]
+        api_order["Order Workflow & Idempotency Key"]
+        db_pg[("PostgreSQL 16 (Flyway Migrations)")]
+        api_auth --> db_pg
+        api_catalog --> db_pg
+        api_order -->|Atomic Stock Update: stock >= qty| db_pg
+    end
+
+    subgraph ETL_BRIDGE ["0b. Operational Sync Pipeline (backend/scripts/)"]
+        export_script["sync_operational_to_analytics.py"]
+        op_data[("data/operational/operational_orders.parquet<br/>data_source='operational_backend', ab_variant=null")]
+        db_pg --> export_script --> op_data
+    end
+
+    subgraph INGESTION ["1. Analytics Ingestion Layer (data/raw/)"]
         raw_u[(raw_users: 30K)]
         raw_s[(raw_sessions: 100K)]
         raw_e[(raw_events: 230K)]
@@ -132,6 +149,58 @@ flowchart TD
     STATS_LAYER --> catalog_rep
     catalog_rep --> BI_CONSUMPTION
 ```
+
+---
+
+## ☕ Operational Java Backend & E-Commerce REST Engine
+
+PulseCart features a high-performance **Java 21 and Spring Boot 3.3.4 modular monolith** that manages live products, inventory locking, and customer orders, feeding verified operational data into the downstream data warehouse.
+
+### 1. Modular Monolith Architecture
+Structured strictly across layered responsibilities, avoiding unnecessary microservice overhead:
+- **`controller/`**: REST endpoints exposing HTTP status codes (200, 201, 400, 401, 403, 404, 409) with Bean Validation (`@Valid`).
+- **`service/`**: Transactional business logic boundaries (`@Transactional`) managing checkout calculation, stock locking, and cancellations.
+- **`repository/`**: Spring Data JPA repositories with atomic conditional updates (`decrementStockIfSufficient`, `incrementStock`).
+- **`dto/`**: Strongly-typed, immutable **Java 21 Records** establishing clean request/response contracts.
+- **`entity/`**: JPA entities mapping PostgreSQL tables (`users`, `products`, `inventory`, `orders`, `order_items`, `idempotency_records`).
+- **`exception/`**: `GlobalExceptionHandler` returning consistent, structured `ApiError` payloads.
+- **`security/`**: Stateless JWT authentication filter, BCrypt password encoder, and role-based access control.
+
+### 2. Concurrency Control & Preventing Overselling
+To guarantee zero-overselling under simultaneous checkout race conditions, the backend uses **Atomic Conditional Updates** directly at the database engine level:
+```sql
+UPDATE inventory 
+SET stock = stock - :quantity 
+WHERE product_id = :productId AND stock >= :quantity
+```
+- **Atomicity**: The RDBMS row-level write lock ensures only the winning thread decrements stock and receives `1` affected row.
+- **Immediate Rollback**: Competing threads find `stock >= :quantity` false, return `0` updated rows, and trigger an `InsufficientStockException`, rolling back the transaction.
+- **Verified Under Stress**: Tested with 10 concurrent threads simultaneously purchasing the last 1 item of stock — **exactly 1 purchase succeeded, exactly 9 failed, and ending stock was exactly 0**.
+
+### 3. Safe Retries with Idempotency Keys
+Supports the standard `Idempotency-Key` HTTP header. If a customer retries a checkout request due to a network hiccup:
+- The system checks `idempotency_records` by key and user ID.
+- Returns the cached order response without creating a duplicate order or debiting inventory twice.
+
+### 4. Downstream Analytics Integration & Segregation
+- Operational backend orders are exported into `data/operational/operational_orders.parquet` via `backend/scripts/sync_operational_to_analytics.py`.
+- **Strict Data Segregation**: Operational orders are explicitly tagged with `data_source = 'operational_backend'`, `ab_variant = null`, and `session_id = null`. They are clearly distinguished from synthetic A/B experiment cohort records.
+
+### 5. Running the Backend Locally
+```bash
+# Run JUnit 5 test suite (14 passing tests)
+cd backend
+mvn test
+
+# Run backend locally with Spring Boot
+mvn spring-boot:run
+
+# Run full backend + PostgreSQL 16 via Docker Compose
+docker-compose up --build
+```
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI Specification**: `http://localhost:8080/v3/api-docs`
+- **Actuator Health Check**: `http://localhost:8080/actuator/health`
 
 ---
 
@@ -475,7 +544,26 @@ Detailed senior-level model answers are documented in [`docs/interview_qa.md`](d
 
 ---
 
+## 💼 Verified Resume Bullet Points
+
+*The bullets below reflect functionality physically implemented, verified, and tested in this repository:*
+
+### Java Backend Software Engineering
+- **Modular Monolith Architecture**: Engineered an e-commerce backend in Java 21 and Spring Boot 3.3 using a layered modular monolith (Controller, Service, Repository, DTO, Security) backed by PostgreSQL 16 and Flyway migrations.
+- **Concurrency & Zero-Overselling**: Implemented database-level atomic conditional updates (`UPDATE inventory SET stock = stock - :qty WHERE product_id = :id AND stock >= :qty`) to prevent race conditions during simultaneous purchases, verified by multi-threaded concurrent stress tests.
+- **Idempotency Key Mechanism**: Designed an idempotent order API supporting client `Idempotency-Key` headers with response caching, guaranteeing safe network retries without duplicate orders or duplicate inventory decrements.
+- **Stateless Security & Tenant Isolation**: Implemented Spring Security with HMAC-SHA256 JWT tokens, BCrypt password hashing, role-based access control (`ROLE_CUSTOMER`, `ROLE_ADMIN`), and customer order isolation.
+- **Containerization & CI/CD**: Packaged the backend with multi-stage Docker builds and Docker Compose; configured GitHub Actions CI to automate Java 21 compilation, unit tests, and integration tests against PostgreSQL.
+
+### Analytics Engineering & Experimentation
+- **Multi-Cloud Data Modeling**: Designed and implemented 15 dbt models across staging, intermediate, and marts layers for Google BigQuery and Snowflake, validated by 174 automated dbt data tests.
+- **Statistical A/B Experimentation**: Built a Python experimentation pipeline running Pearson SRM $\chi^2$ tests, Two-Proportion Z-tests ($Z = 6.49, p < 10^{-10}$), and Delta Method 95% confidence intervals on 100K customer sessions.
+- **Orchestration**: Orchestrated warehouse transformations and scientific Python nodes within Kedro DAG pipelines backed by a declarative Data Catalog.
+
+---
+
 ## 📄 License & Attribution
 
 This project is licensed under the MIT License. Built as an open-source analytics engineering and experimentation benchmark.  
 Repository: **[https://github.com/Aastha008/PulseCart](https://github.com/Aastha008/PulseCart)**
+

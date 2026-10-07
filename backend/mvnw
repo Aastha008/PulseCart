@@ -1,0 +1,3 @@
+#!/bin/sh
+# PulseCart Maven Wrapper Script for Unix
+exec mvn "$@"
