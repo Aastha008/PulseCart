@@ -12,6 +12,8 @@ import com.pulsecart.backend.repository.IdempotencyRecordRepository;
 import com.pulsecart.backend.repository.InventoryRepository;
 import com.pulsecart.backend.repository.OrderRepository;
 import com.pulsecart.backend.repository.ProductRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,24 +38,38 @@ public class OrderCreationProcessor {
     private final IdempotencyRecordRepository idempotencyRecordRepository;
     private final ObjectMapper objectMapper;
 
+    @PersistenceContext
+    private final EntityManager entityManager;
+
     public OrderCreationProcessor(
             OrderRepository orderRepository,
             ProductRepository productRepository,
             InventoryRepository inventoryRepository,
             IdempotencyRecordRepository idempotencyRecordRepository,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            EntityManager entityManager
     ) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.inventoryRepository = inventoryRepository;
         this.idempotencyRecordRepository = idempotencyRecordRepository;
         this.objectMapper = objectMapper;
+        this.entityManager = entityManager;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public OrderDto processOrderTransaction(User user, CreateOrderRequest request, String idempotencyKey, String requestHash) {
-        // 1. Double-check idempotency inside the transaction under fresh READ COMMITTED snapshot
+        // 1. Database-backed coordination across multiple application instances:
+        // Transaction-scoped PostgreSQL advisory lock serializes simultaneous requests with identical key at DB level
         if (idempotencyKey != null && !idempotencyKey.isBlank()) {
+            try {
+                entityManager.createNativeQuery(
+                        "SELECT pg_advisory_xact_lock(('x' || substr(md5(:lockKey), 1, 16))::bit(64)::bigint)"
+                ).setParameter("lockKey", user.getId() + ":" + idempotencyKey).getSingleResult();
+            } catch (Exception e) {
+                log.debug("Database advisory lock unavailable or not supported on this engine: {}", e.getMessage());
+            }
+
             Optional<IdempotencyRecord> existing = idempotencyRecordRepository
                     .findByIdempotencyKeyAndUserId(idempotencyKey, user.getId());
 

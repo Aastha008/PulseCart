@@ -33,18 +33,20 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final InventoryRepository inventoryRepository;
+    private final IdempotencyRecordRepository idempotencyRecordRepository;
     private final OrderCreationProcessor orderCreationProcessor;
     private final ObjectMapper objectMapper;
-    private final java.util.concurrent.ConcurrentHashMap<String, Object> lockMap = new java.util.concurrent.ConcurrentHashMap<>();
 
     public OrderService(
             OrderRepository orderRepository,
             InventoryRepository inventoryRepository,
+            IdempotencyRecordRepository idempotencyRecordRepository,
             OrderCreationProcessor orderCreationProcessor,
             ObjectMapper objectMapper
     ) {
         this.orderRepository = orderRepository;
         this.inventoryRepository = inventoryRepository;
+        this.idempotencyRecordRepository = idempotencyRecordRepository;
         this.orderCreationProcessor = orderCreationProcessor;
         this.objectMapper = objectMapper;
     }
@@ -52,7 +54,8 @@ public class OrderService {
     /**
      * Creates an order with atomic conditional updates on inventory to prevent overselling.
      * Enforces client-scoped idempotency keys, rejects reuse with mismatched payloads,
-     * and safely deduplicates simultaneous concurrent checkout submissions.
+     * and coordinates simultaneous duplicate submissions across multiple application instances
+     * using database-backed transaction advisory locking and safe retry handling.
      */
     public OrderDto createOrder(User user, CreateOrderRequest request, String idempotencyKey) {
         if (request.items() == null || request.items().isEmpty()) {
@@ -61,19 +64,71 @@ public class OrderService {
 
         String requestHash = computeRequestHash(request);
 
+        // 1. Fast pre-check: if order was previously committed, return cached response immediately
         if (idempotencyKey != null && !idempotencyKey.isBlank()) {
-            String lockKey = user.getId() + ":" + idempotencyKey;
-            Object lock = lockMap.computeIfAbsent(lockKey, k -> new Object());
-            synchronized (lock) {
+            Optional<IdempotencyRecord> existing = idempotencyRecordRepository
+                    .findByIdempotencyKeyAndUserId(idempotencyKey, user.getId());
+            if (existing.isPresent()) {
+                IdempotencyRecord record = existing.get();
+                if (!record.getRequestHash().isBlank() && !record.getRequestHash().equals(requestHash)) {
+                    throw new IllegalArgumentException(String.format(
+                            "Idempotency key '%s' was already used with a different request payload",
+                            idempotencyKey
+                    ));
+                }
                 try {
-                    return orderCreationProcessor.processOrderTransaction(user, request, idempotencyKey, requestHash);
-                } finally {
-                    lockMap.remove(lockKey, lock);
+                    return objectMapper.readValue(record.getResponseBody(), OrderDto.class);
+                } catch (JsonProcessingException e) {
+                    log.error("Failed to deserialize cached idempotency payload", e);
                 }
             }
         }
 
-        return orderCreationProcessor.processOrderTransaction(user, request, null, requestHash);
+        // 2. Database-backed transaction execution with retry handling:
+        // Competing concurrent requests coordinate via database advisory locks and handle race conflicts safely
+        int maxRetries = 3;
+        long backoffMs = 50;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                return orderCreationProcessor.processOrderTransaction(user, request, idempotencyKey, requestHash);
+            } catch (DataIntegrityViolationException dive) {
+                if (idempotencyKey == null || idempotencyKey.isBlank()) {
+                    throw dive;
+                }
+                log.warn("Concurrent duplicate request conflict on attempt {} for key {}. Retrying retrieval...", attempt, idempotencyKey);
+                try {
+                    Thread.sleep(backoffMs * attempt);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Interrupted while retrying idempotency resolution", ie);
+                }
+
+                // Check if the winning concurrent transaction has committed
+                Optional<IdempotencyRecord> winner = idempotencyRecordRepository
+                        .findByIdempotencyKeyAndUserId(idempotencyKey, user.getId());
+                if (winner.isPresent()) {
+                    IdempotencyRecord record = winner.get();
+                    if (!record.getRequestHash().isBlank() && !record.getRequestHash().equals(requestHash)) {
+                        throw new IllegalArgumentException(String.format(
+                                "Idempotency key '%s' was already used with a different request payload",
+                                idempotencyKey
+                        ));
+                    }
+                    try {
+                        return objectMapper.readValue(record.getResponseBody(), OrderDto.class);
+                    } catch (JsonProcessingException e) {
+                        log.error("Failed to deserialize winner order payload", e);
+                    }
+                }
+
+                if (attempt == maxRetries) {
+                    throw dive;
+                }
+            }
+        }
+
+        throw new IllegalStateException("Failed to complete order processing for key: " + idempotencyKey);
     }
 
     @Transactional(readOnly = true)

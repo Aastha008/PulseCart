@@ -61,14 +61,12 @@ CREATE TABLE IF NOT EXISTS order_items (
 
 CREATE TABLE IF NOT EXISTS idempotency_records (
     id BIGSERIAL PRIMARY KEY,
-    idempotency_key VARCHAR(128) NOT NULL,
+    idempotency_key VARCHAR(128) NOT NULL UNIQUE,
     user_id BIGINT NOT NULL REFERENCES users(id),
-    order_id BIGINT REFERENCES orders(id) ON DELETE CASCADE,
-    request_hash VARCHAR(64) NOT NULL DEFAULT '',
+    order_id BIGINT REFERENCES orders(id),
     response_status INT NOT NULL,
     response_body TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT uq_idempotency_user_key UNIQUE (user_id, idempotency_key)
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Performance & Query Optimization Indexes
@@ -79,4 +77,4 @@ CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at);
 CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items(order_id);
-CREATE INDEX IF NOT EXISTS idx_idempotency_user_key ON idempotency_records(user_id, idempotency_key);
+CREATE INDEX IF NOT EXISTS idx_idempotency_key ON idempotency_records(idempotency_key);
