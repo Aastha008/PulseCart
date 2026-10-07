@@ -7,6 +7,7 @@ import com.pulsecart.backend.entity.*;
 import com.pulsecart.backend.exception.InsufficientStockException;
 import com.pulsecart.backend.exception.InvalidOrderStateException;
 import com.pulsecart.backend.exception.UnauthorizedAccessException;
+import com.pulsecart.backend.repository.IdempotencyRecordRepository;
 import com.pulsecart.backend.repository.InventoryRepository;
 import com.pulsecart.backend.repository.OrderRepository;
 import com.pulsecart.backend.repository.ProductRepository;
@@ -50,6 +51,9 @@ public class OrderServiceIntegrationTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private IdempotencyRecordRepository idempotencyRecordRepository;
+
     private User customerA;
     private User customerB;
     private Product testProduct;
@@ -57,6 +61,7 @@ public class OrderServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        idempotencyRecordRepository.deleteAll();
         orderRepository.deleteAll();
 
         customerA = userRepository.findByEmail("customer-a@example.com")
@@ -264,5 +269,152 @@ public class OrderServiceIntegrationTest {
         assertThrows(UnauthorizedAccessException.class, () ->
                 orderService.cancelOrder(customerB, orderA.id())
         );
+    }
+
+    @Test
+    @DisplayName("7. Simultaneous Cancellation Stress Test: 10 concurrent threads attempting to cancel the same order -> exactly 1 succeeds, stock restored EXACTLY ONCE")
+    void testSimultaneousOrderCancellationRestoresInventoryExactlyOnce() throws InterruptedException {
+        CreateOrderRequest request = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 2)),
+                "CREDIT_CARD"
+        );
+        OrderDto order = orderService.createOrder(customerA, request, null);
+        assertEquals(18, inventoryRepository.findByProductId(testProduct.getId()).orElseThrow().getStock());
+
+        int threadCount = 10;
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch readyLatch = new CountDownLatch(threadCount);
+        CountDownLatch startLatch = new CountDownLatch(1);
+
+        AtomicInteger successCount = new AtomicInteger(0);
+        AtomicInteger failureCount = new AtomicInteger(0);
+        List<Exception> errors = Collections.synchronizedList(new ArrayList<>());
+
+        for (int i = 0; i < threadCount; i++) {
+            executor.submit(() -> {
+                readyLatch.countDown();
+                try {
+                    startLatch.await();
+                    orderService.cancelOrder(customerA, order.id());
+                    successCount.incrementAndGet();
+                } catch (InvalidOrderStateException e) {
+                    failureCount.incrementAndGet();
+                } catch (Exception e) {
+                    errors.add(e);
+                }
+            });
+        }
+
+        readyLatch.await(5, TimeUnit.SECONDS);
+        startLatch.countDown();
+        executor.shutdown();
+        assertTrue(executor.awaitTermination(10, TimeUnit.SECONDS));
+
+        // Strict Concurrency Invariants
+        assertEquals(1, successCount.get(), "Exactly one cancellation transaction must succeed");
+        assertEquals(9, failureCount.get(), "Exactly 9 concurrent cancellation attempts must be rejected");
+        assertTrue(errors.isEmpty(), "No unexpected errors should occur: " + errors);
+
+        // Inventory check: stock was 18, must be restored by +2 to exactly 20 (NEVER double-restored to 22, 24, etc.)
+        Inventory updatedInv = inventoryRepository.findByProductId(testProduct.getId()).orElseThrow();
+        assertEquals(20, updatedInv.getStock(), "Stock must be restored exactly once (20), no double restoration");
+    }
+
+    @Test
+    @DisplayName("8. Idempotency Payload Validation: reusing key with a different request payload is strictly rejected")
+    void testIdempotencyKeyReuseWithDifferentPayloadRejected() {
+        String idempotencyKey = "IDEMP-PAYLOAD-" + UUID.randomUUID();
+        CreateOrderRequest req1 = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 1)),
+                "CREDIT_CARD"
+        );
+        CreateOrderRequest req2 = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 5)),
+                "CREDIT_CARD"
+        );
+
+        // First order with payload 1 succeeds
+        OrderDto order1 = orderService.createOrder(customerA, req1, idempotencyKey);
+        assertNotNull(order1);
+
+        // Reusing the same key with different payload 2 must be rejected
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                orderService.createOrder(customerA, req2, idempotencyKey)
+        );
+        assertTrue(ex.getMessage().contains("different request payload"));
+    }
+
+    @Test
+    @DisplayName("9. Customer-Scoped Idempotency: distinct customers can safely use identical key strings without collision")
+    void testIdempotencyKeyScopedToCustomer() {
+        String commonKey = "SHARED-KEY-" + UUID.randomUUID();
+        CreateOrderRequest reqA = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 1)),
+                "CREDIT_CARD"
+        );
+        CreateOrderRequest reqB = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 1)),
+                "CREDIT_CARD"
+        );
+
+        // Customer A uses the key
+        OrderDto orderA = orderService.createOrder(customerA, reqA, commonKey);
+        // Customer B uses the identical key string -> must succeed independently
+        OrderDto orderB = orderService.createOrder(customerB, reqB, commonKey);
+
+        assertNotNull(orderA);
+        assertNotNull(orderB);
+        assertNotEquals(orderA.id(), orderB.id(), "Customer A and Customer B must have distinct orders");
+        assertEquals(customerA.getId(), orderA.userId());
+        assertEquals(customerB.getId(), orderB.userId());
+    }
+
+    @Test
+    @DisplayName("10. Simultaneous Duplicate Requests: concurrent checkout clicks with identical key deduplicate safely")
+    void testSimultaneousDuplicateRequestsSafeDeduplication() throws InterruptedException {
+        String idempotencyKey = "IDEMP-RACE-" + UUID.randomUUID();
+        CreateOrderRequest request = new CreateOrderRequest(
+                List.of(new OrderItemRequest(testProduct.getId(), 2)),
+                "CREDIT_CARD"
+        );
+
+        int threadCount = 5;
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch readyLatch = new CountDownLatch(threadCount);
+        CountDownLatch startLatch = new CountDownLatch(1);
+
+        List<OrderDto> responses = Collections.synchronizedList(new ArrayList<>());
+        List<Exception> errors = Collections.synchronizedList(new ArrayList<>());
+
+        for (int i = 0; i < threadCount; i++) {
+            executor.submit(() -> {
+                readyLatch.countDown();
+                try {
+                    startLatch.await();
+                    OrderDto result = orderService.createOrder(customerA, request, idempotencyKey);
+                    responses.add(result);
+                } catch (Exception e) {
+                    errors.add(e);
+                }
+            });
+        }
+
+        readyLatch.await(5, TimeUnit.SECONDS);
+        startLatch.countDown();
+        executor.shutdown();
+        assertTrue(executor.awaitTermination(10, TimeUnit.SECONDS));
+
+        // Invariants:
+        assertTrue(errors.isEmpty(), "Concurrent duplicate clicks should be safely handled without unexpected errors: " + errors);
+        assertFalse(responses.isEmpty());
+        // All responses must share the exact same order number
+        String expectedOrderNumber = responses.get(0).orderNumber();
+        for (OrderDto res : responses) {
+            assertEquals(expectedOrderNumber, res.orderNumber());
+        }
+
+        // Only ONE order must exist in database for this idempotency key
+        assertEquals(18, inventoryRepository.findByProductId(testProduct.getId()).orElseThrow().getStock(),
+                "Stock must only be deducted once (-2) from 20 to 18, never multiple times");
     }
 }

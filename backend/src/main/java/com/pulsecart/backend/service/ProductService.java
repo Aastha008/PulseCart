@@ -10,12 +10,16 @@ import com.pulsecart.backend.exception.DuplicateResourceException;
 import com.pulsecart.backend.exception.ResourceNotFoundException;
 import com.pulsecart.backend.repository.InventoryRepository;
 import com.pulsecart.backend.repository.ProductRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -30,8 +34,24 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDto> getProducts(String category, BigDecimal minPrice, BigDecimal maxPrice, String search, Pageable pageable) {
-        return productRepository.searchProducts(ProductStatus.ACTIVE, category, minPrice, maxPrice, search, pageable)
-                .map(ProductDto::from);
+        Specification<Product> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("status"), ProductStatus.ACTIVE));
+            if (category != null && !category.isBlank()) {
+                predicates.add(cb.equal(cb.lower(root.get("category")), category.trim().toLowerCase()));
+            }
+            if (minPrice != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+            }
+            if (maxPrice != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+            if (search != null && !search.isBlank()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + search.trim().toLowerCase() + "%"));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return productRepository.findAll(spec, pageable).map(ProductDto::from);
     }
 
     @Transactional(readOnly = true)

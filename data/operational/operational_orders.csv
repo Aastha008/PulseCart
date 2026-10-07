@@ -1,3 +1,2 @@
 order_id,session_id,user_id,order_date,order_timestamp,subtotal,tax_amount,shipping_fee,discount_amount,total_amount,payment_method,status,ab_variant,data_source
-OP-ORD-LIVE-001,,OP-USR-101,2026-10-07,2026-10-07 17:15:58,320.99,25.68,0.0,0.0,346.67,CREDIT_CARD,CONFIRMED,,operational_backend
-OP-ORD-LIVE-002,,OP-USR-102,2026-10-07,2026-10-07 17:15:58,80.0,6.4,5.0,0.0,91.4,DEBIT_CARD,CONFIRMED,,operational_backend
+ORD-AFF89A60-16097,,OP-USR-3,2026-10-07,2026-10-07 23:51:56,100.0,8.0,0.0,0.0,108.0,CREDIT_CARD,confirmed,,operational_backend

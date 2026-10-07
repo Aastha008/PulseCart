@@ -1,24 +1,21 @@
 # syntax=docker/dockerfile:1
 # -----------------------------------------------------------------------------
-# Stage 1: Build the Application
+# Stage 1: Build the Application with Official Maven 3.9 + Java 21 Image
 # -----------------------------------------------------------------------------
-FROM eclipse-temurin:21-jdk-jammy AS builder
+FROM maven:3.9.9-eclipse-temurin-21-jammy AS builder
 
 WORKDIR /build
 
-# Copy Maven descriptor and download dependencies (layer caching)
+# Cache Maven dependencies
 COPY pom.xml .
-COPY mvnw* .
-COPY .mvn .mvn
+RUN mvn dependency:go-offline -B || true
 
-RUN ./mvnw dependency:go-offline -B || true
-
-# Copy source code and package
+# Copy application source and build executable JAR
 COPY src ./src
-RUN ./mvnw clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B
 
 # -----------------------------------------------------------------------------
-# Stage 2: Runtime Container
+# Stage 2: Minimal Production JRE Runtime Container
 # -----------------------------------------------------------------------------
 FROM eclipse-temurin:21-jre-jammy AS runner
 

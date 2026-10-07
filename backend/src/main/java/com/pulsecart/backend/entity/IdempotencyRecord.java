@@ -4,14 +4,17 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "idempotency_records")
+@Table(
+        name = "idempotency_records",
+        uniqueConstraints = @UniqueConstraint(name = "uq_idempotency_user_key", columnNames = {"user_id", "idempotency_key"})
+)
 public class IdempotencyRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "idempotency_key", nullable = false, unique = true, length = 128)
+    @Column(name = "idempotency_key", nullable = false, length = 128)
     private String idempotencyKey;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -21,6 +24,9 @@ public class IdempotencyRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @Column(name = "request_hash", nullable = false, length = 64)
+    private String requestHash = "";
 
     @Column(name = "response_status", nullable = false)
     private Integer responseStatus;
@@ -34,10 +40,11 @@ public class IdempotencyRecord {
     public IdempotencyRecord() {
     }
 
-    public IdempotencyRecord(String idempotencyKey, User user, Order order, Integer responseStatus, String responseBody) {
+    public IdempotencyRecord(String idempotencyKey, User user, Order order, String requestHash, Integer responseStatus, String responseBody) {
         this.idempotencyKey = idempotencyKey;
         this.user = user;
         this.order = order;
+        this.requestHash = requestHash != null ? requestHash : "";
         this.responseStatus = responseStatus;
         this.responseBody = responseBody;
     }
@@ -77,6 +84,14 @@ public class IdempotencyRecord {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getRequestHash() {
+        return requestHash;
+    }
+
+    public void setRequestHash(String requestHash) {
+        this.requestHash = requestHash;
     }
 
     public Integer getResponseStatus() {
